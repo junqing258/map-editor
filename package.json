@@ -1,0 +1,25 @@
+{
+  "name": "industrial-grid-map-editor",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "code-inspector-plugin": "^1.4.2",
+    "lucide-vue-next": "^0.576.0",
+    "pinia": "^3.0.3",
+    "pixi.js": "^8.10.2",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "typescript": "^5.8.3",
+    "vite": "^7.1.0",
+    "vue-tsc": "^3.0.4"
+  }
+}
