@@ -1,102 +1,208 @@
 <template>
-  <div ref="hostRef" class="map-canvas" @contextmenu.prevent />
+  <div ref="hostRef" class="map-canvas" @contextmenu.prevent>
+    <div
+      v-if="selectionBox.visible"
+      class="map-select-rect"
+      :style="selectionBoxStyle"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from "vue";
 import { useEditorStore } from "@/stores/editor";
 import { GridRenderer } from "@/lib/pixi/gridRenderer";
 
 const store = useEditorStore();
 const hostRef = ref<HTMLElement | null>(null);
 
-// Pixi 渲染器实例（挂载后创建，卸载时销毁）
 let renderer: GridRenderer | null = null;
-// 左键连续绘制状态
 let painting = false;
-// 中键/右键平移画布状态
 let panning = false;
-// 记录上一次指针位置，用于计算平移增量
+let selecting = false;
+let selectionMoved = false;
+let selectStartCell = { x: 0, y: 0 };
+let selectStartPointer = { x: 0, y: 0 };
 let lastPointer = { x: 0, y: 0 };
 
-// 将屏幕坐标转为网格坐标，并按当前工具执行编辑
-const handlePaint = (clientX: number, clientY: number) => {
+const selectionBox = reactive({
+  visible: false,
+  left: 0,
+  top: 0,
+  width: 0,
+  height: 0
+});
+
+const selectionBoxStyle = computed(() => ({
+  left: `${selectionBox.left}px`,
+  top: `${selectionBox.top}px`,
+  width: `${selectionBox.width}px`,
+  height: `${selectionBox.height}px`
+}));
+
+const isDeviceTool = () =>
+  store.activeTool === "supply" ||
+  store.activeTool === "unload" ||
+  store.activeTool === "charger" ||
+  store.activeTool === "queue" ||
+  store.activeTool === "waiting";
+
+const updateSelectionBox = (clientX: number, clientY: number) => {
+  if (!hostRef.value) {
+    return;
+  }
+  const rect = hostRef.value.getBoundingClientRect();
+  const x1 = selectStartPointer.x - rect.left;
+  const y1 = selectStartPointer.y - rect.top;
+  const x2 = clientX - rect.left;
+  const y2 = clientY - rect.top;
+  selectionBox.left = Math.min(x1, x2);
+  selectionBox.top = Math.min(y1, y2);
+  selectionBox.width = Math.abs(x1 - x2);
+  selectionBox.height = Math.abs(y1 - y2);
+};
+
+const hideSelectionBox = () => {
+  selectionBox.visible = false;
+  selectionBox.left = 0;
+  selectionBox.top = 0;
+  selectionBox.width = 0;
+  selectionBox.height = 0;
+};
+
+const applyToolAt = (clientX: number, clientY: number) => {
   if (!renderer) {
     return;
   }
   const { x, y } = renderer.screenToCell(clientX, clientY);
-  if (store.activeTool === "path") {
-    // 路径模式：点击新增/选中路径点并重绘矢量路径
-    const index = store.addPathPoint(x, y);
-    if (index >= 0) {
-      store.selectPathPoint(store.activePathId, index);
-    } else {
-      store.selectNone();
+
+  if (store.activeTool === "platform") {
+    const changed = store.applyPlatformAt(x, y);
+    if (changed) {
+      renderer.updateChunkByCell(x, y);
     }
-    renderer.redrawPaths(store.project.overlays.robotPaths);
     return;
   }
-  // 栅格模式：写入单元并更新选中状态
-  const changed = store.applyToolAt(x, y);
-  store.selectCell(x, y);
-  if (changed) {
-    // 仅刷新受影响 chunk，避免整图重建
-    renderer.updateChunkByCell(x, y);
+
+  if (store.activeTool === "path-draw") {
+    const index = store.addPathPoint(x, y);
+    if (index >= 0) {
+      renderer.redrawPaths(store.project.overlays.robotPaths);
+    }
+    return;
   }
+
+  if (store.activeTool === "path-erase") {
+    const changed = store.erasePathPointAt(x, y);
+    if (changed) {
+      renderer.redrawPaths(store.project.overlays.robotPaths);
+    }
+    return;
+  }
+
+  if (isDeviceTool()) {
+    const changed = store.placeDeviceByTool(store.activeTool, x, y);
+    if (changed) {
+      renderer.redrawDevices(store.project.devices);
+    }
+    return;
+  }
+
+  store.selectByCell(x, y);
 };
 
-// 指针按下：左键绘制；中键/右键平移
 const onPointerDown = (event: PointerEvent) => {
   if (!renderer) {
     return;
   }
+  lastPointer = { x: event.clientX, y: event.clientY };
+
   if (event.button === 1 || event.button === 2) {
     panning = true;
-    lastPointer = { x: event.clientX, y: event.clientY };
     return;
   }
   if (event.button !== 0) {
     return;
   }
+
+  if (store.activeTool === "select") {
+    selecting = true;
+    selectionMoved = false;
+    selectStartPointer = { x: event.clientX, y: event.clientY };
+    selectStartCell = renderer.screenToCell(event.clientX, event.clientY);
+    hideSelectionBox();
+    return;
+  }
+
+  if (isDeviceTool()) {
+    applyToolAt(event.clientX, event.clientY);
+    return;
+  }
+
   store.beginAction();
   painting = true;
-  handlePaint(event.clientX, event.clientY);
-  if (store.activeTool === "path") {
-    // 路径点是离散点击，不进入拖拽连续绘制
-    painting = false;
-    store.endAction();
-  }
+  applyToolAt(event.clientX, event.clientY);
 };
 
-// 指针移动：平移或连续绘制
 const onPointerMove = (event: PointerEvent) => {
   if (!renderer) {
     return;
   }
   if (panning) {
-    // 平移：根据当前与上次位置差更新视图偏移
     const dx = event.clientX - lastPointer.x;
     const dy = event.clientY - lastPointer.y;
     renderer.panBy(dx, dy);
     lastPointer = { x: event.clientX, y: event.clientY };
     return;
   }
-  if (!painting || (event.buttons & 1) === 0 || store.activeTool === "path") {
+
+  if (selecting) {
+    const deltaX = Math.abs(event.clientX - selectStartPointer.x);
+    const deltaY = Math.abs(event.clientY - selectStartPointer.y);
+    if (deltaX > 4 || deltaY > 4) {
+      selectionMoved = true;
+      selectionBox.visible = true;
+      updateSelectionBox(event.clientX, event.clientY);
+    }
     return;
   }
-  handlePaint(event.clientX, event.clientY);
+
+  if (!painting || (event.buttons & 1) === 0) {
+    return;
+  }
+  applyToolAt(event.clientX, event.clientY);
 };
 
-// 结束当前交互手势，并关闭 action（用于 undo/redo 分组）
-const stopGesture = () => {
+const stopGesture = (event?: PointerEvent) => {
+  if (panning) {
+    panning = false;
+  }
+
+  if (selecting && renderer) {
+    const endPoint = event
+      ? renderer.screenToCell(event.clientX, event.clientY)
+      : renderer.screenToCell(lastPointer.x, lastPointer.y);
+    if (selectionMoved && selectionBox.visible) {
+      store.selectDevicesInRect(
+        selectStartCell.x,
+        selectStartCell.y,
+        endPoint.x,
+        endPoint.y
+      );
+    } else {
+      store.selectByCell(endPoint.x, endPoint.y);
+    }
+  }
+  selecting = false;
+  selectionMoved = false;
+  hideSelectionBox();
+
   if (painting) {
     store.endAction();
   }
   painting = false;
-  panning = false;
 };
 
-// 滚轮围绕光标点缩放
 const onWheel = (event: WheelEvent) => {
   if (!renderer) {
     return;
@@ -106,34 +212,57 @@ const onWheel = (event: WheelEvent) => {
   renderer.zoomAt(event.offsetX, event.offsetY, ratio);
 };
 
+const onPointerUp = (event: PointerEvent) => {
+  lastPointer = { x: event.clientX, y: event.clientY };
+  stopGesture(event);
+};
+
 onMounted(async () => {
   if (!hostRef.value) {
     return;
   }
-  // 初始化 Pixi，并绑定画布交互事件
   renderer = await GridRenderer.create(hostRef.value, store.project);
-  renderer.rebuildAllChunks();
+  renderer.setViewFlags(store.viewFlags);
+  renderer.setProject(store.project);
+  renderer.centerView();
+  renderer.highlightSelection(store.selectedElement, store.project);
+
   hostRef.value.addEventListener("pointerdown", onPointerDown);
   hostRef.value.addEventListener("pointermove", onPointerMove);
-  hostRef.value.addEventListener("pointerup", stopGesture);
-  hostRef.value.addEventListener("pointerleave", stopGesture);
+  hostRef.value.addEventListener("pointerup", onPointerUp);
+  hostRef.value.addEventListener("pointerleave", onPointerUp);
   hostRef.value.addEventListener("wheel", onWheel, { passive: false });
-  window.addEventListener("pointerup", stopGesture);
+  window.addEventListener("pointerup", onPointerUp);
 });
 
 watch(
   () => store.project,
   (project) => {
-    // 工程整体切换（新建/导入/撤销重做）时重建渲染内容
     renderer?.setProject(project);
+    renderer?.highlightSelection(store.selectedElement, project);
   }
 );
 
 watch(
   () => store.project.overlays.robotPaths,
   (paths) => {
-    // 路径数据变化时仅重绘叠加层
     renderer?.redrawPaths(paths);
+  },
+  { deep: true }
+);
+
+watch(
+  () => store.project.devices,
+  (devices) => {
+    renderer?.redrawDevices(devices);
+  },
+  { deep: true }
+);
+
+watch(
+  () => store.viewFlags,
+  (flags) => {
+    renderer?.setViewFlags(flags);
   },
   { deep: true }
 );
@@ -141,35 +270,27 @@ watch(
 watch(
   () => store.selectedElement,
   (selection) => {
-    if (!renderer) {
-      return;
-    }
-    if (selection.kind === "cell") {
-      // 高亮选中的栅格单元
-      renderer.highlightCell(selection.x, selection.y);
-      return;
-    }
-    if (selection.kind === "path-point") {
-      // 高亮选中的路径点
-      renderer.highlightPathPoint(selection.x, selection.y, selection.color);
-      return;
-    }
-    // 无选中时清理高亮
-    renderer.clearSelection();
+    renderer?.highlightSelection(selection, store.project);
   },
   { deep: true }
 );
 
+watch(
+  () => store.centerSignal,
+  () => {
+    renderer?.centerView();
+  }
+);
+
 onBeforeUnmount(() => {
-  // 解绑事件并释放 Pixi 资源，防止内存泄漏
   if (hostRef.value) {
     hostRef.value.removeEventListener("pointerdown", onPointerDown);
     hostRef.value.removeEventListener("pointermove", onPointerMove);
-    hostRef.value.removeEventListener("pointerup", stopGesture);
-    hostRef.value.removeEventListener("pointerleave", stopGesture);
+    hostRef.value.removeEventListener("pointerup", onPointerUp);
+    hostRef.value.removeEventListener("pointerleave", onPointerUp);
     hostRef.value.removeEventListener("wheel", onWheel);
   }
-  window.removeEventListener("pointerup", stopGesture);
+  window.removeEventListener("pointerup", onPointerUp);
   renderer?.destroy();
 });
 </script>

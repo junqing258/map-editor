@@ -1,17 +1,21 @@
 export type CellValue = 0 | 1;
-export type ToolType = "obstacle" | "erase" | "path";
-export type SelectedElement =
-  | { kind: "none" }
-  | { kind: "cell"; x: number; y: number; value: CellValue }
-  | {
-      kind: "path-point";
-      pathId: string;
-      pathName: string;
-      index: number;
-      x: number;
-      y: number;
-      color: string;
-    };
+
+export type SceneType = "production" | "simulation";
+export type ToolType =
+  | "select"
+  | "path-draw"
+  | "path-erase"
+  | "platform"
+  | "supply"
+  | "unload"
+  | "charger"
+  | "queue"
+  | "waiting";
+
+export type PathDirection = "oneway" | "bidirectional";
+export type DeviceType = "supply" | "unload" | "charger" | "queue" | "waiting";
+export type SupplyMode = "auto" | "manual" | "elevator";
+export type UnloadMode = "normal" | "multi-sort";
 
 export interface GridConfig {
   width: number;
@@ -29,18 +33,54 @@ export interface RobotPath {
   id: string;
   name: string;
   color: string;
+  direction: PathDirection;
   points: PathPoint[];
+}
+
+export interface DeviceConfig {
+  enabled: boolean;
+  hardwareId: string;
+  speedLimit: number;
+  maxQueue: number;
+  directionDeg: number;
+  supplyMode?: SupplyMode;
+  unloadMode?: UnloadMode;
+}
+
+export interface MapDevice {
+  id: string;
+  type: DeviceType;
+  name: string;
+  x: number;
+  y: number;
+  config: DeviceConfig;
+}
+
+export interface ViewFlags {
+  showGrid: boolean;
+  showPath: boolean;
+  showNavBlock: boolean;
+}
+
+export interface ToolOptions {
+  platformMode: "drag" | "batch";
+  batchRows: number;
+  batchCols: number;
+  pathDirection: PathDirection;
+  supplyMode: SupplyMode;
+  unloadMode: UnloadMode;
 }
 
 export interface MapProjectMeta {
   name: string;
   createdAt: string;
   updatedAt: string;
-  scene: "industrial";
+  scene: SceneType;
+  tags: string[];
 }
 
 export interface MapProject {
-  version: "1.0.0";
+  version: "2.0.0";
   meta: MapProjectMeta;
   grid: GridConfig;
   layers: {
@@ -49,15 +89,23 @@ export interface MapProject {
   overlays: {
     robotPaths: RobotPath[];
   };
+  devices: MapDevice[];
 }
 
-export interface RasterStats {
-  width: number;
-  height: number;
-  obstacleCount: number;
-  freeCount: number;
-  occupancyRate: number;
-}
+export type SelectedElement =
+  | { kind: "none" }
+  | { kind: "cell"; x: number; y: number; active: boolean }
+  | {
+      kind: "path-point";
+      pathId: string;
+      pathName: string;
+      index: number;
+      x: number;
+      y: number;
+      direction: PathDirection;
+    }
+  | { kind: "device"; deviceId: string }
+  | { kind: "device-batch"; deviceIds: string[] };
 
 export type ExportFormat = "ros" | "custom";
 
@@ -67,21 +115,56 @@ export interface ExportPayload {
   content: string;
 }
 
-export const createEmptyProject = (width = 120, height = 80): MapProject => {
+export interface MapOverviewStats {
+  width: number;
+  height: number;
+  nodeCount: number;
+  freeCount: number;
+  siteAreaSqm: number;
+  pathCount: number;
+  pathPointCount: number;
+  deviceCounts: Record<DeviceType, number>;
+}
+
+export interface PathCheckResult {
+  ok: boolean;
+  issues: string[];
+}
+
+export const DEFAULT_MAP_WIDTH = 96;
+export const DEFAULT_MAP_HEIGHT = 64;
+
+const createDeviceCounts = (): Record<DeviceType, number> => ({
+  supply: 0,
+  unload: 0,
+  charger: 0,
+  queue: 0,
+  waiting: 0
+});
+
+export const emptyDeviceCounts = createDeviceCounts;
+
+export const createEmptyProject = (
+  width = DEFAULT_MAP_WIDTH,
+  height = DEFAULT_MAP_HEIGHT,
+  scene: SceneType = "production",
+  name = "factory-map"
+): MapProject => {
   const now = new Date().toISOString();
   return {
-    version: "1.0.0",
+    version: "2.0.0",
     meta: {
-      name: "factory-map",
+      name,
       createdAt: now,
       updatedAt: now,
-      scene: "industrial"
+      scene,
+      tags: []
     },
     grid: {
       width,
       height,
       chunkSize: 16,
-      cellSizeMeter: 0.1
+      cellSizeMeter: 0.55
     },
     layers: {
       base: new Array(width * height).fill(0)
@@ -91,10 +174,12 @@ export const createEmptyProject = (width = 120, height = 80): MapProject => {
         {
           id: "path-main",
           name: "Main Route",
-          color: "#ef4444",
+          color: "#0ea5e9",
+          direction: "oneway",
           points: []
         }
       ]
-    }
+    },
+    devices: []
   };
 };

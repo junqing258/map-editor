@@ -1,8 +1,8 @@
 import type {
   ExportFormat,
   ExportPayload,
-  MapProject,
-  RasterStats
+  MapOverviewStats,
+  MapProject
 } from "@/types/map";
 
 interface WorkerRequest {
@@ -17,60 +17,81 @@ interface WorkerRequest {
 interface WorkerResponse {
   requestId: number;
   ok: boolean;
-  result?: RasterStats | ExportPayload;
+  result?: MapOverviewStats | ExportPayload;
   error?: string;
 }
 
-const calcStats = (project: MapProject): RasterStats => {
+const calcStats = (project: MapProject): MapOverviewStats => {
   const width = project.grid.width;
   const height = project.grid.height;
-  const obstacleCount = project.layers.base.reduce<number>(
-    (acc, value) => (value === 1 ? acc + 1 : acc),
+  const nodeCount = project.layers.base.reduce<number>(
+    (acc, cell) => (cell === 1 ? acc + 1 : acc),
     0
   );
-  const total = width * height;
-  const freeCount = total - obstacleCount;
+  const freeCount = width * height - nodeCount;
+  const deviceCounts: MapOverviewStats["deviceCounts"] = {
+    supply: 0,
+    unload: 0,
+    charger: 0,
+    queue: 0,
+    waiting: 0
+  };
+  project.devices.forEach((device) => {
+    deviceCounts[device.type] += 1;
+  });
+  const pathCount = project.overlays.robotPaths.length;
+  const pathPointCount = project.overlays.robotPaths.reduce(
+    (acc, path) => acc + path.points.length,
+    0
+  );
   return {
     width,
     height,
-    obstacleCount,
+    nodeCount,
     freeCount,
-    occupancyRate: total === 0 ? 0 : obstacleCount / total
+    siteAreaSqm: width * project.grid.cellSizeMeter * height * project.grid.cellSizeMeter,
+    pathCount,
+    pathPointCount,
+    deviceCounts
   };
 };
 
 const exportRosLike = (project: MapProject): ExportPayload => {
-  const occupancyGrid = project.layers.base.map((value) => (value === 1 ? 100 : 0));
-  const rosLike = {
+  const occupancy = project.layers.base.map((value) => (value === 1 ? 0 : 100));
+  const payload = {
     format: "ros-occupancy-grid-like",
     frame_id: "map",
     resolution: project.grid.cellSizeMeter,
     width: project.grid.width,
     height: project.grid.height,
     origin: [0, 0, 0],
-    data: occupancyGrid
+    data: occupancy
   };
   return {
-    filename: `${project.meta.name}-ros.json`,
+    filename: `${project.meta.name}-ros-like.json`,
     mimeType: "application/json",
-    content: JSON.stringify(rosLike, null, 2)
+    content: JSON.stringify(payload, null, 2)
   };
 };
 
 const exportCustom = (project: MapProject): ExportPayload => {
   const payload = {
-    format: "robot-grid-v1",
-    mapName: project.meta.name,
+    format: "hyperleap-map-v2",
+    name: project.meta.name,
+    scene: project.meta.scene,
+    tags: project.meta.tags,
     meterPerCell: project.grid.cellSizeMeter,
     grid: {
       width: project.grid.width,
       height: project.grid.height,
-      data: project.layers.base
+      chunkSize: project.grid.chunkSize,
+      nodes: project.layers.base
     },
-    paths: project.overlays.robotPaths
+    paths: project.overlays.robotPaths,
+    devices: project.devices
   };
   return {
-    filename: `${project.meta.name}-robot-grid.json`,
+    filename: `${project.meta.name}-map-v2.json`,
     mimeType: "application/json",
     content: JSON.stringify(payload, null, 2)
   };
@@ -93,7 +114,6 @@ workerSelf.onmessage = (event: MessageEvent<WorkerRequest>) => {
       });
       return;
     }
-
     if (req.type === "export") {
       const format = req.payload.format ?? "custom";
       const result =
@@ -107,11 +127,10 @@ workerSelf.onmessage = (event: MessageEvent<WorkerRequest>) => {
       });
       return;
     }
-
     post({
       requestId: req.requestId,
       ok: false,
-      error: `Unsupported worker request: ${req.type}`
+      error: `Unsupported worker request type: ${req.type}`
     });
   } catch (error) {
     post({

@@ -1,13 +1,13 @@
+import { toRaw } from "vue";
 import type {
   ExportFormat,
   ExportPayload,
-  MapProject,
-  RasterStats
+  MapOverviewStats,
+  MapProject
 } from "@/types/map";
-import { toRaw } from "vue";
 
 type PendingResolver = {
-  resolve: (value: RasterStats | ExportPayload) => void;
+  resolve: (value: MapOverviewStats | ExportPayload) => void;
   reject: (reason?: unknown) => void;
 };
 
@@ -22,7 +22,7 @@ export const useMapWorker = () => {
     const msg = event.data as {
       requestId: number;
       ok: boolean;
-      result?: RasterStats | ExportPayload;
+      result?: MapOverviewStats | ExportPayload;
       error?: string;
     };
     const item = pending.get(msg.requestId);
@@ -34,10 +34,10 @@ export const useMapWorker = () => {
       item.reject(new Error(msg.error ?? "Worker request failed"));
       return;
     }
-    item.resolve(msg.result as RasterStats | ExportPayload);
+    item.resolve(msg.result as MapOverviewStats | ExportPayload);
   };
 
-  const call = <T extends RasterStats | ExportPayload>(
+  const call = <T extends MapOverviewStats | ExportPayload>(
     type: "stats" | "export",
     payload: { project: MapProject; format?: ExportFormat }
   ) => {
@@ -51,7 +51,7 @@ export const useMapWorker = () => {
 
     return new Promise<T>((resolve, reject) => {
       pending.set(currentId, {
-        resolve: resolve as (value: RasterStats | ExportPayload) => void,
+        resolve: resolve as (value: MapOverviewStats | ExportPayload) => void,
         reject
       });
       try {
@@ -68,7 +68,7 @@ export const useMapWorker = () => {
   };
 
   const calcStats = (project: MapProject) =>
-    call<RasterStats>("stats", {
+    call<MapOverviewStats>("stats", {
       project
     });
 
