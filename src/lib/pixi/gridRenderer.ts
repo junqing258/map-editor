@@ -62,7 +62,9 @@ export class GridRenderer {
     await app.init({
       antialias: true,
       background: new Color("#f4f8ff"),
-      resizeTo: host
+      resizeTo: host,
+      autoDensity: true,
+      resolution: window.devicePixelRatio || 1
     });
     host.appendChild(app.canvas);
     return new GridRenderer(host, app, project);
@@ -379,6 +381,7 @@ export class GridRenderer {
     const chunkPixel = this.project.grid.chunkSize * this.cellPixel;
     sprite.x = chunkX * chunkPixel;
     sprite.y = chunkY * chunkPixel;
+    sprite.roundPixels = true;
     this.baseContainer.addChild(sprite);
     this.chunks.set(key, { sprite, texture });
   }
@@ -455,6 +458,8 @@ export class GridRenderer {
       }
     }
 
-    return Texture.from(canvas);
+    const texture = Texture.from(canvas);
+    texture.source.scaleMode = "nearest";
+    return texture;
   }
 }
