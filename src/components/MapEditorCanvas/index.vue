@@ -11,7 +11,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from "vue";
 import { useEditorStore } from "@/stores/editor";
-import { GridRenderer } from "@/lib/pixi/gridRenderer";
+import { GridRenderer } from "./gridRenderer";
 
 const store = useEditorStore();
 const hostRef = ref<HTMLElement | null>(null);

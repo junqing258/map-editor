@@ -437,7 +437,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, reactive, ref, toRaw, watch } from "vue";
 import { BatteryCharging, Eraser, PackageMinus, PackagePlus, Route, Square } from "lucide-vue-next";
-import MapEditorCanvas from "@/components/MapEditorCanvas.vue";
+import MapEditorCanvas from "@/components/MapEditorCanvas/index.vue";
 import { useEditorStore } from "@/stores/editor";
 import { useMapWorker } from "@/composables/useMapWorker";
 import { downloadTextFile } from "@/utils/download";

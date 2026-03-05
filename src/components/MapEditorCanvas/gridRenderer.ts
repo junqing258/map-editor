@@ -25,6 +25,7 @@ export class GridRenderer {
   private readonly host: HTMLElement;
   private readonly baseContainer = new Container();
   private readonly overlayContainer = new Container();
+  private readonly gridGraphics = new Graphics();
   private readonly pathGraphics = new Graphics();
   private readonly arrowGraphics = new Graphics();
   private readonly deviceGraphics = new Graphics();
@@ -48,6 +49,7 @@ export class GridRenderer {
     this.app = app;
     this.project = project;
     this.overlayContainer.addChild(
+      this.gridGraphics,
       this.pathGraphics,
       this.arrowGraphics,
       this.deviceGraphics,
@@ -73,6 +75,7 @@ export class GridRenderer {
   setProject(project: MapProject) {
     this.project = project;
     this.rebuildAllChunks();
+    this.redrawGrid();
     this.redrawPaths(project.overlays.robotPaths);
     this.redrawDevices(project.devices);
   }
@@ -80,6 +83,7 @@ export class GridRenderer {
   setViewFlags(flags: ViewFlags) {
     this.flags = { ...flags };
     this.rebuildAllChunks();
+    this.redrawGrid();
     this.redrawPaths(this.project.overlays.robotPaths);
     this.redrawDevices(this.project.devices);
   }
@@ -364,6 +368,38 @@ export class GridRenderer {
     this.overlayContainer.position.set(this.view.offsetX, this.view.offsetY);
     this.baseContainer.scale.set(this.view.zoom);
     this.overlayContainer.scale.set(this.view.zoom);
+    this.redrawGrid();
+  }
+
+  private redrawGrid() {
+    this.gridGraphics.clear();
+    if (!this.flags.showGrid) {
+      return;
+    }
+
+    const { width, height } = this.project.grid;
+    const mapWidth = width * this.cellPixel;
+    const mapHeight = height * this.cellPixel;
+    const lineWidth = 1 / Math.max(this.view.zoom, 0.0001);
+
+    this.gridGraphics.setStrokeStyle({
+      width: lineWidth,
+      color: "#d6deeb"
+    });
+
+    for (let x = 0; x <= width; x += 1) {
+      const px = x * this.cellPixel;
+      this.gridGraphics.moveTo(px, 0);
+      this.gridGraphics.lineTo(px, mapHeight);
+    }
+
+    for (let y = 0; y <= height; y += 1) {
+      const py = y * this.cellPixel;
+      this.gridGraphics.moveTo(0, py);
+      this.gridGraphics.lineTo(mapWidth, py);
+    }
+
+    this.gridGraphics.stroke();
   }
 
   private createOrReplaceChunk(chunkX: number, chunkY: number) {
@@ -404,7 +440,6 @@ export class GridRenderer {
     const baseColor = "#f8fbff";
     const nodeColor = "#dbeafe";
     const nodeBorder = "#93c5fd";
-    const gridLine = "#d6deeb";
     const mapWidth = this.project.grid.width;
     const { base } = this.project.layers;
 
@@ -439,24 +474,6 @@ export class GridRenderer {
       }
     }
 
-    if (this.flags.showGrid) {
-      ctx.strokeStyle = gridLine;
-      ctx.lineWidth = 1;
-      for (let x = 0; x <= cellsX; x += 1) {
-        const px = x * this.cellPixel + 0.5;
-        ctx.beginPath();
-        ctx.moveTo(px, 0);
-        ctx.lineTo(px, cellsY * this.cellPixel);
-        ctx.stroke();
-      }
-      for (let y = 0; y <= cellsY; y += 1) {
-        const py = y * this.cellPixel + 0.5;
-        ctx.beginPath();
-        ctx.moveTo(0, py);
-        ctx.lineTo(cellsX * this.cellPixel, py);
-        ctx.stroke();
-      }
-    }
 
     const texture = Texture.from(canvas);
     texture.source.scaleMode = "nearest";
