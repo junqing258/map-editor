@@ -1,11 +1,12 @@
 import {
-  type ComputedRef,
   computed,
-  type Ref,
+  type ComputedRef,
   reactive,
+  type Ref,
   ref,
   toRaw,
 } from "vue";
+
 import {
   type CellCoord,
   type CellValue,

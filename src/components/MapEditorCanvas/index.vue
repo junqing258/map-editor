@@ -17,12 +17,14 @@ import {
   ref,
   watch,
 } from "vue";
+
 import type {
   MapProject,
   SelectedElement,
   ToolType,
   ViewFlags,
 } from "@/types/map";
+
 import { GridRenderer } from "./gridRenderer";
 
 interface MapEditorCanvasStore {

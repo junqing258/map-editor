@@ -1,4 +1,5 @@
 import { fileURLToPath, URL } from "node:url";
+
 import vue from "@vitejs/plugin-vue";
 import { codeInspectorPlugin } from "code-inspector-plugin";
 import { defineConfig } from "vite";

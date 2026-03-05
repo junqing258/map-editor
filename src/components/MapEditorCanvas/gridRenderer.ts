@@ -7,6 +7,7 @@ import {
   Sprite,
   Texture,
 } from "pixi.js";
+
 import batteryChargingSvgRaw from "@/assets/icons/battery-charging.svg?raw";
 import packageMinusSvgRaw from "@/assets/icons/package-minus.svg?raw";
 import packagePlusSvgRaw from "@/assets/icons/package-plus.svg?raw";

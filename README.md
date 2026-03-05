@@ -21,7 +21,7 @@ npm run dev
 npm run build
 ```
 
-代码规范（Biome）：
+代码规范（ESLint + Prettier）：
 
 ```bash
 npm run lint

@@ -7,10 +7,10 @@
     "dev": "vite --port 3700",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
-    "lint": "biome lint .",
-    "lint:fix": "biome lint . --write",
-    "format": "biome format . --write",
-    "format:check": "biome format ."
+    "lint": "eslint . --ext .ts,.vue,.js,.mjs,.cjs",
+    "lint:fix": "eslint . --ext .ts,.vue,.js,.mjs,.cjs --fix",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check"
   },
   "dependencies": {
     "code-inspector-plugin": "^1.4.2",
@@ -19,11 +19,18 @@
     "vue": "^3.5.13"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.5",
     "@types/node": "^24.3.0",
+    "@typescript-eslint/eslint-plugin": "^8.56.1",
+    "@typescript-eslint/parser": "^8.56.1",
     "@vitejs/plugin-vue": "^6.0.1",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-vue": "^9.33.0",
+    "prettier": "^3.8.1",
     "typescript": "^5.8.3",
     "vite": "^7.1.0",
+    "vue-eslint-parser": "^9.4.3",
     "vue-tsc": "^3.0.4"
   }
 }
