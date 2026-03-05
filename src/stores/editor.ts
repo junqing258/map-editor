@@ -1,5 +1,4 @@
-import { defineStore } from "pinia";
-import { computed, ref, toRaw } from "vue";
+import { computed, reactive, ref, toRaw, type ComputedRef, type Ref } from "vue";
 import {
   createEmptyProject,
   type CellValue,
@@ -69,7 +68,7 @@ const createDeviceConfig = (
   unloadMode: type === "unload" ? unloadMode : undefined
 });
 
-export const useEditorStore = defineStore("editor", () => {
+const createEditorStoreCore = () => {
   const project = ref<MapProject>(createEmptyProject());
   const activeTool = ref<ToolType>("select");
   const activePathId = ref("path-main");
@@ -498,6 +497,54 @@ export const useEditorStore = defineStore("editor", () => {
     return changed;
   };
 
+  const deleteSelectedElement = () => {
+    if (selectedElement.value.kind === "none") {
+      return false;
+    }
+
+    if (selectedElement.value.kind === "cell") {
+      if (!selectedElement.value.active) {
+        return false;
+      }
+      return setCell(selectedElement.value.x, selectedElement.value.y, 0);
+    }
+
+    if (selectedElement.value.kind === "path-point") {
+      const { pathId, index } = selectedElement.value;
+      const path = project.value.overlays.robotPaths.find((item) => item.id === pathId);
+      if (!path || !path.points[index]) {
+        selectNone();
+        return false;
+      }
+      rememberSnapshot();
+      path.points.splice(index, 1);
+      selectNone();
+      markChanged();
+      return true;
+    }
+
+    const ids =
+      selectedElement.value.kind === "device"
+        ? [selectedElement.value.deviceId]
+        : selectedElement.value.deviceIds;
+    if (ids.length === 0) {
+      return false;
+    }
+
+    const idSet = new Set(ids);
+    const next = project.value.devices.filter((item) => !idSet.has(item.id));
+    if (next.length === project.value.devices.length) {
+      selectNone();
+      return false;
+    }
+
+    rememberSnapshot();
+    project.value.devices = next;
+    selectNone();
+    markChanged();
+    return true;
+  };
+
   const clearSelection = () => {
     selectNone();
   };
@@ -668,6 +715,7 @@ export const useEditorStore = defineStore("editor", () => {
     selectDevicesInRect,
     selectNone,
     clearSelection,
+    deleteSelectedElement,
     updateSingleDevice,
     applyBatchDevicePatch,
     selectPathPoint,
@@ -680,4 +728,23 @@ export const useEditorStore = defineStore("editor", () => {
     undo,
     redo
   };
-});
+};
+
+type MaybeRef<T> = T extends Ref<infer V> ? V : T extends ComputedRef<infer V> ? V : T;
+type UnwrappedStore<T extends Record<string, unknown>> = {
+  [K in keyof T]: MaybeRef<T[K]>;
+};
+
+export type EditorStore = UnwrappedStore<ReturnType<typeof createEditorStoreCore>>;
+
+export const createEditorStore = (): EditorStore =>
+  reactive(createEditorStoreCore()) as EditorStore;
+
+let sharedEditorStore: EditorStore | null = null;
+
+export const useEditorStore = (): EditorStore => {
+  if (!sharedEditorStore) {
+    sharedEditorStore = createEditorStore();
+  }
+  return sharedEditorStore;
+};

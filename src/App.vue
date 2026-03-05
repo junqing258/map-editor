@@ -209,7 +209,7 @@
       </aside>
 
       <main class="canvas-wrap">
-        <MapEditorCanvas />
+        <MapEditorCanvas :store="store" />
       </main>
 
       <aside class="prop-panel">
@@ -438,7 +438,7 @@
 import { computed, onBeforeUnmount, onMounted, reactive, ref, toRaw, watch } from "vue";
 import { BatteryCharging, Eraser, PackageMinus, PackagePlus, Route, Square } from "lucide-vue-next";
 import MapEditorCanvas from "@/components/MapEditorCanvas/index.vue";
-import { useEditorStore } from "@/stores/editor";
+import { createEditorStore } from "@/stores/editor";
 import { useMapWorker } from "@/composables/useMapWorker";
 import { downloadTextFile } from "@/utils/download";
 import { parseProjectJson } from "@/utils/projectIO";
@@ -457,7 +457,7 @@ interface LibraryItem {
 
 const LIB_KEY = "hyperleap-map-library-v1";
 
-const store = useEditorStore();
+const store = createEditorStore();
 const worker = useMapWorker();
 
 const fileRef = ref<HTMLInputElement | null>(null);
@@ -736,6 +736,11 @@ const onKeyDown = (event: KeyboardEvent) => {
   const withMod = event.ctrlKey || event.metaKey;
 
   if (!withMod && !editingTag) {
+    if (key === "backspace" || key === "delete") {
+      event.preventDefault();
+      store.deleteSelectedElement();
+      return;
+    }
     if (key === "v") {
       store.setTool("select");
     } else if (key === "p") {

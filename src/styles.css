@@ -22,7 +22,12 @@ body,
   height: 100%;
   font-family: "IBM Plex Sans", "PingFang SC", "Noto Sans SC", sans-serif;
   color: var(--text);
-  background: radial-gradient(circle at 20% 15%, #f9fbff 0, var(--bg) 46%, #dce6f6 100%);
+  background: radial-gradient(
+    circle at 20% 15%,
+    #f9fbff 0,
+    var(--bg) 46%,
+    #dce6f6 100%
+  );
 }
 
 .workspace {
@@ -130,7 +135,7 @@ body,
 
 .app-shell {
   display: grid;
-  grid-template-columns: 220px minmax(0, 1fr) 340px;
+  grid-template-columns: 160px minmax(0, 1fr) 340px;
   gap: 10px;
   min-height: 0;
 }
@@ -172,6 +177,7 @@ body,
   display: flex;
   align-items: center;
   gap: 8px;
+  width: fit-content;
 }
 
 .tool-btn.active {

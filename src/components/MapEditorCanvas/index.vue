@@ -9,11 +9,43 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from "vue";
-import { useEditorStore } from "@/stores/editor";
+import {
+  computed,
+  onBeforeUnmount,
+  onMounted,
+  reactive,
+  ref,
+  watch,
+} from "vue";
+import type {
+  MapProject,
+  SelectedElement,
+  ToolType,
+  ViewFlags,
+} from "@/types/map";
 import { GridRenderer } from "./gridRenderer";
 
-const store = useEditorStore();
+interface MapEditorCanvasStore {
+  activeTool: ToolType;
+  project: MapProject;
+  viewFlags: ViewFlags;
+  selectedElement: SelectedElement;
+  centerSignal: number;
+  beginAction: () => void;
+  endAction: () => void;
+  applyPlatformAt: (x: number, y: number) => boolean;
+  addPathPoint: (x: number, y: number) => number;
+  erasePathPointAt: (x: number, y: number) => boolean;
+  placeDeviceByTool: (tool: ToolType, x: number, y: number) => boolean;
+  selectByCell: (x: number, y: number) => void;
+  selectDevicesInRect: (x1: number, y1: number, x2: number, y2: number) => void;
+}
+
+const props = defineProps<{
+  store: MapEditorCanvasStore;
+}>();
+
+const store = props.store;
 const hostRef = ref<HTMLElement | null>(null);
 
 let renderer: GridRenderer | null = null;
@@ -30,14 +62,14 @@ const selectionBox = reactive({
   left: 0,
   top: 0,
   width: 0,
-  height: 0
+  height: 0,
 });
 
 const selectionBoxStyle = computed(() => ({
   left: `${selectionBox.left}px`,
   top: `${selectionBox.top}px`,
   width: `${selectionBox.width}px`,
-  height: `${selectionBox.height}px`
+  height: `${selectionBox.height}px`,
 }));
 
 const isDeviceTool = () =>
@@ -187,7 +219,7 @@ const stopGesture = (event?: PointerEvent) => {
         selectStartCell.x,
         selectStartCell.y,
         endPoint.x,
-        endPoint.y
+        endPoint.y,
       );
     } else {
       store.selectByCell(endPoint.x, endPoint.y);
@@ -228,10 +260,8 @@ onMounted(async () => {
   renderer.highlightSelection(store.selectedElement, store.project);
 
   hostRef.value.addEventListener("pointerdown", onPointerDown);
-  hostRef.value.addEventListener("pointermove", onPointerMove);
-  hostRef.value.addEventListener("pointerup", onPointerUp);
-  hostRef.value.addEventListener("pointerleave", onPointerUp);
   hostRef.value.addEventListener("wheel", onWheel, { passive: false });
+  window.addEventListener("pointermove", onPointerMove);
   window.addEventListener("pointerup", onPointerUp);
 });
 
@@ -240,7 +270,7 @@ watch(
   (project) => {
     renderer?.setProject(project);
     renderer?.highlightSelection(store.selectedElement, project);
-  }
+  },
 );
 
 watch(
@@ -248,7 +278,7 @@ watch(
   (paths) => {
     renderer?.redrawPaths(paths);
   },
-  { deep: true }
+  { deep: true },
 );
 
 watch(
@@ -256,7 +286,7 @@ watch(
   (devices) => {
     renderer?.redrawDevices(devices);
   },
-  { deep: true }
+  { deep: true },
 );
 
 watch(
@@ -264,7 +294,7 @@ watch(
   (flags) => {
     renderer?.setViewFlags(flags);
   },
-  { deep: true }
+  { deep: true },
 );
 
 watch(
@@ -272,24 +302,22 @@ watch(
   (selection) => {
     renderer?.highlightSelection(selection, store.project);
   },
-  { deep: true }
+  { deep: true },
 );
 
 watch(
   () => store.centerSignal,
   () => {
     renderer?.centerView();
-  }
+  },
 );
 
 onBeforeUnmount(() => {
   if (hostRef.value) {
     hostRef.value.removeEventListener("pointerdown", onPointerDown);
-    hostRef.value.removeEventListener("pointermove", onPointerMove);
-    hostRef.value.removeEventListener("pointerup", onPointerUp);
-    hostRef.value.removeEventListener("pointerleave", onPointerUp);
     hostRef.value.removeEventListener("wheel", onWheel);
   }
+  window.removeEventListener("pointermove", onPointerMove);
   window.removeEventListener("pointerup", onPointerUp);
   renderer?.destroy();
 });

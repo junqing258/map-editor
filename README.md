@@ -21,6 +21,15 @@ npm run dev
 npm run build
 ```
 
+代码规范（Biome）：
+
+```bash
+npm run lint
+npm run lint:fix
+npm run format
+npm run format:check
+```
+
 ## 交互说明
 
 - 左键绘制障碍/擦除，或在“路径点”模式下添加路径点
