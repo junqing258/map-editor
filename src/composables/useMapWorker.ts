@@ -1,11 +1,6 @@
 import { toRaw } from "vue";
 
-import type {
-  ExportFormat,
-  ExportPayload,
-  MapOverviewStats,
-  MapProject,
-} from "@/types/map";
+import type { ExportFormat, ExportPayload, MapOverviewStats, MapProject } from "@/types/map";
 
 type PendingResolver = {
   resolve: (value: MapOverviewStats | ExportPayload) => void;
@@ -13,12 +8,9 @@ type PendingResolver = {
 };
 
 export const useMapWorker = () => {
-  const worker = new Worker(
-    new URL("../workers/map.worker.ts", import.meta.url),
-    {
-      type: "module",
-    },
-  );
+  const worker = new Worker(new URL("../workers/map.worker.ts", import.meta.url), {
+    type: "module",
+  });
   const pending = new Map<number, PendingResolver>();
   let requestId = 1;
 
@@ -49,9 +41,7 @@ export const useMapWorker = () => {
     requestId += 1;
     const safeProject = structuredClone(toRaw(payload.project));
     const safePayload =
-      payload.format === undefined
-        ? { project: safeProject }
-        : { project: safeProject, format: payload.format };
+      payload.format === undefined ? { project: safeProject } : { project: safeProject, format: payload.format };
 
     return new Promise<T>((resolve, reject) => {
       pending.set(currentId, {

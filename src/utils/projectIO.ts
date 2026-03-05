@@ -7,8 +7,7 @@ import {
   type UnloadMode,
 } from "@/types/map";
 
-const normalizeScene = (value: unknown): SceneType =>
-  value === "simulation" ? "simulation" : "production";
+const normalizeScene = (value: unknown): SceneType => (value === "simulation" ? "simulation" : "production");
 
 export const parseProjectJson = (raw: string): MapProject => {
   const data = JSON.parse(raw) as Partial<MapProject> & {
@@ -20,19 +19,12 @@ export const parseProjectJson = (raw: string): MapProject => {
 
   const width = Number(data.grid?.width ?? 0);
   const height = Number(data.grid?.height ?? 0);
-  if (
-    !Number.isFinite(width) ||
-    !Number.isFinite(height) ||
-    width <= 0 ||
-    height <= 0
-  ) {
+  if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) {
     throw new Error("网格参数缺失或非法");
   }
 
   const name =
-    typeof data.meta?.name === "string" && data.meta.name.trim().length > 0
-      ? data.meta.name.trim()
-      : "factory-map";
+    typeof data.meta?.name === "string" && data.meta.name.trim().length > 0 ? data.meta.name.trim() : "factory-map";
   const scene = normalizeScene(data.meta?.scene);
   const fallback = createEmptyProject(width, height, scene, name);
   const base = data.layers?.base;
@@ -53,9 +45,7 @@ export const parseProjectJson = (raw: string): MapProject => {
       id: path.id || `path-${index + 1}`,
       name: path.name || `Path-${index + 1}`,
       color: path.color || "#0ea5e9",
-      direction: (path.direction === "bidirectional"
-        ? "bidirectional"
-        : "oneway") as PathDirection,
+      direction: (path.direction === "bidirectional" ? "bidirectional" : "oneway") as PathDirection,
       points: (path.points ?? []).map((point) => ({
         x: Number(point.x ?? 0),
         y: Number(point.y ?? 0),
@@ -91,13 +81,10 @@ export const parseProjectJson = (raw: string): MapProject => {
         speedLimit: Number(device.config?.speedLimit ?? 1.2),
         maxQueue: Number(device.config?.maxQueue ?? 4),
         directionDeg: Number(device.config?.directionDeg ?? 0),
-        supplyMode: (device.config?.supplyMode === "manual" ||
-        device.config?.supplyMode === "elevator"
+        supplyMode: (device.config?.supplyMode === "manual" || device.config?.supplyMode === "elevator"
           ? device.config.supplyMode
           : "auto") as SupplyMode,
-        unloadMode: (device.config?.unloadMode === "multi-sort"
-          ? "multi-sort"
-          : "normal") as UnloadMode,
+        unloadMode: (device.config?.unloadMode === "multi-sort" ? "multi-sort" : "normal") as UnloadMode,
       },
     });
   });
@@ -109,9 +96,7 @@ export const parseProjectJson = (raw: string): MapProject => {
       ...data.meta,
       name,
       scene,
-      tags: Array.isArray(data.meta?.tags)
-        ? data.meta.tags.filter((item) => typeof item === "string")
-        : [],
+      tags: Array.isArray(data.meta?.tags) ? data.meta.tags.filter((item) => typeof item === "string") : [],
       updatedAt: new Date().toISOString(),
     },
     grid: {

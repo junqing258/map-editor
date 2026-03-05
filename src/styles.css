@@ -22,12 +22,7 @@ body,
   height: 100%;
   font-family: "IBM Plex Sans", "PingFang SC", "Noto Sans SC", sans-serif;
   color: var(--text);
-  background: radial-gradient(
-    circle at 20% 15%,
-    #f9fbff 0,
-    var(--bg) 46%,
-    #dce6f6 100%
-  );
+  background: radial-gradient(circle at 20% 15%, #f9fbff 0, var(--bg) 46%, #dce6f6 100%);
 }
 
 .workspace {

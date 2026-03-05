@@ -1,9 +1,4 @@
-import type {
-  ExportFormat,
-  ExportPayload,
-  MapOverviewStats,
-  MapProject,
-} from "@/types/map";
+import type { ExportFormat, ExportPayload, MapOverviewStats, MapProject } from "@/types/map";
 
 interface WorkerRequest {
   requestId: number;
@@ -24,18 +19,9 @@ interface WorkerResponse {
 const calcStats = (project: MapProject): MapOverviewStats => {
   const width = project.grid.width;
   const height = project.grid.height;
-  const nodeCount = project.layers.base.reduce<number>(
-    (acc, cell) => (cell > 0 ? acc + 1 : acc),
-    0,
-  );
-  const queueCellCount = project.layers.base.reduce<number>(
-    (acc, cell) => (cell === 2 ? acc + 1 : acc),
-    0,
-  );
-  const waitingCellCount = project.layers.base.reduce<number>(
-    (acc, cell) => (cell === 3 ? acc + 1 : acc),
-    0,
-  );
+  const nodeCount = project.layers.base.reduce<number>((acc, cell) => (cell > 0 ? acc + 1 : acc), 0);
+  const queueCellCount = project.layers.base.reduce<number>((acc, cell) => (cell === 2 ? acc + 1 : acc), 0);
+  const waitingCellCount = project.layers.base.reduce<number>((acc, cell) => (cell === 3 ? acc + 1 : acc), 0);
   const freeCount = width * height - nodeCount;
   const deviceCounts: MapOverviewStats["deviceCounts"] = {
     supply: 0,
@@ -46,10 +32,7 @@ const calcStats = (project: MapProject): MapOverviewStats => {
     deviceCounts[device.type] += 1;
   });
   const pathCount = project.overlays.robotPaths.length;
-  const pathPointCount = project.overlays.robotPaths.reduce(
-    (acc, path) => acc + path.points.length,
-    0,
-  );
+  const pathPointCount = project.overlays.robotPaths.reduce((acc, path) => acc + path.points.length, 0);
   return {
     width,
     height,
@@ -57,8 +40,7 @@ const calcStats = (project: MapProject): MapOverviewStats => {
     freeCount,
     queueCellCount,
     waitingCellCount,
-    siteAreaSqm:
-      width * project.grid.cellSizeMeter * height * project.grid.cellSizeMeter,
+    siteAreaSqm: width * project.grid.cellSizeMeter * height * project.grid.cellSizeMeter,
     pathCount,
     pathPointCount,
     deviceCounts,
@@ -125,10 +107,7 @@ workerSelf.onmessage = (event: MessageEvent<WorkerRequest>) => {
     }
     if (req.type === "export") {
       const format = req.payload.format ?? "custom";
-      const result =
-        format === "ros"
-          ? exportRosLike(req.payload.project)
-          : exportCustom(req.payload.project);
+      const result = format === "ros" ? exportRosLike(req.payload.project) : exportCustom(req.payload.project);
       post({
         requestId: req.requestId,
         ok: true,

@@ -1,11 +1,4 @@
-import {
-  computed,
-  type ComputedRef,
-  reactive,
-  type Ref,
-  ref,
-  toRaw,
-} from "vue";
+import { computed, type ComputedRef, reactive, type Ref, ref, toRaw } from "vue";
 
 import {
   type CellCoord,
@@ -55,11 +48,7 @@ const cloneProject = (source: MapProject): MapProject => {
   return JSON.parse(json) as MapProject;
 };
 
-const ADJACENT_OFF_PLATFORM_TYPES = new Set<DeviceType>([
-  "supply",
-  "unload",
-  "charger",
-]);
+const ADJACENT_OFF_PLATFORM_TYPES = new Set<DeviceType>(["supply", "unload", "charger"]);
 
 const getDeviceTypeByTool = (tool: ToolType): DeviceType | null => {
   if (tool === "supply") {
@@ -102,11 +91,7 @@ const createDefaultViewFlags = (): ViewFlags => ({
   showNavBlock: true,
 });
 
-const createDeviceConfig = (
-  type: DeviceType,
-  supplyMode: SupplyMode,
-  unloadMode: UnloadMode,
-): MapDevice["config"] => ({
+const createDeviceConfig = (type: DeviceType, supplyMode: SupplyMode, unloadMode: UnloadMode): MapDevice["config"] => ({
   enabled: true,
   hardwareId: "",
   speedLimit: 1.2,
@@ -140,27 +125,19 @@ const createEditorStoreCore = () => {
     if (selectedElement.value.kind === "device") {
       return [selectedElement.value.deviceId];
     }
-    if (
-      selectedElement.value.kind === "device-batch" ||
-      selectedElement.value.kind === "mixed-batch"
-    ) {
+    if (selectedElement.value.kind === "device-batch" || selectedElement.value.kind === "mixed-batch") {
       return selectedElement.value.deviceIds;
     }
     return [];
   });
 
   const selectedDevices = computed(() =>
-    project.value.devices.filter((item) =>
-      selectedDeviceIds.value.includes(item.id),
-    ),
+    project.value.devices.filter((item) => selectedDeviceIds.value.includes(item.id)),
   );
 
-  const singleSelectedDevice = computed(() =>
-    selectedDevices.value.length === 1 ? selectedDevices.value[0] : null,
-  );
+  const singleSelectedDevice = computed(() => (selectedDevices.value.length === 1 ? selectedDevices.value[0] : null));
 
-  const isCellInside = (x: number, y: number) =>
-    x >= 0 && y >= 0 && x < width.value && y < height.value;
+  const isCellInside = (x: number, y: number) => x >= 0 && y >= 0 && x < width.value && y < height.value;
 
   const hasAdjacentPlatform = (x: number, y: number) => {
     const neighbors = [
@@ -169,10 +146,7 @@ const createEditorStoreCore = () => {
       { x, y: y - 1 },
       { x, y: y + 1 },
     ];
-    return neighbors.some(
-      (point) =>
-        isCellInside(point.x, point.y) && getCell(point.x, point.y) > 0,
-    );
+    return neighbors.some((point) => isCellInside(point.x, point.y) && getCell(point.x, point.y) > 0);
   };
 
   const canPlaceDeviceAt = (type: DeviceType, x: number, y: number) => {
@@ -195,9 +169,8 @@ const createEditorStoreCore = () => {
 
   const getActivePath = () => {
     const path =
-      project.value.overlays.robotPaths.find(
-        (item) => item.id === activePathId.value,
-      ) ?? project.value.overlays.robotPaths[0];
+      project.value.overlays.robotPaths.find((item) => item.id === activePathId.value) ??
+      project.value.overlays.robotPaths[0];
     return path ?? null;
   };
 
@@ -254,9 +227,7 @@ const createEditorStoreCore = () => {
   };
 
   const selectPathPoint = (pathId: string, index: number) => {
-    const path = project.value.overlays.robotPaths.find(
-      (item) => item.id === pathId,
-    );
+    const path = project.value.overlays.robotPaths.find((item) => item.id === pathId);
     if (!path || !path.points[index]) {
       selectNone();
       return;
@@ -302,11 +273,7 @@ const createEditorStoreCore = () => {
     }
     rememberSnapshot();
     project.value.layers.base[idx] = value;
-    if (
-      selectedElement.value.kind === "cell" &&
-      selectedElement.value.x === x &&
-      selectedElement.value.y === y
-    ) {
+    if (selectedElement.value.kind === "cell" && selectedElement.value.x === x && selectedElement.value.y === y) {
       selectedElement.value.active = value > 0;
     }
     markChanged();
@@ -314,6 +281,7 @@ const createEditorStoreCore = () => {
   };
 
   const applyPlatformAt = (x: number, y: number) => setCell(x, y, 1);
+
   const applyPlatformStateByTool = (tool: ToolType, x: number, y: number) => {
     const value = getPlatformStateByTool(tool);
     if (value === null) {
@@ -378,9 +346,7 @@ const createEditorStoreCore = () => {
       path.direction = toolOptions.value.pathDirection;
     }
 
-    const existing = path.points.findIndex(
-      (item) => item.x === x && item.y === y,
-    );
+    const existing = path.points.findIndex((item) => item.x === x && item.y === y);
     if (existing >= 0) {
       if (snapshotTaken) {
         markChanged();
@@ -410,19 +376,13 @@ const createEditorStoreCore = () => {
     if (!path || path.points.length === 0) {
       return false;
     }
-    const next = path.points.filter(
-      (point) => !(point.x === x && point.y === y),
-    );
+    const next = path.points.filter((point) => !(point.x === x && point.y === y));
     if (next.length === path.points.length) {
       return false;
     }
     rememberSnapshot();
     path.points = next;
-    if (
-      selectedElement.value.kind === "path-point" &&
-      selectedElement.value.x === x &&
-      selectedElement.value.y === y
-    ) {
+    if (selectedElement.value.kind === "path-point" && selectedElement.value.x === x && selectedElement.value.y === y) {
       selectNone();
     }
     markChanged();
@@ -442,8 +402,7 @@ const createEditorStoreCore = () => {
   };
 
   const createDeviceName = (type: DeviceType) => {
-    const count =
-      project.value.devices.filter((item) => item.type === type).length + 1;
+    const count = project.value.devices.filter((item) => item.type === type).length + 1;
     return `${type}-${String(count).padStart(2, "0")}`;
   };
 
@@ -452,9 +411,7 @@ const createEditorStoreCore = () => {
     if (!type || !canPlaceDeviceAt(type, x, y)) {
       return false;
     }
-    const existing = project.value.devices.find(
-      (item) => item.x === x && item.y === y,
-    );
+    const existing = project.value.devices.find((item) => item.x === x && item.y === y);
     if (existing && existing.type === type) {
       return false;
     }
@@ -463,11 +420,7 @@ const createEditorStoreCore = () => {
     if (existing) {
       existing.type = type;
       existing.name = createDeviceName(type);
-      existing.config = createDeviceConfig(
-        type,
-        toolOptions.value.supplyMode,
-        toolOptions.value.unloadMode,
-      );
+      existing.config = createDeviceConfig(type, toolOptions.value.supplyMode, toolOptions.value.unloadMode);
       markChanged();
       selectNone();
       return true;
@@ -480,11 +433,7 @@ const createEditorStoreCore = () => {
       name: createDeviceName(type),
       x,
       y,
-      config: createDeviceConfig(
-        type,
-        toolOptions.value.supplyMode,
-        toolOptions.value.unloadMode,
-      ),
+      config: createDeviceConfig(type, toolOptions.value.supplyMode, toolOptions.value.unloadMode),
     });
     markChanged();
     selectNone();
@@ -496,17 +445,13 @@ const createEditorStoreCore = () => {
       selectNone();
       return;
     }
-    const device = project.value.devices.find(
-      (item) => item.x === x && item.y === y,
-    );
+    const device = project.value.devices.find((item) => item.x === x && item.y === y);
     if (device) {
       selectDevice(device.id);
       return;
     }
     for (const path of project.value.overlays.robotPaths) {
-      const index = path.points.findIndex(
-        (item) => item.x === x && item.y === y,
-      );
+      const index = path.points.findIndex((item) => item.x === x && item.y === y);
       if (index >= 0) {
         selectPathPoint(path.id, index);
         return;
@@ -515,21 +460,13 @@ const createEditorStoreCore = () => {
     selectCell(x, y);
   };
 
-  const selectElementsInRect = (
-    x1: number,
-    y1: number,
-    x2: number,
-    y2: number,
-  ) => {
+  const selectElementsInRect = (x1: number, y1: number, x2: number, y2: number) => {
     const minX = Math.max(0, Math.min(x1, x2));
     const maxX = Math.min(width.value - 1, Math.max(x1, x2));
     const minY = Math.max(0, Math.min(y1, y2));
     const maxY = Math.min(height.value - 1, Math.max(y1, y2));
     const deviceIds = project.value.devices
-      .filter(
-        (item) =>
-          item.x >= minX && item.x <= maxX && item.y >= minY && item.y <= maxY,
-      )
+      .filter((item) => item.x >= minX && item.x <= maxX && item.y >= minY && item.y <= maxY)
       .sort((a, b) => {
         if (a.y !== b.y) {
           return a.y - b.y;
@@ -553,12 +490,7 @@ const createEditorStoreCore = () => {
     const pathPoints: SelectedPathPointRef[] = [];
     for (const path of project.value.overlays.robotPaths) {
       path.points.forEach((point, index) => {
-        if (
-          point.x >= minX &&
-          point.x <= maxX &&
-          point.y >= minY &&
-          point.y <= maxY
-        ) {
+        if (point.x >= minX && point.x <= maxX && point.y >= minY && point.y <= maxY) {
           pathPoints.push({
             pathId: path.id,
             index,
@@ -587,27 +519,15 @@ const createEditorStoreCore = () => {
       selectNone();
       return;
     }
-    if (
-      deviceIds.length === 1 &&
-      cells.length === 0 &&
-      pathPoints.length === 0
-    ) {
+    if (deviceIds.length === 1 && cells.length === 0 && pathPoints.length === 0) {
       selectDevice(deviceIds[0]);
       return;
     }
-    if (
-      deviceIds.length === 0 &&
-      cells.length === 1 &&
-      pathPoints.length === 0
-    ) {
+    if (deviceIds.length === 0 && cells.length === 1 && pathPoints.length === 0) {
       selectCell(cells[0].x, cells[0].y);
       return;
     }
-    if (
-      deviceIds.length === 0 &&
-      cells.length === 0 &&
-      pathPoints.length === 1
-    ) {
+    if (deviceIds.length === 0 && cells.length === 0 && pathPoints.length === 1) {
       const point = pathPoints[0];
       selectPathPoint(point.pathId, point.index);
       return;
@@ -668,15 +588,8 @@ const createEditorStoreCore = () => {
     return true;
   };
 
-  const applyBatchDevicePatch = (patch: {
-    enabled?: boolean;
-    speedLimit?: number;
-    prefix?: string;
-  }) => {
-    if (
-      selectedElement.value.kind !== "device-batch" ||
-      selectedElement.value.deviceIds.length === 0
-    ) {
+  const applyBatchDevicePatch = (patch: { enabled?: boolean; speedLimit?: number; prefix?: string }) => {
+    if (selectedElement.value.kind !== "device-batch" || selectedElement.value.deviceIds.length === 0) {
       return 0;
     }
     rememberSnapshot();
@@ -717,9 +630,7 @@ const createEditorStoreCore = () => {
 
     if (selectedElement.value.kind === "path-point") {
       const { pathId, index } = selectedElement.value;
-      const path = project.value.overlays.robotPaths.find(
-        (item) => item.id === pathId,
-      );
+      const path = project.value.overlays.robotPaths.find((item) => item.id === pathId);
       if (!path || !path.points[index]) {
         selectNone();
         return false;
@@ -737,9 +648,7 @@ const createEditorStoreCore = () => {
 
       if (deviceIds.length > 0) {
         const idSet = new Set(deviceIds);
-        const next = project.value.devices.filter(
-          (item) => !idSet.has(item.id),
-        );
+        const next = project.value.devices.filter((item) => !idSet.has(item.id));
         if (next.length !== project.value.devices.length) {
           rememberSnapshot();
           project.value.devices = next;
@@ -774,9 +683,7 @@ const createEditorStoreCore = () => {
           grouped.set(item.pathId, list);
         });
         grouped.forEach((indices, pathId) => {
-          const path = project.value.overlays.robotPaths.find(
-            (item) => item.id === pathId,
-          );
+          const path = project.value.overlays.robotPaths.find((item) => item.id === pathId);
           if (!path) {
             return;
           }
@@ -803,9 +710,7 @@ const createEditorStoreCore = () => {
     }
 
     const ids =
-      selectedElement.value.kind === "device"
-        ? [selectedElement.value.deviceId]
-        : selectedElement.value.deviceIds;
+      selectedElement.value.kind === "device" ? [selectedElement.value.deviceId] : selectedElement.value.deviceIds;
     if (ids.length === 0) {
       return false;
     }
@@ -846,18 +751,8 @@ const createEditorStoreCore = () => {
 
   const resetMapData = () => {
     rememberSnapshot();
-    const {
-      width: w,
-      height: h,
-      cellSizeMeter,
-      chunkSize,
-    } = project.value.grid;
-    const next = createEmptyProject(
-      w,
-      h,
-      project.value.meta.scene,
-      project.value.meta.name,
-    );
+    const { width: w, height: h, cellSizeMeter, chunkSize } = project.value.grid;
+    const next = createEmptyProject(w, h, project.value.meta.scene, project.value.meta.name);
     next.meta.tags = [...project.value.meta.tags];
     next.grid.cellSizeMeter = cellSizeMeter;
     next.grid.chunkSize = chunkSize;
@@ -866,13 +761,7 @@ const createEditorStoreCore = () => {
     revision.value += 1;
   };
 
-  const createNewMap = (payload: {
-    name: string;
-    width: number;
-    height: number;
-    scene: SceneType;
-    tags: string[];
-  }) => {
+  const createNewMap = (payload: { name: string; width: number; height: number; scene: SceneType; tags: string[] }) => {
     rememberSnapshot();
     const next = createEmptyProject(
       Math.max(8, Math.floor(payload.width)),
@@ -901,10 +790,7 @@ const createEditorStoreCore = () => {
   const runPathCheck = (): PathCheckResult => {
     const issues: string[] = [];
     // 校验范围：平台可用性、路径连续性、设备摆放规则。
-    const nodeCount = project.value.layers.base.reduce<number>(
-      (acc, item) => (item > 0 ? acc + 1 : acc),
-      0,
-    );
+    const nodeCount = project.value.layers.base.reduce<number>((acc, item) => (item > 0 ? acc + 1 : acc), 0);
     if (nodeCount === 0) {
       issues.push("未绘制钢平台，无法运行路径。");
     }
@@ -915,23 +801,15 @@ const createEditorStoreCore = () => {
       }
       for (let i = 0; i < path.points.length; i += 1) {
         const point = path.points[i];
-        if (
-          !isCellInside(point.x, point.y) ||
-          getCell(point.x, point.y) === 0
-        ) {
-          issues.push(
-            `路径 ${path.name} 含无效点位 (${point.x}, ${point.y})。`,
-          );
+        if (!isCellInside(point.x, point.y) || getCell(point.x, point.y) === 0) {
+          issues.push(`路径 ${path.name} 含无效点位 (${point.x}, ${point.y})。`);
           break;
         }
         if (i > 0) {
           const prev = path.points[i - 1];
-          const manhattan =
-            Math.abs(prev.x - point.x) + Math.abs(prev.y - point.y);
+          const manhattan = Math.abs(prev.x - point.x) + Math.abs(prev.y - point.y);
           if (manhattan !== 1) {
-            issues.push(
-              `路径 ${path.name} 存在非邻接连接 (${prev.x}, ${prev.y}) -> (${point.x}, ${point.y})。`,
-            );
+            issues.push(`路径 ${path.name} 存在非邻接连接 (${prev.x}, ${prev.y}) -> (${point.x}, ${point.y})。`);
             break;
           }
         }
@@ -939,13 +817,8 @@ const createEditorStoreCore = () => {
     });
     project.value.devices.forEach((device) => {
       if (ADJACENT_OFF_PLATFORM_TYPES.has(device.type)) {
-        if (
-          getCell(device.x, device.y) > 0 ||
-          !hasAdjacentPlatform(device.x, device.y)
-        ) {
-          issues.push(
-            `设备 ${device.name} 需放置在钢平台邻格且不能压在钢平台上。`,
-          );
+        if (getCell(device.x, device.y) > 0 || !hasAdjacentPlatform(device.x, device.y)) {
+          issues.push(`设备 ${device.name} 需放置在钢平台邻格且不能压在钢平台上。`);
         }
         return;
       }
@@ -1032,18 +905,14 @@ const createEditorStoreCore = () => {
   };
 };
 
-type MaybeRef<T> =
-  T extends Ref<infer V> ? V : T extends ComputedRef<infer V> ? V : T;
+type MaybeRef<T> = T extends Ref<infer V> ? V : T extends ComputedRef<infer V> ? V : T;
 type UnwrappedStore<T extends Record<string, unknown>> = {
   [K in keyof T]: MaybeRef<T[K]>;
 };
 
-export type EditorStore = UnwrappedStore<
-  ReturnType<typeof createEditorStoreCore>
->;
+export type EditorStore = UnwrappedStore<ReturnType<typeof createEditorStoreCore>>;
 
-export const createEditorStore = (): EditorStore =>
-  reactive(createEditorStoreCore()) as EditorStore;
+export const createEditorStore = (): EditorStore => reactive(createEditorStoreCore()) as EditorStore;
 
 let sharedEditorStore: EditorStore | null = null;
 

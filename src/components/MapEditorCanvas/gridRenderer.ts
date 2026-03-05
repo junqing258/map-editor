@@ -1,23 +1,9 @@
-import {
-  Application,
-  Assets,
-  Color,
-  Container,
-  Graphics,
-  Sprite,
-  Texture,
-} from "pixi.js";
+import { Application, Assets, Color, Container, Graphics, Sprite, Texture } from "pixi.js";
 
 import batteryChargingSvgRaw from "@/assets/icons/battery-charging.svg?raw";
 import packageMinusSvgRaw from "@/assets/icons/package-minus.svg?raw";
 import packagePlusSvgRaw from "@/assets/icons/package-plus.svg?raw";
-import type {
-  MapDevice,
-  MapProject,
-  RobotPath,
-  SelectedElement,
-  ViewFlags,
-} from "@/types/map";
+import type { MapDevice, MapProject, RobotPath, SelectedElement, ViewFlags } from "@/types/map";
 
 interface ChunkEntry {
   sprite: Sprite;
@@ -58,9 +44,7 @@ export class GridRenderer {
   private readonly deviceGraphics = new Graphics();
   private readonly deviceIconContainer = new Container();
   private readonly selectionGraphics = new Graphics();
-  private readonly deviceIconTextures: Partial<
-    Record<MapDevice["type"], Texture>
-  >;
+  private readonly deviceIconTextures: Partial<Record<MapDevice["type"], Texture>>;
   // 分块缓存，按 `chunkX:chunkY` 管理纹理生命周期，避免全图重绘。
   private readonly chunks = new Map<string, ChunkEntry>();
   private readonly cellPixel = 100;
@@ -147,13 +131,7 @@ export class GridRenderer {
     if (mapWidth <= 0 || mapHeight <= 0) {
       return;
     }
-    const zoom = Math.max(
-      0.35,
-      Math.min(
-        2.8,
-        Math.min((rect.width - 80) / mapWidth, (rect.height - 80) / mapHeight),
-      ),
-    );
+    const zoom = Math.max(0.35, Math.min(2.8, Math.min((rect.width - 80) / mapWidth, (rect.height - 80) / mapHeight)));
     // 预留边距后做适配缩放，避免贴边显示。
     this.view.zoom = zoom;
     this.view.offsetX = (rect.width - mapWidth * zoom) / 2;
@@ -261,13 +239,7 @@ export class GridRenderer {
       const activeAlpha = device.config.enabled ? 0.95 : 0.35;
 
       if (iconTexture) {
-        this.deviceGraphics.roundRect(
-          centerX - half,
-          centerY - half,
-          size,
-          size,
-          10,
-        );
+        this.deviceGraphics.roundRect(centerX - half, centerY - half, size, size, 10);
         this.deviceGraphics.fill({
           color: "#ffffff",
           alpha: device.config.enabled ? 0.9 : 0.45,
@@ -318,18 +290,14 @@ export class GridRenderer {
       return;
     }
     if (selection.kind === "device") {
-      const device = project.devices.find(
-        (item) => item.id === selection.deviceId,
-      );
+      const device = project.devices.find((item) => item.id === selection.deviceId);
       if (device) {
         this.highlightDevice(device);
       }
       return;
     }
     if (selection.kind === "device-batch") {
-      const devices = project.devices.filter((item) =>
-        selection.deviceIds.includes(item.id),
-      );
+      const devices = project.devices.filter((item) => selection.deviceIds.includes(item.id));
       devices.forEach((device) => {
         this.highlightDevice(device);
       });
@@ -337,9 +305,7 @@ export class GridRenderer {
     }
 
     // mixed-batch：设备、平台格、路径点同时高亮。
-    const devices = project.devices.filter((item) =>
-      selection.deviceIds.includes(item.id),
-    );
+    const devices = project.devices.filter((item) => selection.deviceIds.includes(item.id));
     devices.forEach((device) => {
       this.highlightDevice(device);
     });
@@ -386,13 +352,7 @@ export class GridRenderer {
     };
   }
 
-  private drawArrow(
-    fromX: number,
-    fromY: number,
-    toX: number,
-    toY: number,
-    color: string,
-  ) {
+  private drawArrow(fromX: number, fromY: number, toX: number, toY: number, color: string) {
     const dx = toX - fromX;
     const dy = toY - fromY;
     const length = Math.hypot(dx, dy);
@@ -415,12 +375,7 @@ export class GridRenderer {
   }
 
   private highlightCell(x: number, y: number) {
-    this.selectionGraphics.rect(
-      x * this.cellPixel,
-      y * this.cellPixel,
-      this.cellPixel,
-      this.cellPixel,
-    );
+    this.selectionGraphics.rect(x * this.cellPixel, y * this.cellPixel, this.cellPixel, this.cellPixel);
     this.selectionGraphics.fill({ color: "#fbbf24", alpha: 0.26 });
     this.selectionGraphics.setStrokeStyle({ width: 2, color: "#f59e0b" });
     this.selectionGraphics.stroke();
@@ -546,20 +501,10 @@ export class GridRenderer {
             continue;
           }
           ctx.fillStyle = nodeColorMap[value] ?? nodeColorMap[1];
-          ctx.fillRect(
-            x * this.cellPixel + 1,
-            y * this.cellPixel + 1,
-            this.cellPixel - 2,
-            this.cellPixel - 2,
-          );
+          ctx.fillRect(x * this.cellPixel + 1, y * this.cellPixel + 1, this.cellPixel - 2, this.cellPixel - 2);
           ctx.strokeStyle = nodeBorderMap[value] ?? nodeBorderMap[1];
           ctx.lineWidth = 1;
-          ctx.strokeRect(
-            x * this.cellPixel + 1.5,
-            y * this.cellPixel + 1.5,
-            this.cellPixel - 3,
-            this.cellPixel - 3,
-          );
+          ctx.strokeRect(x * this.cellPixel + 1.5, y * this.cellPixel + 1.5, this.cellPixel - 3, this.cellPixel - 3);
         }
       }
     }
@@ -572,9 +517,7 @@ export class GridRenderer {
 
   private static async loadDeviceIconTextures() {
     const textures: Partial<Record<MapDevice["type"], Texture>> = {};
-    const iconEntries = Object.entries(deviceIconSvgMap) as Array<
-      [MapDevice["type"], string | undefined]
-    >;
+    const iconEntries = Object.entries(deviceIconSvgMap) as Array<[MapDevice["type"], string | undefined]>;
 
     await Promise.all(
       iconEntries.map(async ([type, svgRaw]) => {

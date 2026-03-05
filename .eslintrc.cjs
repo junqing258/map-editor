@@ -13,12 +13,7 @@ module.exports = {
     extraFileExtensions: [".vue"],
   },
   plugins: ["@typescript-eslint", "vue", "simple-import-sort"],
-  extends: [
-    "eslint:recommended",
-    "plugin:vue/vue3-recommended",
-    "plugin:@typescript-eslint/recommended",
-    "prettier",
-  ],
+  extends: ["eslint:recommended", "plugin:vue/vue3-recommended", "plugin:@typescript-eslint/recommended", "prettier"],
   rules: {
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "off",

@@ -7,10 +7,33 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from "vue";
 
-import { useEditorStore } from "./editorStore";
+import type { MapProject, SelectedElement, ToolType, ViewFlags } from "@/types/map";
+
+import { EditorStore } from "./editorStore";
 import { GridRenderer } from "./gridRenderer";
 
-const store = useEditorStore();
+/* interface MapEditorCanvasStore {
+  activeTool: ToolType;
+  project: MapProject;
+  viewFlags: ViewFlags;
+  selectedElement: SelectedElement;
+  centerSignal: number;
+  beginAction: () => void;
+  endAction: () => void;
+  applyPlatformAt: (x: number, y: number) => boolean;
+  applyPlatformStateByTool: (tool: ToolType, x: number, y: number) => boolean;
+  addPathPoint: (x: number, y: number) => number;
+  erasePathPointAt: (x: number, y: number) => boolean;
+  placeDeviceByTool: (tool: ToolType, x: number, y: number) => boolean;
+  selectByCell: (x: number, y: number) => void;
+  selectElementsInRect: (x1: number, y1: number, x2: number, y2: number) => void;
+}
+ */
+const props = defineProps<{
+  store: EditorStore;
+}>();
+
+const store = props.store;
 const hostRef = ref<HTMLElement | null>(null);
 
 let renderer: GridRenderer | null = null;

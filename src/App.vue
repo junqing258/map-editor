@@ -19,18 +19,10 @@
 
       <div class="menu-section">
         <span class="menu-title">视图</span>
-        <button
-          class="menu-btn"
-          :class="{ active: store.viewFlags.showGrid }"
-          @click="store.setViewFlag('showGrid')"
-        >
+        <button class="menu-btn" :class="{ active: store.viewFlags.showGrid }" @click="store.setViewFlag('showGrid')">
           显示网格
         </button>
-        <button
-          class="menu-btn"
-          :class="{ active: store.viewFlags.showPath }"
-          @click="store.setViewFlag('showPath')"
-        >
+        <button class="menu-btn" :class="{ active: store.viewFlags.showPath }" @click="store.setViewFlag('showPath')">
           路径
         </button>
         <button
@@ -60,21 +52,11 @@
           <div v-if="store.toolOptions.platformMode === 'batch'" class="option-row">
             <label class="field-inline">
               行
-              <input
-                v-model.number="store.toolOptions.batchRows"
-                class="input mini"
-                type="number"
-                min="1"
-              />
+              <input v-model.number="store.toolOptions.batchRows" class="input mini" type="number" min="1" />
             </label>
             <label class="field-inline">
               列
-              <input
-                v-model.number="store.toolOptions.batchCols"
-                class="input mini"
-                type="number"
-                min="1"
-              />
+              <input v-model.number="store.toolOptions.batchCols" class="input mini" type="number" min="1" />
             </label>
             <button class="menu-btn" @click="applyBatchPlatform">极速生成</button>
           </div>
@@ -137,11 +119,7 @@
       <aside class="toolbar">
         <h1>快捷工具</h1>
         <div class="tool-stack">
-          <button
-            class="tool-btn"
-            :class="{ active: store.activeTool === 'select' }"
-            @click="store.setTool('select')"
-          >
+          <button class="tool-btn" :class="{ active: store.activeTool === 'select' }" @click="store.setTool('select')">
             <span class="tool-flag">V</span>
             <span>选框工具</span>
           </button>
@@ -169,19 +147,11 @@
             <Square :size="16" />
             <span>钢平台</span>
           </button>
-          <button
-            class="tool-btn"
-            :class="{ active: store.activeTool === 'supply' }"
-            @click="store.setTool('supply')"
-          >
+          <button class="tool-btn" :class="{ active: store.activeTool === 'supply' }" @click="store.setTool('supply')">
             <PackagePlus :size="16" class="tool-device-icon supply" />
             <span>供货点</span>
           </button>
-          <button
-            class="tool-btn"
-            :class="{ active: store.activeTool === 'unload' }"
-            @click="store.setTool('unload')"
-          >
+          <button class="tool-btn" :class="{ active: store.activeTool === 'unload' }" @click="store.setTool('unload')">
             <PackageMinus :size="16" class="tool-device-icon unload" />
             <span>卸货点</span>
           </button>
@@ -193,11 +163,7 @@
             <BatteryCharging :size="16" class="tool-device-icon charger" />
             <span>充电桩</span>
           </button>
-          <button
-            class="tool-btn"
-            :class="{ active: store.activeTool === 'queue' }"
-            @click="store.setTool('queue')"
-          >
+          <button class="tool-btn" :class="{ active: store.activeTool === 'queue' }" @click="store.setTool('queue')">
             <span class="tool-dot queue" />
             <span>排队区</span>
           </button>
@@ -229,12 +195,14 @@
           <p class="prop-item">场地面积: {{ stats ? `${stats.siteAreaSqm.toFixed(2)} m²` : "-" }}</p>
           <p class="prop-item">路径: {{ stats?.pathCount ?? "-" }} / 点位 {{ stats?.pathPointCount ?? "-" }}</p>
           <p class="prop-item">
-            设备统计:
-            供{{ stats?.deviceCounts.supply ?? 0 }}
-            卸{{ stats?.deviceCounts.unload ?? 0 }}
-            充{{ stats?.deviceCounts.charger ?? 0 }}
+            设备统计: 供{{ stats?.deviceCounts.supply ?? 0 }} 卸{{ stats?.deviceCounts.unload ?? 0 }} 充{{
+              stats?.deviceCounts.charger ?? 0
+            }}
           </p>
-          <p class="prop-item">平台状态: 排队区 {{ stats?.queueCellCount ?? 0 }} / 等待区 {{ stats?.waitingCellCount ?? 0 }}</p>
+          <p class="prop-item">
+            平台状态: 排队区 {{ stats?.queueCellCount ?? 0 }} / 等待区
+            {{ stats?.waitingCellCount ?? 0 }}
+          </p>
         </section>
 
         <h2>对象属性</h2>
@@ -245,9 +213,7 @@
 
           <template v-else-if="store.selectedElement.kind === 'cell'">
             <p class="prop-item">类型: 网格节点</p>
-            <p class="prop-item">
-              坐标: ({{ store.selectedElement.x }}, {{ store.selectedElement.y }})
-            </p>
+            <p class="prop-item">坐标: ({{ store.selectedElement.x }}, {{ store.selectedElement.y }})</p>
             <p class="prop-item">状态: {{ selectedCellStatus }}</p>
           </template>
 
@@ -255,12 +221,8 @@
             <p class="prop-item">类型: 路径点</p>
             <p class="prop-item">路径: {{ store.selectedElement.pathName }}</p>
             <p class="prop-item">序号: {{ store.selectedElement.index + 1 }}</p>
-            <p class="prop-item">
-              坐标: ({{ store.selectedElement.x }}, {{ store.selectedElement.y }})
-            </p>
-            <p class="prop-item">
-              方向: {{ store.selectedElement.direction === "oneway" ? "单向" : "全向" }}
-            </p>
+            <p class="prop-item">坐标: ({{ store.selectedElement.x }}, {{ store.selectedElement.y }})</p>
+            <p class="prop-item">方向: {{ store.selectedElement.direction === "oneway" ? "单向" : "全向" }}</p>
           </template>
 
           <template v-else-if="store.selectedElement.kind === 'device' && store.singleSelectedDevice">
@@ -293,10 +255,7 @@
                 </select>
               </label>
             </div>
-            <label
-              v-if="store.singleSelectedDevice.type === 'supply'"
-              class="field"
-            >
+            <label v-if="store.singleSelectedDevice.type === 'supply'" class="field">
               供货模式
               <select v-model="singleForm.supplyMode" class="input">
                 <option value="auto">自动</option>
@@ -304,10 +263,7 @@
                 <option value="elevator">提升机</option>
               </select>
             </label>
-            <label
-              v-if="store.singleSelectedDevice.type === 'unload'"
-              class="field"
-            >
+            <label v-if="store.singleSelectedDevice.type === 'unload'" class="field">
               卸货类型
               <select v-model="singleForm.unloadMode" class="input">
                 <option value="normal">普通</option>
@@ -333,11 +289,7 @@
             </label>
             <label class="field">
               速度覆盖
-              <input
-                v-model="batchForm.speedLimitText"
-                class="input"
-                placeholder="留空为不修改"
-              />
+              <input v-model="batchForm.speedLimitText" class="input" placeholder="留空为不修改" />
             </label>
             <button class="menu-btn full" @click="applyBatchProps">批量应用</button>
           </template>
@@ -367,13 +319,7 @@
       </aside>
     </div>
 
-    <input
-      ref="fileRef"
-      type="file"
-      accept="application/json,.json"
-      class="hidden"
-      @change="importProjectJson"
-    />
+    <input ref="fileRef" type="file" accept="application/json,.json" class="hidden" @change="importProjectJson" />
 
     <div v-if="showNewMap" class="modal-mask" @click.self="showNewMap = false">
       <div class="modal">
@@ -446,33 +392,13 @@
 </template>
 
 <script setup lang="ts">
-import {
-  BatteryCharging,
-  Eraser,
-  PackageMinus,
-  PackagePlus,
-  Route,
-  Square,
-} from "lucide-vue-next";
-import {
-  computed,
-  onBeforeUnmount,
-  onMounted,
-  reactive,
-  ref,
-  toRaw,
-  watch,
-} from "vue";
+import { BatteryCharging, Eraser, PackageMinus, PackagePlus, Route, Square } from "lucide-vue-next";
+import { computed, onBeforeUnmount, onMounted, reactive, ref, toRaw, watch } from "vue";
 
-import { createEditorStore, useEditorStore } from "@/components/MapEditorCanvas/editorStore";
+import { createEditorStore } from "@/components/MapEditorCanvas/editorStore";
 import MapEditorCanvas from "@/components/MapEditorCanvas/index.vue";
 import { useMapWorker } from "@/composables/useMapWorker";
-import type {
-  MapOverviewStats,
-  MapProject,
-  PathCheckResult,
-  SceneType,
-} from "@/types/map";
+import type { MapOverviewStats, MapProject, PathCheckResult, SceneType } from "@/types/map";
 import { DEFAULT_MAP_HEIGHT, DEFAULT_MAP_WIDTH } from "@/types/map";
 import { downloadTextFile } from "@/utils/download";
 import { parseProjectJson } from "@/utils/projectIO";
@@ -489,7 +415,7 @@ interface LibraryItem {
 
 const LIB_KEY = "hyperleap-map-library-v1";
 
-const store = useEditorStore();
+const store = createEditorStore();
 const worker = useMapWorker();
 
 const fileRef = ref<HTMLInputElement | null>(null);
@@ -570,9 +496,7 @@ const filteredLibrary = computed(() =>
     if (!librarySearch.value.trim()) {
       return true;
     }
-    return item.name
-      .toLowerCase()
-      .includes(librarySearch.value.trim().toLowerCase());
+    return item.name.toLowerCase().includes(librarySearch.value.trim().toLowerCase());
   }),
 );
 
@@ -613,10 +537,7 @@ const createMap = () => {
 };
 
 const applyBatchPlatform = () => {
-  store.fillPlatformBatch(
-    store.toolOptions.batchRows,
-    store.toolOptions.batchCols,
-  );
+  store.fillPlatformBatch(store.toolOptions.batchRows, store.toolOptions.batchCols);
 };
 
 const exportMap = async () => {
@@ -656,9 +577,7 @@ const importProjectJson = async (event: Event) => {
 };
 
 const exportDevicesCsv = () => {
-  const rows = [
-    "name,type,x,y,enabled,hardwareId,speedLimit,maxQueue,directionDeg,supplyMode,unloadMode",
-  ];
+  const rows = ["name,type,x,y,enabled,hardwareId,speedLimit,maxQueue,directionDeg,supplyMode,unloadMode"];
   for (const device of store.project.devices) {
     rows.push(
       [
@@ -676,11 +595,7 @@ const exportDevicesCsv = () => {
       ].join(","),
     );
   }
-  downloadTextFile(
-    `${store.project.meta.name}-devices.csv`,
-    rows.join("\n"),
-    "text/csv",
-  );
+  downloadTextFile(`${store.project.meta.name}-devices.csv`, rows.join("\n"), "text/csv");
 };
 
 const loadLibrary = () => {
@@ -713,10 +628,7 @@ const saveToLibrary = (draft: boolean) => {
     updatedAt: now,
     project: structuredClone(toRaw(store.project)),
   };
-  libraryItems.value = [
-    entry,
-    ...libraryItems.value.filter((item) => item.id !== id),
-  ];
+  libraryItems.value = [entry, ...libraryItems.value.filter((item) => item.id !== id)];
   saveLibrary();
 };
 
@@ -742,10 +654,7 @@ const exportLibraryItem = (id: string) => {
   if (!item) {
     return;
   }
-  downloadTextFile(
-    `${item.name}.project.json`,
-    JSON.stringify(item.project, null, 2),
-  );
+  downloadTextFile(`${item.name}.project.json`, JSON.stringify(item.project, null, 2));
 };
 
 const toggleLibrarySelect = (id: string) => {
@@ -760,9 +669,7 @@ const deleteLibrarySelected = () => {
   if (librarySelected.value.length === 0) {
     return;
   }
-  libraryItems.value = libraryItems.value.filter(
-    (item) => !librarySelected.value.includes(item.id),
-  );
+  libraryItems.value = libraryItems.value.filter((item) => !librarySelected.value.includes(item.id));
   librarySelected.value = [];
   saveLibrary();
 };
@@ -785,20 +692,14 @@ const applyBatchProps = () => {
   const speedValue = speedText.length > 0 ? Number(speedText) : undefined;
   store.applyBatchDevicePatch({
     prefix: batchForm.prefix.trim() || undefined,
-    enabled:
-      batchForm.enabledMode === "keep"
-        ? undefined
-        : batchForm.enabledMode === "true",
+    enabled: batchForm.enabledMode === "keep" ? undefined : batchForm.enabledMode === "true",
     speedLimit: Number.isFinite(speedValue) ? speedValue : undefined,
   });
 };
 
 const onKeyDown = (event: KeyboardEvent) => {
   const target = event.target as HTMLElement | null;
-  const editingTag =
-    target?.tagName === "INPUT" ||
-    target?.tagName === "TEXTAREA" ||
-    target?.tagName === "SELECT";
+  const editingTag = target?.tagName === "INPUT" || target?.tagName === "TEXTAREA" || target?.tagName === "SELECT";
   const key = event.key.toLowerCase();
   const withMod = event.ctrlKey || event.metaKey;
 
