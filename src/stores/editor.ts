@@ -409,7 +409,6 @@ const createEditorStoreCore = () => {
     }
     const existing = project.value.devices.find((item) => item.x === x && item.y === y);
     if (existing && existing.type === type) {
-      selectDevice(existing.id);
       return false;
     }
 
@@ -422,7 +421,6 @@ const createEditorStoreCore = () => {
         toolOptions.value.supplyMode,
         toolOptions.value.unloadMode
       );
-      selectDevice(existing.id);
       markChanged();
       return true;
     }
@@ -440,7 +438,6 @@ const createEditorStoreCore = () => {
         toolOptions.value.unloadMode
       )
     });
-    selectDevice(id);
     markChanged();
     return true;
   };
