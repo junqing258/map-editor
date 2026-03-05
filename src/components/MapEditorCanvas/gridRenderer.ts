@@ -38,6 +38,7 @@ const buildColoredSvgDataUrl = (svgRaw: string, color: string) => {
 export class GridRenderer {
   private readonly app: Application;
   private readonly host: HTMLElement;
+  // baseContainer 只放静态分块底图；overlayContainer 放网格、路径、选中态等动态层。
   private readonly baseContainer = new Container();
   private readonly overlayContainer = new Container();
   private readonly gridGraphics = new Graphics();
@@ -47,6 +48,7 @@ export class GridRenderer {
   private readonly deviceIconContainer = new Container();
   private readonly selectionGraphics = new Graphics();
   private readonly deviceIconTextures: Partial<Record<MapDevice["type"], Texture>>;
+  // 分块缓存，按 `chunkX:chunkY` 管理纹理生命周期，避免全图重绘。
   private readonly chunks = new Map<string, ChunkEntry>();
   private readonly cellPixel = 100;
   private project: MapProject;
@@ -161,6 +163,7 @@ export class GridRenderer {
     const { chunkSize } = this.project.grid;
     const cx = Math.floor(x / chunkSize);
     const cy = Math.floor(y / chunkSize);
+    // 单点编辑时仅刷新所在分块，降低绘制成本。
     this.createOrReplaceChunk(cx, cy);
   }
 
@@ -318,6 +321,7 @@ export class GridRenderer {
     if (Math.abs(next - prev) < 0.0001) {
       return;
     }
+    // 以鼠标所在世界坐标为锚点缩放，保持视觉焦点不跳动。
     const wx = (screenX - this.view.offsetX) / prev;
     const wy = (screenY - this.view.offsetY) / prev;
     this.view.zoom = next;
@@ -330,6 +334,7 @@ export class GridRenderer {
     const rect = this.host.getBoundingClientRect();
     const x = clientX - rect.left;
     const y = clientY - rect.top;
+    // 屏幕坐标 -> 世界坐标 -> 网格坐标。
     const worldX = (x - this.view.offsetX) / this.view.zoom;
     const worldY = (y - this.view.offsetY) / this.view.zoom;
     return {
@@ -402,6 +407,7 @@ export class GridRenderer {
     const { width, height } = this.project.grid;
     const mapWidth = width * this.cellPixel;
     const mapHeight = height * this.cellPixel;
+    // 缩放时保持网格线视觉宽度近似 1px。
     const lineWidth = 1 / Math.max(this.view.zoom, 0.0001);
 
     this.gridGraphics.setStrokeStyle({
@@ -428,6 +434,7 @@ export class GridRenderer {
     const key = `${chunkX}:${chunkY}`;
     const old = this.chunks.get(key);
     if (old) {
+      // 先释放旧纹理，避免频繁编辑时显存累积。
       this.baseContainer.removeChild(old.sprite);
       old.sprite.destroy();
       old.texture.destroy(true);
@@ -477,6 +484,7 @@ export class GridRenderer {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     if (this.flags.showNavBlock) {
+      // 只在当前分块内绘制有效节点，最终上传为一张静态纹理。
       for (let y = 0; y < cellsY; y += 1) {
         for (let x = 0; x < cellsX; x += 1) {
           const mapX = startX + x;
@@ -506,6 +514,7 @@ export class GridRenderer {
 
 
     const texture = Texture.from(canvas);
+    // 平台块纹理不需要线性采样，避免缩放后颜色发糊。
     texture.source.scaleMode = "nearest";
     return texture;
   }
@@ -523,6 +532,7 @@ export class GridRenderer {
         }
         const color = deviceColorMap[type];
         const src = buildColoredSvgDataUrl(svgRaw, color);
+        // 以更高分辨率加载 SVG，缩放时边缘更平滑。
         textures[type] = await Assets.load<Texture>({
           alias: `device-icon-${type}`,
           src,

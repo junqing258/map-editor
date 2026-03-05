@@ -19,7 +19,34 @@ import {
 
 const MAX_HISTORY = 100;
 const cellIndex = (x: number, y: number, width: number) => y * width + x;
-const cloneProject = (source: MapProject): MapProject => structuredClone(toRaw(source));
+// 统一深拷贝入口：优先 structuredClone，失败时回退到可容错的 JSON 方案。
+const cloneProject = (source: MapProject): MapProject => {
+  const raw = toRaw(source);
+  const seen = new WeakSet<object>();
+  const json = JSON.stringify(raw, (_key, value) => {
+    if (typeof value === "function") {
+      return undefined;
+    }
+    if (typeof value === "object" && value !== null) {
+      if (typeof Window !== "undefined" && value instanceof Window) {
+        return undefined;
+      }
+      if (typeof Element !== "undefined" && value instanceof Element) {
+        return undefined;
+      }
+      if (seen.has(value)) {
+        return undefined;
+      }
+      seen.add(value);
+    }
+    return value;
+  });
+  if (!json) {
+    return createEmptyProject();
+  }
+  return JSON.parse(json) as MapProject;
+};
+
 const ADJACENT_OFF_PLATFORM_TYPES = new Set<DeviceType>(["supply", "unload", "charger"]);
 
 const getDeviceTypeByTool = (tool: ToolType): DeviceType | null => {
@@ -153,6 +180,7 @@ const createEditorStoreCore = () => {
     return path ?? null;
   };
 
+  // 拖拽绘制期间只保留一次快照，避免一个手势产生大量撤销节点。
   const rememberSnapshot = () => {
     if (actionInProgress.value) {
       if (actionHasSnapshot) {
@@ -172,6 +200,7 @@ const createEditorStoreCore = () => {
     revision.value += 1;
   };
 
+  // 用深拷贝触发引用变更，确保依赖浅比较的订阅方能收到更新。
   const forceProjectReplace = () => {
     project.value = cloneProject(project.value);
   };
@@ -266,6 +295,7 @@ const createEditorStoreCore = () => {
     if (value === 1) {
       return applyPlatformAt(x, y);
     }
+    // 队列区/等待区必须附着在已有平台上。
     if (!isCellInside(x, y) || getCell(x, y) === 0) {
       return false;
     }
@@ -290,6 +320,7 @@ const createEditorStoreCore = () => {
       return false;
     }
     markChanged();
+    // 批量写入后强制替换引用，避免外层组件错过数组原位修改。
     forceProjectReplace();
     return true;
   };
@@ -303,6 +334,7 @@ const createEditorStoreCore = () => {
       return -1;
     }
 
+    // 方向切换也属于路径编辑，需要先记录一次快照。
     let snapshotTaken = false;
     if (path.direction !== toolOptions.value.pathDirection) {
       rememberSnapshot();
@@ -486,6 +518,7 @@ const createEditorStoreCore = () => {
       return a.index - b.index;
     });
 
+    // 根据命中数量回退到最具体的单选类型，保证属性面板行为一致。
     const total = deviceIds.length + cells.length + pathPoints.length;
     if (total === 0) {
       selectNone();
@@ -651,6 +684,7 @@ const createEditorStoreCore = () => {
       }
 
       if (pathPoints.length > 0) {
+        // 同一路径按索引倒序删除，避免前删后导致索引偏移。
         const grouped = new Map<string, number[]>();
         pathPoints.forEach((item) => {
           const list = grouped.get(item.pathId) ?? [];
@@ -772,6 +806,7 @@ const createEditorStoreCore = () => {
 
   const runPathCheck = (): PathCheckResult => {
     const issues: string[] = [];
+    // 校验范围：平台可用性、路径连续性、设备摆放规则。
     const nodeCount = project.value.layers.base.reduce<number>(
       (acc, item) => (item > 0 ? acc + 1 : acc),
       0

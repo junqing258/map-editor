@@ -50,6 +50,7 @@ const store = props.store;
 const hostRef = ref<HTMLElement | null>(null);
 
 let renderer: GridRenderer | null = null;
+// 手势状态：同一时刻只允许一种主交互（绘制/平移/框选）。
 let painting = false;
 let panning = false;
 let selecting = false;
@@ -110,6 +111,7 @@ const applyToolAt = (clientX: number, clientY: number) => {
   if (!renderer) {
     return;
   }
+  // 所有工具统一先做坐标换算，再按当前工具分发行为。
   const { x, y } = renderer.screenToCell(clientX, clientY);
 
   if (isPlatformStateTool()) {
@@ -154,6 +156,7 @@ const onPointerDown = (event: PointerEvent) => {
   lastPointer = { x: event.clientX, y: event.clientY };
 
   if (event.button === 1 || event.button === 2) {
+    // 中键/右键始终进入平移，避免和编辑工具冲突。
     panning = true;
     return;
   }
@@ -171,6 +174,7 @@ const onPointerDown = (event: PointerEvent) => {
   }
 
   if (isDeviceTool()) {
+    // 设备工具是单点放置，不走 begin/endAction 批量快照流程。
     applyToolAt(event.clientX, event.clientY);
     return;
   }
@@ -195,6 +199,7 @@ const onPointerMove = (event: PointerEvent) => {
   if (selecting) {
     const deltaX = Math.abs(event.clientX - selectStartPointer.x);
     const deltaY = Math.abs(event.clientY - selectStartPointer.y);
+    // 小范围抖动按点击处理，超过阈值再进入框选。
     if (deltaX > 4 || deltaY > 4) {
       selectionMoved = true;
       selectionBox.visible = true;
@@ -233,6 +238,7 @@ const stopGesture = (event?: PointerEvent) => {
         endPoint.y,
       );
     } else {
+      // 没有拖出框选时回退为普通点选。
       store.selectByCell(endPoint.x, endPoint.y);
     }
   }
@@ -270,6 +276,7 @@ onMounted(async () => {
   renderer.centerView();
   renderer.highlightSelection(store.selectedElement, store.project);
 
+  // move/up 监听挂在 window 上，保证指针移出画布仍能正确收敛手势。
   hostRef.value.addEventListener("pointerdown", onPointerDown);
   hostRef.value.addEventListener("wheel", onWheel, { passive: false });
   window.addEventListener("pointermove", onPointerMove);
