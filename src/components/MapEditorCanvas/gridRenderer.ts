@@ -1,4 +1,7 @@
-import { Application, Color, Container, Graphics, Sprite, Texture } from "pixi.js";
+import { Application, Assets, Color, Container, Graphics, Sprite, Texture } from "pixi.js";
+import batteryChargingSvgRaw from "@/assets/icons/battery-charging.svg?raw";
+import packageMinusSvgRaw from "@/assets/icons/package-minus.svg?raw";
+import packagePlusSvgRaw from "@/assets/icons/package-plus.svg?raw";
 import type {
   MapDevice,
   MapProject,
@@ -20,6 +23,20 @@ const deviceColorMap: Record<MapDevice["type"], string> = {
   waiting: "#0891b2"
 };
 
+const deviceIconSvgMap: Partial<Record<MapDevice["type"], string>> = {
+  supply: packagePlusSvgRaw,
+  unload: packageMinusSvgRaw,
+  charger: batteryChargingSvgRaw
+};
+
+const buildColoredSvgDataUrl = (svgRaw: string, color: string) => {
+  const svg = svgRaw
+    .replace(/stroke="currentColor"/g, `stroke="${color}"`)
+    .replace(/width="24"/g, 'width="96"')
+    .replace(/height="24"/g, 'height="96"');
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+};
+
 export class GridRenderer {
   private readonly app: Application;
   private readonly host: HTMLElement;
@@ -29,7 +46,9 @@ export class GridRenderer {
   private readonly pathGraphics = new Graphics();
   private readonly arrowGraphics = new Graphics();
   private readonly deviceGraphics = new Graphics();
+  private readonly deviceIconContainer = new Container();
   private readonly selectionGraphics = new Graphics();
+  private readonly deviceIconTextures: Partial<Record<MapDevice["type"], Texture>>;
   private readonly chunks = new Map<string, ChunkEntry>();
   private readonly cellPixel = 100;
   private project: MapProject;
@@ -44,15 +63,22 @@ export class GridRenderer {
     offsetY: 40
   };
 
-  private constructor(host: HTMLElement, app: Application, project: MapProject) {
+  private constructor(
+    host: HTMLElement,
+    app: Application,
+    project: MapProject,
+    deviceIconTextures: Partial<Record<MapDevice["type"], Texture>>
+  ) {
     this.host = host;
     this.app = app;
     this.project = project;
+    this.deviceIconTextures = deviceIconTextures;
     this.overlayContainer.addChild(
       this.gridGraphics,
       this.pathGraphics,
       this.arrowGraphics,
       this.deviceGraphics,
+      this.deviceIconContainer,
       this.selectionGraphics
     );
     this.app.stage.addChild(this.baseContainer, this.overlayContainer);
@@ -68,8 +94,9 @@ export class GridRenderer {
       autoDensity: true,
       resolution: window.devicePixelRatio || 1
     });
+    const deviceIconTextures = await GridRenderer.loadDeviceIconTextures();
     host.appendChild(app.canvas);
-    return new GridRenderer(host, app, project);
+    return new GridRenderer(host, app, project, deviceIconTextures);
   }
 
   setProject(project: MapProject) {
@@ -196,33 +223,48 @@ export class GridRenderer {
 
   redrawDevices(devices: MapDevice[]) {
     this.deviceGraphics.clear();
+    const prevDeviceIcons = this.deviceIconContainer.removeChildren();
+    prevDeviceIcons.forEach((icon) => icon.destroy());
     for (const device of devices) {
       const color = deviceColorMap[device.type];
       const centerX = device.x * this.cellPixel + this.cellPixel / 2;
       const centerY = device.y * this.cellPixel + this.cellPixel / 2;
       const size = this.cellPixel * 0.72;
       const half = size / 2;
+      const iconTexture = this.deviceIconTextures[device.type];
+      const activeAlpha = device.config.enabled ? 0.95 : 0.35;
 
-      this.deviceGraphics.setStrokeStyle({
-        width: 2,
-        color: "#1f2937"
-      });
-      if (device.type === "supply") {
-        this.deviceGraphics.poly([
-          centerX,
-          centerY - half,
-          centerX - half,
-          centerY + half,
-          centerX + half,
-          centerY + half
-        ]);
-      } else if (device.type === "unload") {
-        this.deviceGraphics.roundRect(centerX - half, centerY - half, size, size, 4);
-      } else if (device.type === "charger") {
-        this.deviceGraphics.circle(centerX, centerY, half);
+      if (iconTexture) {
+        this.deviceGraphics.roundRect(centerX - half, centerY - half, size, size, 10);
+        this.deviceGraphics.fill({ color: "#ffffff", alpha: device.config.enabled ? 0.9 : 0.45 });
+        this.deviceGraphics.setStrokeStyle({
+          width: 2,
+          color,
+          alpha: activeAlpha
+        });
+        this.deviceGraphics.stroke();
+
+        const icon = new Sprite(iconTexture);
+        icon.anchor.set(0.5);
+        icon.position.set(centerX, centerY);
+        const iconSize = size * 0.62;
+        icon.width = iconSize;
+        icon.height = iconSize;
+        icon.alpha = activeAlpha;
+        this.deviceIconContainer.addChild(icon);
       } else if (device.type === "queue") {
+        this.deviceGraphics.setStrokeStyle({
+          width: 2,
+          color: "#1f2937"
+        });
         this.deviceGraphics.roundRect(centerX - half, centerY - half, size, size * 0.76, 6);
-      } else {
+        this.deviceGraphics.fill({ color, alpha: device.config.enabled ? 0.9 : 0.35 });
+        this.deviceGraphics.stroke();
+      } else if (device.type === "waiting") {
+        this.deviceGraphics.setStrokeStyle({
+          width: 2,
+          color: "#1f2937"
+        });
         this.deviceGraphics.poly([
           centerX,
           centerY - half,
@@ -233,9 +275,9 @@ export class GridRenderer {
           centerX + half,
           centerY
         ]);
+        this.deviceGraphics.fill({ color, alpha: device.config.enabled ? 0.9 : 0.35 });
+        this.deviceGraphics.stroke();
       }
-      this.deviceGraphics.fill({ color, alpha: device.config.enabled ? 0.9 : 0.35 });
-      this.deviceGraphics.stroke();
 
       if (!device.config.enabled) {
         this.deviceGraphics.setStrokeStyle({
@@ -478,5 +520,32 @@ export class GridRenderer {
     const texture = Texture.from(canvas);
     texture.source.scaleMode = "nearest";
     return texture;
+  }
+
+  private static async loadDeviceIconTextures() {
+    const textures: Partial<Record<MapDevice["type"], Texture>> = {};
+    const iconEntries = Object.entries(deviceIconSvgMap) as Array<
+      [MapDevice["type"], string | undefined]
+    >;
+
+    await Promise.all(
+      iconEntries.map(async ([type, svgRaw]) => {
+        if (!svgRaw) {
+          return;
+        }
+        const color = deviceColorMap[type];
+        const src = buildColoredSvgDataUrl(svgRaw, color);
+        textures[type] = await Assets.load<Texture>({
+          alias: `device-icon-${type}`,
+          src,
+          data: {
+            resolution: 4,
+            parseAsGraphicsContext: false
+          }
+        });
+      })
+    );
+
+    return textures;
   }
 }
