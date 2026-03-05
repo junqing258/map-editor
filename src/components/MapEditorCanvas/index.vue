@@ -1,59 +1,16 @@
 <template>
   <div ref="hostRef" class="map-canvas" @contextmenu.prevent>
-    <div
-      v-if="selectionBox.visible"
-      class="map-select-rect"
-      :style="selectionBoxStyle"
-    />
+    <div v-if="selectionBox.visible" class="map-select-rect" :style="selectionBoxStyle" />
   </div>
 </template>
 
 <script setup lang="ts">
-import {
-  computed,
-  onBeforeUnmount,
-  onMounted,
-  reactive,
-  ref,
-  watch,
-} from "vue";
+import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from "vue";
 
-import type {
-  MapProject,
-  SelectedElement,
-  ToolType,
-  ViewFlags,
-} from "@/types/map";
-
+import { useEditorStore } from "./editorStore";
 import { GridRenderer } from "./gridRenderer";
 
-interface MapEditorCanvasStore {
-  activeTool: ToolType;
-  project: MapProject;
-  viewFlags: ViewFlags;
-  selectedElement: SelectedElement;
-  centerSignal: number;
-  beginAction: () => void;
-  endAction: () => void;
-  applyPlatformAt: (x: number, y: number) => boolean;
-  applyPlatformStateByTool: (tool: ToolType, x: number, y: number) => boolean;
-  addPathPoint: (x: number, y: number) => number;
-  erasePathPointAt: (x: number, y: number) => boolean;
-  placeDeviceByTool: (tool: ToolType, x: number, y: number) => boolean;
-  selectByCell: (x: number, y: number) => void;
-  selectElementsInRect: (
-    x1: number,
-    y1: number,
-    x2: number,
-    y2: number,
-  ) => void;
-}
-
-const props = defineProps<{
-  store: MapEditorCanvasStore;
-}>();
-
-const store = props.store;
+const store = useEditorStore();
 const hostRef = ref<HTMLElement | null>(null);
 
 let renderer: GridRenderer | null = null;
@@ -82,14 +39,10 @@ const selectionBoxStyle = computed(() => ({
 }));
 
 const isDeviceTool = () =>
-  store.activeTool === "supply" ||
-  store.activeTool === "unload" ||
-  store.activeTool === "charger";
+  store.activeTool === "supply" || store.activeTool === "unload" || store.activeTool === "charger";
 
 const isPlatformStateTool = () =>
-  store.activeTool === "platform" ||
-  store.activeTool === "queue" ||
-  store.activeTool === "waiting";
+  store.activeTool === "platform" || store.activeTool === "queue" || store.activeTool === "waiting";
 
 const updateSelectionBox = (clientX: number, clientY: number) => {
   if (!hostRef.value) {
@@ -212,12 +165,7 @@ const onPointerMove = (event: PointerEvent) => {
       selectionBox.visible = true;
       updateSelectionBox(event.clientX, event.clientY);
       const current = renderer.screenToCell(event.clientX, event.clientY);
-      store.selectElementsInRect(
-        selectStartCell.x,
-        selectStartCell.y,
-        current.x,
-        current.y,
-      );
+      store.selectElementsInRect(selectStartCell.x, selectStartCell.y, current.x, current.y);
     }
     return;
   }
@@ -238,12 +186,7 @@ const stopGesture = (event?: PointerEvent) => {
       ? renderer.screenToCell(event.clientX, event.clientY)
       : renderer.screenToCell(lastPointer.x, lastPointer.y);
     if (selectionMoved && selectionBox.visible) {
-      store.selectElementsInRect(
-        selectStartCell.x,
-        selectStartCell.y,
-        endPoint.x,
-        endPoint.y,
-      );
+      store.selectElementsInRect(selectStartCell.x, selectStartCell.y, endPoint.x, endPoint.y);
     } else {
       // 没有拖出框选时回退为普通点选。
       store.selectByCell(endPoint.x, endPoint.y);

@@ -464,7 +464,7 @@ import {
   watch,
 } from "vue";
 
-import { createEditorStore } from "@/components/MapEditorCanvas/editorStore";
+import { createEditorStore, useEditorStore } from "@/components/MapEditorCanvas/editorStore";
 import MapEditorCanvas from "@/components/MapEditorCanvas/index.vue";
 import { useMapWorker } from "@/composables/useMapWorker";
 import type {
@@ -489,7 +489,7 @@ interface LibraryItem {
 
 const LIB_KEY = "hyperleap-map-library-v1";
 
-const store = createEditorStore();
+const store = useEditorStore();
 const worker = useMapWorker();
 
 const fileRef = ref<HTMLInputElement | null>(null);
