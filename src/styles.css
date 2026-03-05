@@ -98,6 +98,12 @@ body,
   width: 100%;
 }
 
+.menu-btn.danger {
+  border-color: #f5b7b7;
+  background: #fff5f5;
+  color: #991b1b;
+}
+
 .options-bar {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;

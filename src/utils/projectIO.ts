@@ -1,6 +1,5 @@
 import {
   createEmptyProject,
-  type DeviceType,
   type MapProject,
   type PathDirection,
   type SceneType,
@@ -37,6 +36,13 @@ export const parseProjectJson = (raw: string): MapProject => {
     throw new Error("base 图层长度与网格尺寸不一致");
   }
 
+  const normalizedBase: MapProject["layers"]["base"] = base.map((item) => {
+    if (item === 1 || item === 2 || item === 3) {
+      return item;
+    }
+    return 0;
+  });
+
   const normalizedPaths: MapProject["overlays"]["robotPaths"] =
     data.overlays?.robotPaths?.map((path, index) => ({
       id: path.id || `path-${index + 1}`,
@@ -50,21 +56,29 @@ export const parseProjectJson = (raw: string): MapProject => {
       }))
     })) ?? fallback.overlays.robotPaths;
 
-  const normalizedDevices: MapProject["devices"] =
-    data.devices?.map((device, index) => ({
+  const normalizedDevices: MapProject["devices"] = [];
+  (data.devices ?? []).forEach((device, index) => {
+    const type = String(device.type ?? "");
+    const x = Number(device.x ?? 0);
+    const y = Number(device.y ?? 0);
+
+    if (type === "queue" || type === "waiting") {
+      if (x >= 0 && y >= 0 && x < width && y < height) {
+        normalizedBase[y * width + x] = type === "queue" ? 2 : 3;
+      }
+      return;
+    }
+
+    if (type !== "supply" && type !== "unload" && type !== "charger") {
+      return;
+    }
+
+    normalizedDevices.push({
       id: device.id || `dev-${index + 1}`,
-      type: (
-        device.type === "supply" ||
-        device.type === "unload" ||
-        device.type === "charger" ||
-        device.type === "queue" ||
-        device.type === "waiting"
-          ? device.type
-          : "waiting"
-      ) as DeviceType,
+      type,
       name: device.name || `device-${index + 1}`,
-      x: Number(device.x ?? 0),
-      y: Number(device.y ?? 0),
+      x,
+      y,
       config: {
         enabled: device.config?.enabled ?? true,
         hardwareId: device.config?.hardwareId ?? "",
@@ -80,7 +94,8 @@ export const parseProjectJson = (raw: string): MapProject => {
           device.config?.unloadMode === "multi-sort" ? "multi-sort" : "normal"
         ) as UnloadMode
       }
-    })) ?? [];
+    });
+  });
 
   return {
     version: "2.0.0",
@@ -101,7 +116,7 @@ export const parseProjectJson = (raw: string): MapProject => {
       height
     },
     layers: {
-      base: base.map((item) => (item === 1 ? 1 : 0))
+      base: normalizedBase
     },
     overlays: {
       robotPaths: normalizedPaths

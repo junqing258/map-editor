@@ -46,7 +46,7 @@
     <section class="options-bar">
       <div class="options-main">
         <template v-if="store.activeTool === 'select'">
-          <p class="options-text">选框工具：点击选中单个对象，拖拽可框选多个设备。</p>
+          <p class="options-text">选框工具：点击选中单个对象，拖拽可框选设备、钢平台和路径点。</p>
         </template>
 
         <template v-else-if="store.activeTool === 'platform'">
@@ -114,6 +114,10 @@
               <option value="multi-sort">多维分拣</option>
             </select>
           </label>
+        </template>
+
+        <template v-else-if="store.activeTool === 'queue' || store.activeTool === 'waiting'">
+          <p class="options-text">在钢平台上标记区域状态（排队区/等待区）。</p>
         </template>
 
         <template v-else>
@@ -229,9 +233,8 @@
             供{{ stats?.deviceCounts.supply ?? 0 }}
             卸{{ stats?.deviceCounts.unload ?? 0 }}
             充{{ stats?.deviceCounts.charger ?? 0 }}
-            排{{ stats?.deviceCounts.queue ?? 0 }}
-            等{{ stats?.deviceCounts.waiting ?? 0 }}
           </p>
+          <p class="prop-item">平台状态: 排队区 {{ stats?.queueCellCount ?? 0 }} / 等待区 {{ stats?.waitingCellCount ?? 0 }}</p>
         </section>
 
         <h2>对象属性</h2>
@@ -245,7 +248,7 @@
             <p class="prop-item">
               坐标: ({{ store.selectedElement.x }}, {{ store.selectedElement.y }})
             </p>
-            <p class="prop-item">状态: {{ store.selectedElement.active ? "钢平台" : "空白" }}</p>
+            <p class="prop-item">状态: {{ selectedCellStatus }}</p>
           </template>
 
           <template v-else-if="store.selectedElement.kind === 'path-point'">
@@ -337,6 +340,14 @@
               />
             </label>
             <button class="menu-btn full" @click="applyBatchProps">批量应用</button>
+          </template>
+
+          <template v-else-if="store.selectedElement.kind === 'mixed-batch'">
+            <p class="prop-item">批量选择:</p>
+            <p class="prop-item">设备 {{ store.selectedElement.deviceIds.length }} 个</p>
+            <p class="prop-item">钢平台 {{ store.selectedElement.cells.length }} 个</p>
+            <p class="prop-item">路径点 {{ store.selectedElement.pathPoints.length }} 个</p>
+            <button class="menu-btn full danger" @click="store.deleteSelectedElement()">删除所选元素</button>
           </template>
         </section>
 
@@ -508,6 +519,23 @@ const checkStatus = computed(() => {
     return "通过";
   }
   return checkResult.value.issues[0] ?? "失败";
+});
+
+const selectedCellStatus = computed(() => {
+  if (store.selectedElement.kind !== "cell") {
+    return "-";
+  }
+  const value = store.getCell(store.selectedElement.x, store.selectedElement.y);
+  if (value === 1) {
+    return "钢平台";
+  }
+  if (value === 2) {
+    return "排队区";
+  }
+  if (value === 3) {
+    return "等待区";
+  }
+  return "空白";
 });
 
 const filteredLibrary = computed(() =>

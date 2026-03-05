@@ -18,9 +18,7 @@ interface ChunkEntry {
 const deviceColorMap: Record<MapDevice["type"], string> = {
   supply: "#16a34a",
   unload: "#d97706",
-  charger: "#2563eb",
-  queue: "#a21caf",
-  waiting: "#0891b2"
+  charger: "#2563eb"
 };
 
 const deviceIconSvgMap: Partial<Record<MapDevice["type"], string>> = {
@@ -252,31 +250,6 @@ export class GridRenderer {
         icon.height = iconSize;
         icon.alpha = activeAlpha;
         this.deviceIconContainer.addChild(icon);
-      } else if (device.type === "queue") {
-        this.deviceGraphics.setStrokeStyle({
-          width: 2,
-          color: "#1f2937"
-        });
-        this.deviceGraphics.roundRect(centerX - half, centerY - half, size, size * 0.76, 6);
-        this.deviceGraphics.fill({ color, alpha: device.config.enabled ? 0.9 : 0.35 });
-        this.deviceGraphics.stroke();
-      } else if (device.type === "waiting") {
-        this.deviceGraphics.setStrokeStyle({
-          width: 2,
-          color: "#1f2937"
-        });
-        this.deviceGraphics.poly([
-          centerX,
-          centerY - half,
-          centerX - half,
-          centerY,
-          centerX,
-          centerY + half,
-          centerX + half,
-          centerY
-        ]);
-        this.deviceGraphics.fill({ color, alpha: device.config.enabled ? 0.9 : 0.35 });
-        this.deviceGraphics.stroke();
       }
 
       if (!device.config.enabled) {
@@ -313,9 +286,23 @@ export class GridRenderer {
       }
       return;
     }
+    if (selection.kind === "device-batch") {
+      const devices = project.devices.filter((item) => selection.deviceIds.includes(item.id));
+      devices.forEach((device) => {
+        this.highlightDevice(device);
+      });
+      return;
+    }
+
     const devices = project.devices.filter((item) => selection.deviceIds.includes(item.id));
     devices.forEach((device) => {
       this.highlightDevice(device);
+    });
+    selection.cells.forEach((cell) => {
+      this.highlightCell(cell.x, cell.y);
+    });
+    selection.pathPoints.forEach((point) => {
+      this.highlightPathPoint(point.x, point.y);
     });
   }
 
@@ -395,14 +382,7 @@ export class GridRenderer {
   }
 
   private highlightDevice(device: MapDevice) {
-    this.selectionGraphics.rect(
-      device.x * this.cellPixel + this.cellPixel * 0.1,
-      device.y * this.cellPixel + this.cellPixel * 0.1,
-      this.cellPixel * 0.8,
-      this.cellPixel * 0.8
-    );
-    this.selectionGraphics.setStrokeStyle({ width: 2, color: "#ef4444" });
-    this.selectionGraphics.stroke();
+    this.highlightCell(device.x, device.y);
   }
 
   private applyView() {
@@ -480,8 +460,16 @@ export class GridRenderer {
     }
 
     const baseColor = "#f8fbff";
-    const nodeColor = "#dbeafe";
-    const nodeBorder = "#93c5fd";
+    const nodeColorMap: Record<number, string> = {
+      1: "#dbeafe",
+      2: "#e9d5ff",
+      3: "#bae6fd"
+    };
+    const nodeBorderMap: Record<number, string> = {
+      1: "#93c5fd",
+      2: "#c084fc",
+      3: "#38bdf8"
+    };
     const mapWidth = this.project.grid.width;
     const { base } = this.project.layers;
 
@@ -494,17 +482,17 @@ export class GridRenderer {
           const mapX = startX + x;
           const mapY = startY + y;
           const value = base[mapY * mapWidth + mapX];
-          if (value !== 1) {
+          if (value === 0) {
             continue;
           }
-          ctx.fillStyle = nodeColor;
+          ctx.fillStyle = nodeColorMap[value] ?? nodeColorMap[1];
           ctx.fillRect(
             x * this.cellPixel + 1,
             y * this.cellPixel + 1,
             this.cellPixel - 2,
             this.cellPixel - 2
           );
-          ctx.strokeStyle = nodeBorder;
+          ctx.strokeStyle = nodeBorderMap[value] ?? nodeBorderMap[1];
           ctx.lineWidth = 1;
           ctx.strokeRect(
             x * this.cellPixel + 1.5,

@@ -1,4 +1,5 @@
-export type CellValue = 0 | 1;
+export type CellValue = 0 | 1 | 2 | 3;
+export type PlatformCellValue = 1 | 2 | 3;
 
 export type SceneType = "production" | "simulation";
 export type ToolType =
@@ -13,7 +14,7 @@ export type ToolType =
   | "waiting";
 
 export type PathDirection = "oneway" | "bidirectional";
-export type DeviceType = "supply" | "unload" | "charger" | "queue" | "waiting";
+export type DeviceType = "supply" | "unload" | "charger";
 export type SupplyMode = "auto" | "manual" | "elevator";
 export type UnloadMode = "normal" | "multi-sort";
 
@@ -25,6 +26,18 @@ export interface GridConfig {
 }
 
 export interface PathPoint {
+  x: number;
+  y: number;
+}
+
+export interface CellCoord {
+  x: number;
+  y: number;
+}
+
+export interface SelectedPathPointRef {
+  pathId: string;
+  index: number;
   x: number;
   y: number;
 }
@@ -105,7 +118,13 @@ export type SelectedElement =
       direction: PathDirection;
     }
   | { kind: "device"; deviceId: string }
-  | { kind: "device-batch"; deviceIds: string[] };
+  | { kind: "device-batch"; deviceIds: string[] }
+  | {
+      kind: "mixed-batch";
+      deviceIds: string[];
+      cells: CellCoord[];
+      pathPoints: SelectedPathPointRef[];
+    };
 
 export type ExportFormat = "ros" | "custom";
 
@@ -120,6 +139,8 @@ export interface MapOverviewStats {
   height: number;
   nodeCount: number;
   freeCount: number;
+  queueCellCount: number;
+  waitingCellCount: number;
   siteAreaSqm: number;
   pathCount: number;
   pathPointCount: number;
@@ -137,9 +158,7 @@ export const DEFAULT_MAP_HEIGHT = 64;
 const createDeviceCounts = (): Record<DeviceType, number> => ({
   supply: 0,
   unload: 0,
-  charger: 0,
-  queue: 0,
-  waiting: 0
+  charger: 0
 });
 
 export const emptyDeviceCounts = createDeviceCounts;

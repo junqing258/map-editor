@@ -34,11 +34,12 @@ interface MapEditorCanvasStore {
   beginAction: () => void;
   endAction: () => void;
   applyPlatformAt: (x: number, y: number) => boolean;
+  applyPlatformStateByTool: (tool: ToolType, x: number, y: number) => boolean;
   addPathPoint: (x: number, y: number) => number;
   erasePathPointAt: (x: number, y: number) => boolean;
   placeDeviceByTool: (tool: ToolType, x: number, y: number) => boolean;
   selectByCell: (x: number, y: number) => void;
-  selectDevicesInRect: (x1: number, y1: number, x2: number, y2: number) => void;
+  selectElementsInRect: (x1: number, y1: number, x2: number, y2: number) => void;
 }
 
 const props = defineProps<{
@@ -75,7 +76,10 @@ const selectionBoxStyle = computed(() => ({
 const isDeviceTool = () =>
   store.activeTool === "supply" ||
   store.activeTool === "unload" ||
-  store.activeTool === "charger" ||
+  store.activeTool === "charger";
+
+const isPlatformStateTool = () =>
+  store.activeTool === "platform" ||
   store.activeTool === "queue" ||
   store.activeTool === "waiting";
 
@@ -108,8 +112,8 @@ const applyToolAt = (clientX: number, clientY: number) => {
   }
   const { x, y } = renderer.screenToCell(clientX, clientY);
 
-  if (store.activeTool === "platform") {
-    const changed = store.applyPlatformAt(x, y);
+  if (isPlatformStateTool()) {
+    const changed = store.applyPlatformStateByTool(store.activeTool, x, y);
     if (changed) {
       renderer.updateChunkByCell(x, y);
     }
@@ -195,6 +199,13 @@ const onPointerMove = (event: PointerEvent) => {
       selectionMoved = true;
       selectionBox.visible = true;
       updateSelectionBox(event.clientX, event.clientY);
+      const current = renderer.screenToCell(event.clientX, event.clientY);
+      store.selectElementsInRect(
+        selectStartCell.x,
+        selectStartCell.y,
+        current.x,
+        current.y
+      );
     }
     return;
   }
@@ -215,7 +226,7 @@ const stopGesture = (event?: PointerEvent) => {
       ? renderer.screenToCell(event.clientX, event.clientY)
       : renderer.screenToCell(lastPointer.x, lastPointer.y);
     if (selectionMoved && selectionBox.visible) {
-      store.selectDevicesInRect(
+      store.selectElementsInRect(
         selectStartCell.x,
         selectStartCell.y,
         endPoint.x,
