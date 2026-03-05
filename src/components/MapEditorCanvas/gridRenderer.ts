@@ -1,4 +1,12 @@
-import { Application, Assets, Color, Container, Graphics, Sprite, Texture } from "pixi.js";
+import {
+  Application,
+  Assets,
+  Color,
+  Container,
+  Graphics,
+  Sprite,
+  Texture,
+} from "pixi.js";
 import batteryChargingSvgRaw from "@/assets/icons/battery-charging.svg?raw";
 import packageMinusSvgRaw from "@/assets/icons/package-minus.svg?raw";
 import packagePlusSvgRaw from "@/assets/icons/package-plus.svg?raw";
@@ -7,7 +15,7 @@ import type {
   MapProject,
   RobotPath,
   SelectedElement,
-  ViewFlags
+  ViewFlags,
 } from "@/types/map";
 
 interface ChunkEntry {
@@ -15,18 +23,20 @@ interface ChunkEntry {
   texture: Texture;
 }
 
+// 设备主色：用于边框、图标着色和状态一致性展示。
 const deviceColorMap: Record<MapDevice["type"], string> = {
   supply: "#16a34a",
   unload: "#d97706",
-  charger: "#2563eb"
+  charger: "#2563eb",
 };
 
 const deviceIconSvgMap: Partial<Record<MapDevice["type"], string>> = {
   supply: packagePlusSvgRaw,
   unload: packageMinusSvgRaw,
-  charger: batteryChargingSvgRaw
+  charger: batteryChargingSvgRaw,
 };
 
+// 将原始 SVG 按设备类型着色并放大，避免缩放后图标过糊。
 const buildColoredSvgDataUrl = (svgRaw: string, color: string) => {
   const svg = svgRaw
     .replace(/stroke="currentColor"/g, `stroke="${color}"`)
@@ -47,7 +57,9 @@ export class GridRenderer {
   private readonly deviceGraphics = new Graphics();
   private readonly deviceIconContainer = new Container();
   private readonly selectionGraphics = new Graphics();
-  private readonly deviceIconTextures: Partial<Record<MapDevice["type"], Texture>>;
+  private readonly deviceIconTextures: Partial<
+    Record<MapDevice["type"], Texture>
+  >;
   // 分块缓存，按 `chunkX:chunkY` 管理纹理生命周期，避免全图重绘。
   private readonly chunks = new Map<string, ChunkEntry>();
   private readonly cellPixel = 100;
@@ -55,19 +67,19 @@ export class GridRenderer {
   private flags: ViewFlags = {
     showGrid: true,
     showPath: true,
-    showNavBlock: true
+    showNavBlock: true,
   };
   private view = {
     zoom: 1,
     offsetX: 40,
-    offsetY: 40
+    offsetY: 40,
   };
 
   private constructor(
     host: HTMLElement,
     app: Application,
     project: MapProject,
-    deviceIconTextures: Partial<Record<MapDevice["type"], Texture>>
+    deviceIconTextures: Partial<Record<MapDevice["type"], Texture>>,
   ) {
     this.host = host;
     this.app = app;
@@ -79,20 +91,21 @@ export class GridRenderer {
       this.arrowGraphics,
       this.deviceGraphics,
       this.deviceIconContainer,
-      this.selectionGraphics
+      this.selectionGraphics,
     );
     this.app.stage.addChild(this.baseContainer, this.overlayContainer);
     this.applyView();
   }
 
   static async create(host: HTMLElement, project: MapProject) {
+    // Pixi Application 采用容器尺寸自适应，画布生命周期由 Renderer 托管。
     const app = new Application();
     await app.init({
       antialias: true,
       background: new Color("#f4f8ff"),
       resizeTo: host,
       autoDensity: true,
-      resolution: window.devicePixelRatio || 1
+      resolution: window.devicePixelRatio || 1,
     });
     const deviceIconTextures = await GridRenderer.loadDeviceIconTextures();
     host.appendChild(app.canvas);
@@ -100,6 +113,7 @@ export class GridRenderer {
   }
 
   setProject(project: MapProject) {
+    // 数据对象整体替换后，重建分块并刷新所有动态图层。
     this.project = project;
     this.rebuildAllChunks();
     this.redrawGrid();
@@ -108,6 +122,7 @@ export class GridRenderer {
   }
 
   setViewFlags(flags: ViewFlags) {
+    // 可见性切换会影响静态块和动态图层，统一全量刷新。
     this.flags = { ...flags };
     this.rebuildAllChunks();
     this.redrawGrid();
@@ -116,6 +131,7 @@ export class GridRenderer {
   }
 
   destroy() {
+    // 先释放本地分块纹理，再销毁 Pixi 树，避免残留 GPU 资源。
     for (const { texture } of this.chunks.values()) {
       texture.destroy(true);
     }
@@ -132,8 +148,12 @@ export class GridRenderer {
     }
     const zoom = Math.max(
       0.35,
-      Math.min(2.8, Math.min((rect.width - 80) / mapWidth, (rect.height - 80) / mapHeight))
+      Math.min(
+        2.8,
+        Math.min((rect.width - 80) / mapWidth, (rect.height - 80) / mapHeight),
+      ),
     );
+    // 预留边距后做适配缩放，避免贴边显示。
     this.view.zoom = zoom;
     this.view.offsetX = (rect.width - mapWidth * zoom) / 2;
     this.view.offsetY = (rect.height - mapHeight * zoom) / 2;
@@ -141,6 +161,7 @@ export class GridRenderer {
   }
 
   rebuildAllChunks() {
+    // 网格底图按 chunk 重建：单块纹理更小，编辑时可局部更新。
     for (const { sprite, texture } of this.chunks.values()) {
       this.baseContainer.removeChild(sprite);
       sprite.destroy();
@@ -178,21 +199,22 @@ export class GridRenderer {
       if (path.points.length < 1) {
         continue;
       }
+      // 路径线宽随单元尺寸比例变化，保证不同缩放/分辨率下可读性。
       this.pathGraphics.setStrokeStyle({
         width: Math.max(2, this.cellPixel * 0.15),
-        color: path.color
+        color: path.color,
       });
 
       const start = path.points[0];
       this.pathGraphics.moveTo(
         start.x * this.cellPixel + this.cellPixel / 2,
-        start.y * this.cellPixel + this.cellPixel / 2
+        start.y * this.cellPixel + this.cellPixel / 2,
       );
       for (let i = 1; i < path.points.length; i += 1) {
         const point = path.points[i];
         this.pathGraphics.lineTo(
           point.x * this.cellPixel + this.cellPixel / 2,
-          point.y * this.cellPixel + this.cellPixel / 2
+          point.y * this.cellPixel + this.cellPixel / 2,
         );
       }
       this.pathGraphics.stroke();
@@ -201,12 +223,13 @@ export class GridRenderer {
         this.pathGraphics.circle(
           point.x * this.cellPixel + this.cellPixel / 2,
           point.y * this.cellPixel + this.cellPixel / 2,
-          Math.max(2, this.cellPixel * 0.2)
+          Math.max(2, this.cellPixel * 0.2),
         );
       }
       this.pathGraphics.fill({ color: path.color, alpha: 0.95 });
 
       if (path.direction === "oneway") {
+        // 单向路径在每个线段中点绘制箭头，避免与端点圆形重叠。
         for (let i = 1; i < path.points.length; i += 1) {
           const from = path.points[i - 1];
           const to = path.points[i];
@@ -215,7 +238,7 @@ export class GridRenderer {
             from.y * this.cellPixel + this.cellPixel / 2,
             to.x * this.cellPixel + this.cellPixel / 2,
             to.y * this.cellPixel + this.cellPixel / 2,
-            path.color
+            path.color,
           );
         }
       }
@@ -224,6 +247,7 @@ export class GridRenderer {
 
   redrawDevices(devices: MapDevice[]) {
     this.deviceGraphics.clear();
+    // 图标是 Sprite，需要在重绘前主动销毁旧实例。
     const prevDeviceIcons = this.deviceIconContainer.removeChildren();
     prevDeviceIcons.forEach((icon) => icon.destroy());
     for (const device of devices) {
@@ -236,12 +260,21 @@ export class GridRenderer {
       const activeAlpha = device.config.enabled ? 0.95 : 0.35;
 
       if (iconTexture) {
-        this.deviceGraphics.roundRect(centerX - half, centerY - half, size, size, 10);
-        this.deviceGraphics.fill({ color: "#ffffff", alpha: device.config.enabled ? 0.9 : 0.45 });
+        this.deviceGraphics.roundRect(
+          centerX - half,
+          centerY - half,
+          size,
+          size,
+          10,
+        );
+        this.deviceGraphics.fill({
+          color: "#ffffff",
+          alpha: device.config.enabled ? 0.9 : 0.45,
+        });
         this.deviceGraphics.setStrokeStyle({
           width: 2,
           color,
-          alpha: activeAlpha
+          alpha: activeAlpha,
         });
         this.deviceGraphics.stroke();
 
@@ -256,9 +289,10 @@ export class GridRenderer {
       }
 
       if (!device.config.enabled) {
+        // 禁用态叠加红色叉号，保持底色与图标仍可识别设备类型。
         this.deviceGraphics.setStrokeStyle({
           width: 2,
-          color: "#dc2626"
+          color: "#dc2626",
         });
         this.deviceGraphics.moveTo(centerX - half + 1, centerY - half + 1);
         this.deviceGraphics.lineTo(centerX + half - 1, centerY + half - 1);
@@ -283,21 +317,28 @@ export class GridRenderer {
       return;
     }
     if (selection.kind === "device") {
-      const device = project.devices.find((item) => item.id === selection.deviceId);
+      const device = project.devices.find(
+        (item) => item.id === selection.deviceId,
+      );
       if (device) {
         this.highlightDevice(device);
       }
       return;
     }
     if (selection.kind === "device-batch") {
-      const devices = project.devices.filter((item) => selection.deviceIds.includes(item.id));
+      const devices = project.devices.filter((item) =>
+        selection.deviceIds.includes(item.id),
+      );
       devices.forEach((device) => {
         this.highlightDevice(device);
       });
       return;
     }
 
-    const devices = project.devices.filter((item) => selection.deviceIds.includes(item.id));
+    // mixed-batch：设备、平台格、路径点同时高亮。
+    const devices = project.devices.filter((item) =>
+      selection.deviceIds.includes(item.id),
+    );
     devices.forEach((device) => {
       this.highlightDevice(device);
     });
@@ -312,6 +353,7 @@ export class GridRenderer {
   panBy(dx: number, dy: number) {
     this.view.offsetX += dx;
     this.view.offsetY += dy;
+    // 视图平移只影响容器变换，不触发底图重建。
     this.applyView();
   }
 
@@ -339,11 +381,17 @@ export class GridRenderer {
     const worldY = (y - this.view.offsetY) / this.view.zoom;
     return {
       x: Math.floor(worldX / this.cellPixel),
-      y: Math.floor(worldY / this.cellPixel)
+      y: Math.floor(worldY / this.cellPixel),
     };
   }
 
-  private drawArrow(fromX: number, fromY: number, toX: number, toY: number, color: string) {
+  private drawArrow(
+    fromX: number,
+    fromY: number,
+    toX: number,
+    toY: number,
+    color: string,
+  ) {
     const dx = toX - fromX;
     const dy = toY - fromY;
     const length = Math.hypot(dx, dy);
@@ -352,6 +400,7 @@ export class GridRenderer {
     }
     const angle = Math.atan2(dy, dx);
     const head = Math.max(4, this.cellPixel * 0.24);
+    // 箭头绘制在中点，避免覆盖路径端点圆。
     const centerX = (fromX + toX) / 2;
     const centerY = (fromY + toY) / 2;
 
@@ -369,7 +418,7 @@ export class GridRenderer {
       x * this.cellPixel,
       y * this.cellPixel,
       this.cellPixel,
-      this.cellPixel
+      this.cellPixel,
     );
     this.selectionGraphics.fill({ color: "#fbbf24", alpha: 0.26 });
     this.selectionGraphics.setStrokeStyle({ width: 2, color: "#f59e0b" });
@@ -380,7 +429,7 @@ export class GridRenderer {
     this.selectionGraphics.circle(
       x * this.cellPixel + this.cellPixel / 2,
       y * this.cellPixel + this.cellPixel / 2,
-      Math.max(5, this.cellPixel * 0.45)
+      Math.max(5, this.cellPixel * 0.45),
     );
     this.selectionGraphics.setStrokeStyle({ width: 2, color: "#ef4444" });
     this.selectionGraphics.stroke();
@@ -391,6 +440,7 @@ export class GridRenderer {
   }
 
   private applyView() {
+    // 底图层与覆盖层共用同一套平移/缩放，确保像素对齐。
     this.baseContainer.position.set(this.view.offsetX, this.view.offsetY);
     this.overlayContainer.position.set(this.view.offsetX, this.view.offsetY);
     this.baseContainer.scale.set(this.view.zoom);
@@ -412,7 +462,7 @@ export class GridRenderer {
 
     this.gridGraphics.setStrokeStyle({
       width: lineWidth,
-      color: "#d6deeb"
+      color: "#d6deeb",
     });
 
     for (let x = 0; x <= width; x += 1) {
@@ -457,6 +507,7 @@ export class GridRenderer {
     const startY = chunkY * chunkSize;
     const cellsX = Math.min(chunkSize, width - startX);
     const cellsY = Math.min(chunkSize, height - startY);
+    // 每个 chunk 离屏绘制成纹理，再作为 Sprite 放入 baseContainer。
 
     const canvas = document.createElement("canvas");
     canvas.width = Math.max(1, cellsX * this.cellPixel);
@@ -470,12 +521,12 @@ export class GridRenderer {
     const nodeColorMap: Record<number, string> = {
       1: "#dbeafe",
       2: "#e9d5ff",
-      3: "#bae6fd"
+      3: "#bae6fd",
     };
     const nodeBorderMap: Record<number, string> = {
       1: "#93c5fd",
       2: "#c084fc",
-      3: "#38bdf8"
+      3: "#38bdf8",
     };
     const mapWidth = this.project.grid.width;
     const { base } = this.project.layers;
@@ -498,7 +549,7 @@ export class GridRenderer {
             x * this.cellPixel + 1,
             y * this.cellPixel + 1,
             this.cellPixel - 2,
-            this.cellPixel - 2
+            this.cellPixel - 2,
           );
           ctx.strokeStyle = nodeBorderMap[value] ?? nodeBorderMap[1];
           ctx.lineWidth = 1;
@@ -506,12 +557,11 @@ export class GridRenderer {
             x * this.cellPixel + 1.5,
             y * this.cellPixel + 1.5,
             this.cellPixel - 3,
-            this.cellPixel - 3
+            this.cellPixel - 3,
           );
         }
       }
     }
-
 
     const texture = Texture.from(canvas);
     // 平台块纹理不需要线性采样，避免缩放后颜色发糊。
@@ -538,10 +588,10 @@ export class GridRenderer {
           src,
           data: {
             resolution: 4,
-            parseAsGraphicsContext: false
-          }
+            parseAsGraphicsContext: false,
+          },
         });
-      })
+      }),
     );
 
     return textures;

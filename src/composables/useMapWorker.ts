@@ -3,7 +3,7 @@ import type {
   ExportFormat,
   ExportPayload,
   MapOverviewStats,
-  MapProject
+  MapProject,
 } from "@/types/map";
 
 type PendingResolver = {
@@ -12,9 +12,12 @@ type PendingResolver = {
 };
 
 export const useMapWorker = () => {
-  const worker = new Worker(new URL("../workers/map.worker.ts", import.meta.url), {
-    type: "module"
-  });
+  const worker = new Worker(
+    new URL("../workers/map.worker.ts", import.meta.url),
+    {
+      type: "module",
+    },
+  );
   const pending = new Map<number, PendingResolver>();
   let requestId = 1;
 
@@ -39,7 +42,7 @@ export const useMapWorker = () => {
 
   const call = <T extends MapOverviewStats | ExportPayload>(
     type: "stats" | "export",
-    payload: { project: MapProject; format?: ExportFormat }
+    payload: { project: MapProject; format?: ExportFormat },
   ) => {
     const currentId = requestId;
     requestId += 1;
@@ -52,13 +55,13 @@ export const useMapWorker = () => {
     return new Promise<T>((resolve, reject) => {
       pending.set(currentId, {
         resolve: resolve as (value: MapOverviewStats | ExportPayload) => void,
-        reject
+        reject,
       });
       try {
         worker.postMessage({
           requestId: currentId,
           type,
-          payload: safePayload
+          payload: safePayload,
         });
       } catch (error) {
         pending.delete(currentId);
@@ -69,13 +72,13 @@ export const useMapWorker = () => {
 
   const calcStats = (project: MapProject) =>
     call<MapOverviewStats>("stats", {
-      project
+      project,
     });
 
   const exportForRobot = (project: MapProject, format: ExportFormat) =>
     call<ExportPayload>("export", {
       project,
-      format
+      format,
     });
 
   const terminate = () => {
@@ -86,6 +89,6 @@ export const useMapWorker = () => {
   return {
     calcStats,
     exportForRobot,
-    terminate
+    terminate,
   };
 };

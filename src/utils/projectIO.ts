@@ -4,7 +4,7 @@ import {
   type PathDirection,
   type SceneType,
   type SupplyMode,
-  type UnloadMode
+  type UnloadMode,
 } from "@/types/map";
 
 const normalizeScene = (value: unknown): SceneType =>
@@ -20,7 +20,12 @@ export const parseProjectJson = (raw: string): MapProject => {
 
   const width = Number(data.grid?.width ?? 0);
   const height = Number(data.grid?.height ?? 0);
-  if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) {
+  if (
+    !Number.isFinite(width) ||
+    !Number.isFinite(height) ||
+    width <= 0 ||
+    height <= 0
+  ) {
     throw new Error("网格参数缺失或非法");
   }
 
@@ -48,12 +53,13 @@ export const parseProjectJson = (raw: string): MapProject => {
       id: path.id || `path-${index + 1}`,
       name: path.name || `Path-${index + 1}`,
       color: path.color || "#0ea5e9",
-      direction:
-        (path.direction === "bidirectional" ? "bidirectional" : "oneway") as PathDirection,
+      direction: (path.direction === "bidirectional"
+        ? "bidirectional"
+        : "oneway") as PathDirection,
       points: (path.points ?? []).map((point) => ({
         x: Number(point.x ?? 0),
-        y: Number(point.y ?? 0)
-      }))
+        y: Number(point.y ?? 0),
+      })),
     })) ?? fallback.overlays.robotPaths;
 
   const normalizedDevices: MapProject["devices"] = [];
@@ -85,15 +91,14 @@ export const parseProjectJson = (raw: string): MapProject => {
         speedLimit: Number(device.config?.speedLimit ?? 1.2),
         maxQueue: Number(device.config?.maxQueue ?? 4),
         directionDeg: Number(device.config?.directionDeg ?? 0),
-        supplyMode: (
-          device.config?.supplyMode === "manual" || device.config?.supplyMode === "elevator"
-            ? device.config.supplyMode
-            : "auto"
-        ) as SupplyMode,
-        unloadMode: (
-          device.config?.unloadMode === "multi-sort" ? "multi-sort" : "normal"
-        ) as UnloadMode
-      }
+        supplyMode: (device.config?.supplyMode === "manual" ||
+        device.config?.supplyMode === "elevator"
+          ? device.config.supplyMode
+          : "auto") as SupplyMode,
+        unloadMode: (device.config?.unloadMode === "multi-sort"
+          ? "multi-sort"
+          : "normal") as UnloadMode,
+      },
     });
   });
 
@@ -107,20 +112,20 @@ export const parseProjectJson = (raw: string): MapProject => {
       tags: Array.isArray(data.meta?.tags)
         ? data.meta.tags.filter((item) => typeof item === "string")
         : [],
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     },
     grid: {
       ...fallback.grid,
       ...data.grid,
       width,
-      height
+      height,
     },
     layers: {
-      base: normalizedBase
+      base: normalizedBase,
     },
     overlays: {
-      robotPaths: normalizedPaths
+      robotPaths: normalizedPaths,
     },
-    devices: normalizedDevices
+    devices: normalizedDevices,
   };
 };

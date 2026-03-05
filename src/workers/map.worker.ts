@@ -2,7 +2,7 @@ import type {
   ExportFormat,
   ExportPayload,
   MapOverviewStats,
-  MapProject
+  MapProject,
 } from "@/types/map";
 
 interface WorkerRequest {
@@ -26,21 +26,21 @@ const calcStats = (project: MapProject): MapOverviewStats => {
   const height = project.grid.height;
   const nodeCount = project.layers.base.reduce<number>(
     (acc, cell) => (cell > 0 ? acc + 1 : acc),
-    0
+    0,
   );
   const queueCellCount = project.layers.base.reduce<number>(
     (acc, cell) => (cell === 2 ? acc + 1 : acc),
-    0
+    0,
   );
   const waitingCellCount = project.layers.base.reduce<number>(
     (acc, cell) => (cell === 3 ? acc + 1 : acc),
-    0
+    0,
   );
   const freeCount = width * height - nodeCount;
   const deviceCounts: MapOverviewStats["deviceCounts"] = {
     supply: 0,
     unload: 0,
-    charger: 0
+    charger: 0,
   };
   project.devices.forEach((device) => {
     deviceCounts[device.type] += 1;
@@ -48,7 +48,7 @@ const calcStats = (project: MapProject): MapOverviewStats => {
   const pathCount = project.overlays.robotPaths.length;
   const pathPointCount = project.overlays.robotPaths.reduce(
     (acc, path) => acc + path.points.length,
-    0
+    0,
   );
   return {
     width,
@@ -57,10 +57,11 @@ const calcStats = (project: MapProject): MapOverviewStats => {
     freeCount,
     queueCellCount,
     waitingCellCount,
-    siteAreaSqm: width * project.grid.cellSizeMeter * height * project.grid.cellSizeMeter,
+    siteAreaSqm:
+      width * project.grid.cellSizeMeter * height * project.grid.cellSizeMeter,
     pathCount,
     pathPointCount,
-    deviceCounts
+    deviceCounts,
   };
 };
 
@@ -73,12 +74,12 @@ const exportRosLike = (project: MapProject): ExportPayload => {
     width: project.grid.width,
     height: project.grid.height,
     origin: [0, 0, 0],
-    data: occupancy
+    data: occupancy,
   };
   return {
     filename: `${project.meta.name}-ros-like.json`,
     mimeType: "application/json",
-    content: JSON.stringify(payload, null, 2)
+    content: JSON.stringify(payload, null, 2),
   };
 };
 
@@ -93,15 +94,15 @@ const exportCustom = (project: MapProject): ExportPayload => {
       width: project.grid.width,
       height: project.grid.height,
       chunkSize: project.grid.chunkSize,
-      nodes: project.layers.base
+      nodes: project.layers.base,
     },
     paths: project.overlays.robotPaths,
-    devices: project.devices
+    devices: project.devices,
   };
   return {
     filename: `${project.meta.name}-map-v2.json`,
     mimeType: "application/json",
-    content: JSON.stringify(payload, null, 2)
+    content: JSON.stringify(payload, null, 2),
   };
 };
 
@@ -118,7 +119,7 @@ workerSelf.onmessage = (event: MessageEvent<WorkerRequest>) => {
       post({
         requestId: req.requestId,
         ok: true,
-        result: calcStats(req.payload.project)
+        result: calcStats(req.payload.project),
       });
       return;
     }
@@ -131,20 +132,20 @@ workerSelf.onmessage = (event: MessageEvent<WorkerRequest>) => {
       post({
         requestId: req.requestId,
         ok: true,
-        result
+        result,
       });
       return;
     }
     post({
       requestId: req.requestId,
       ok: false,
-      error: `Unsupported worker request type: ${req.type}`
+      error: `Unsupported worker request type: ${req.type}`,
     });
   } catch (error) {
     post({
       requestId: req.requestId,
       ok: false,
-      error: error instanceof Error ? error.message : "Unknown worker error"
+      error: error instanceof Error ? error.message : "Unknown worker error",
     });
   }
 };

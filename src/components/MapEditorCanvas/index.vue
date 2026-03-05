@@ -39,7 +39,12 @@ interface MapEditorCanvasStore {
   erasePathPointAt: (x: number, y: number) => boolean;
   placeDeviceByTool: (tool: ToolType, x: number, y: number) => boolean;
   selectByCell: (x: number, y: number) => void;
-  selectElementsInRect: (x1: number, y1: number, x2: number, y2: number) => void;
+  selectElementsInRect: (
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number,
+  ) => void;
 }
 
 const props = defineProps<{
@@ -209,7 +214,7 @@ const onPointerMove = (event: PointerEvent) => {
         selectStartCell.x,
         selectStartCell.y,
         current.x,
-        current.y
+        current.y,
       );
     }
     return;

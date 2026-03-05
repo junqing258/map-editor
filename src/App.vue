@@ -446,15 +446,35 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, reactive, ref, toRaw, watch } from "vue";
-import { BatteryCharging, Eraser, PackageMinus, PackagePlus, Route, Square } from "lucide-vue-next";
+import {
+  BatteryCharging,
+  Eraser,
+  PackageMinus,
+  PackagePlus,
+  Route,
+  Square,
+} from "lucide-vue-next";
+import {
+  computed,
+  onBeforeUnmount,
+  onMounted,
+  reactive,
+  ref,
+  toRaw,
+  watch,
+} from "vue";
+import { createEditorStore } from "@/components/MapEditorCanvas/editorStore";
 import MapEditorCanvas from "@/components/MapEditorCanvas/index.vue";
-import { createEditorStore } from "@/stores/editor";
 import { useMapWorker } from "@/composables/useMapWorker";
+import type {
+  MapOverviewStats,
+  MapProject,
+  PathCheckResult,
+  SceneType,
+} from "@/types/map";
+import { DEFAULT_MAP_HEIGHT, DEFAULT_MAP_WIDTH } from "@/types/map";
 import { downloadTextFile } from "@/utils/download";
 import { parseProjectJson } from "@/utils/projectIO";
-import { DEFAULT_MAP_HEIGHT, DEFAULT_MAP_WIDTH } from "@/types/map";
-import type { MapOverviewStats, MapProject, PathCheckResult, SceneType } from "@/types/map";
 
 interface LibraryItem {
   id: string;
@@ -486,7 +506,7 @@ const newMapForm = reactive({
   width: DEFAULT_MAP_WIDTH,
   height: DEFAULT_MAP_HEIGHT,
   scene: "production" as SceneType,
-  tagsText: ""
+  tagsText: "",
 });
 
 const singleForm = reactive({
@@ -497,13 +517,13 @@ const singleForm = reactive({
   directionDeg: 0,
   enabledText: "true",
   supplyMode: "auto" as "auto" | "manual" | "elevator",
-  unloadMode: "normal" as "normal" | "multi-sort"
+  unloadMode: "normal" as "normal" | "multi-sort",
 });
 
 const batchForm = reactive({
   prefix: "",
   enabledMode: "keep",
-  speedLimitText: ""
+  speedLimitText: "",
 });
 
 const libraryItems = ref<LibraryItem[]>([]);
@@ -549,8 +569,10 @@ const filteredLibrary = computed(() =>
     if (!librarySearch.value.trim()) {
       return true;
     }
-    return item.name.toLowerCase().includes(librarySearch.value.trim().toLowerCase());
-  })
+    return item.name
+      .toLowerCase()
+      .includes(librarySearch.value.trim().toLowerCase());
+  }),
 );
 
 let statsTimer: number | null = null;
@@ -582,7 +604,7 @@ const createMap = () => {
     width: newMapForm.width,
     height: newMapForm.height,
     scene: newMapForm.scene,
-    tags: newMapForm.tagsText.split(",").map((item) => item.trim())
+    tags: newMapForm.tagsText.split(",").map((item) => item.trim()),
   });
   tagsText.value = store.project.meta.tags.join(",");
   checkResult.value = null;
@@ -590,7 +612,10 @@ const createMap = () => {
 };
 
 const applyBatchPlatform = () => {
-  store.fillPlatformBatch(store.toolOptions.batchRows, store.toolOptions.batchCols);
+  store.fillPlatformBatch(
+    store.toolOptions.batchRows,
+    store.toolOptions.batchCols,
+  );
 };
 
 const exportMap = async () => {
@@ -631,7 +656,7 @@ const importProjectJson = async (event: Event) => {
 
 const exportDevicesCsv = () => {
   const rows = [
-    "name,type,x,y,enabled,hardwareId,speedLimit,maxQueue,directionDeg,supplyMode,unloadMode"
+    "name,type,x,y,enabled,hardwareId,speedLimit,maxQueue,directionDeg,supplyMode,unloadMode",
   ];
   for (const device of store.project.devices) {
     rows.push(
@@ -646,11 +671,15 @@ const exportDevicesCsv = () => {
         device.config.maxQueue,
         device.config.directionDeg,
         device.config.supplyMode ?? "",
-        device.config.unloadMode ?? ""
-      ].join(",")
+        device.config.unloadMode ?? "",
+      ].join(","),
     );
   }
-  downloadTextFile(`${store.project.meta.name}-devices.csv`, rows.join("\n"), "text/csv");
+  downloadTextFile(
+    `${store.project.meta.name}-devices.csv`,
+    rows.join("\n"),
+    "text/csv",
+  );
 };
 
 const loadLibrary = () => {
@@ -681,9 +710,12 @@ const saveToLibrary = (draft: boolean) => {
     scene: store.project.meta.scene,
     tags: [...store.project.meta.tags],
     updatedAt: now,
-    project: structuredClone(toRaw(store.project))
+    project: structuredClone(toRaw(store.project)),
   };
-  libraryItems.value = [entry, ...libraryItems.value.filter((item) => item.id !== id)];
+  libraryItems.value = [
+    entry,
+    ...libraryItems.value.filter((item) => item.id !== id),
+  ];
   saveLibrary();
 };
 
@@ -709,7 +741,10 @@ const exportLibraryItem = (id: string) => {
   if (!item) {
     return;
   }
-  downloadTextFile(`${item.name}.project.json`, JSON.stringify(item.project, null, 2));
+  downloadTextFile(
+    `${item.name}.project.json`,
+    JSON.stringify(item.project, null, 2),
+  );
 };
 
 const toggleLibrarySelect = (id: string) => {
@@ -725,7 +760,7 @@ const deleteLibrarySelected = () => {
     return;
   }
   libraryItems.value = libraryItems.value.filter(
-    (item) => !librarySelected.value.includes(item.id)
+    (item) => !librarySelected.value.includes(item.id),
   );
   librarySelected.value = [];
   saveLibrary();
@@ -740,7 +775,7 @@ const applySingleProps = () => {
     directionDeg: Number(singleForm.directionDeg),
     enabled: singleForm.enabledText === "true",
     supplyMode: singleForm.supplyMode,
-    unloadMode: singleForm.unloadMode
+    unloadMode: singleForm.unloadMode,
   });
 };
 
@@ -753,13 +788,16 @@ const applyBatchProps = () => {
       batchForm.enabledMode === "keep"
         ? undefined
         : batchForm.enabledMode === "true",
-    speedLimit: Number.isFinite(speedValue) ? speedValue : undefined
+    speedLimit: Number.isFinite(speedValue) ? speedValue : undefined,
   });
 };
 
 const onKeyDown = (event: KeyboardEvent) => {
   const target = event.target as HTMLElement | null;
-  const editingTag = target?.tagName === "INPUT" || target?.tagName === "TEXTAREA" || target?.tagName === "SELECT";
+  const editingTag =
+    target?.tagName === "INPUT" ||
+    target?.tagName === "TEXTAREA" ||
+    target?.tagName === "SELECT";
   const key = event.key.toLowerCase();
   const withMod = event.ctrlKey || event.metaKey;
 
@@ -821,7 +859,7 @@ watch(
     statsTimer = window.setTimeout(() => {
       void refreshStats();
     }, 80);
-  }
+  },
 );
 
 watch(
@@ -839,7 +877,7 @@ watch(
     singleForm.supplyMode = device.config.supplyMode ?? "auto";
     singleForm.unloadMode = device.config.unloadMode ?? "normal";
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 onMounted(() => {

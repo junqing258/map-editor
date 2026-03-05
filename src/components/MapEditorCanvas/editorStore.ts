@@ -1,8 +1,15 @@
-import { computed, reactive, ref, toRaw, type ComputedRef, type Ref } from "vue";
 import {
-  createEmptyProject,
+  type ComputedRef,
+  computed,
+  type Ref,
+  reactive,
+  ref,
+  toRaw,
+} from "vue";
+import {
   type CellCoord,
   type CellValue,
+  createEmptyProject,
   type DeviceType,
   type MapDevice,
   type MapProject,
@@ -14,7 +21,7 @@ import {
   type ToolOptions,
   type ToolType,
   type UnloadMode,
-  type ViewFlags
+  type ViewFlags,
 } from "@/types/map";
 
 const MAX_HISTORY = 100;
@@ -47,7 +54,11 @@ const cloneProject = (source: MapProject): MapProject => {
   return JSON.parse(json) as MapProject;
 };
 
-const ADJACENT_OFF_PLATFORM_TYPES = new Set<DeviceType>(["supply", "unload", "charger"]);
+const ADJACENT_OFF_PLATFORM_TYPES = new Set<DeviceType>([
+  "supply",
+  "unload",
+  "charger",
+]);
 
 const getDeviceTypeByTool = (tool: ToolType): DeviceType | null => {
   if (tool === "supply") {
@@ -81,19 +92,19 @@ const createDefaultOptions = (): ToolOptions => ({
   batchCols: 10,
   pathDirection: "oneway",
   supplyMode: "auto",
-  unloadMode: "normal"
+  unloadMode: "normal",
 });
 
 const createDefaultViewFlags = (): ViewFlags => ({
   showGrid: true,
   showPath: true,
-  showNavBlock: true
+  showNavBlock: true,
 });
 
 const createDeviceConfig = (
   type: DeviceType,
   supplyMode: SupplyMode,
-  unloadMode: UnloadMode
+  unloadMode: UnloadMode,
 ): MapDevice["config"] => ({
   enabled: true,
   hardwareId: "",
@@ -101,7 +112,7 @@ const createDeviceConfig = (
   maxQueue: 4,
   directionDeg: 0,
   supplyMode: type === "supply" ? supplyMode : undefined,
-  unloadMode: type === "unload" ? unloadMode : undefined
+  unloadMode: type === "unload" ? unloadMode : undefined,
 });
 
 const createEditorStoreCore = () => {
@@ -128,18 +139,23 @@ const createEditorStoreCore = () => {
     if (selectedElement.value.kind === "device") {
       return [selectedElement.value.deviceId];
     }
-    if (selectedElement.value.kind === "device-batch" || selectedElement.value.kind === "mixed-batch") {
+    if (
+      selectedElement.value.kind === "device-batch" ||
+      selectedElement.value.kind === "mixed-batch"
+    ) {
       return selectedElement.value.deviceIds;
     }
     return [];
   });
 
   const selectedDevices = computed(() =>
-    project.value.devices.filter((item) => selectedDeviceIds.value.includes(item.id))
+    project.value.devices.filter((item) =>
+      selectedDeviceIds.value.includes(item.id),
+    ),
   );
 
   const singleSelectedDevice = computed(() =>
-    selectedDevices.value.length === 1 ? selectedDevices.value[0] : null
+    selectedDevices.value.length === 1 ? selectedDevices.value[0] : null,
   );
 
   const isCellInside = (x: number, y: number) =>
@@ -150,9 +166,12 @@ const createEditorStoreCore = () => {
       { x: x - 1, y },
       { x: x + 1, y },
       { x, y: y - 1 },
-      { x, y: y + 1 }
+      { x, y: y + 1 },
     ];
-    return neighbors.some((point) => isCellInside(point.x, point.y) && getCell(point.x, point.y) > 0);
+    return neighbors.some(
+      (point) =>
+        isCellInside(point.x, point.y) && getCell(point.x, point.y) > 0,
+    );
   };
 
   const canPlaceDeviceAt = (type: DeviceType, x: number, y: number) => {
@@ -175,8 +194,9 @@ const createEditorStoreCore = () => {
 
   const getActivePath = () => {
     const path =
-      project.value.overlays.robotPaths.find((item) => item.id === activePathId.value) ??
-      project.value.overlays.robotPaths[0];
+      project.value.overlays.robotPaths.find(
+        (item) => item.id === activePathId.value,
+      ) ?? project.value.overlays.robotPaths[0];
     return path ?? null;
   };
 
@@ -228,12 +248,14 @@ const createEditorStoreCore = () => {
       kind: "cell",
       x,
       y,
-      active: getCell(x, y) > 0
+      active: getCell(x, y) > 0,
     };
   };
 
   const selectPathPoint = (pathId: string, index: number) => {
-    const path = project.value.overlays.robotPaths.find((item) => item.id === pathId);
+    const path = project.value.overlays.robotPaths.find(
+      (item) => item.id === pathId,
+    );
     if (!path || !path.points[index]) {
       selectNone();
       return;
@@ -246,7 +268,7 @@ const createEditorStoreCore = () => {
       index,
       x: point.x,
       y: point.y,
-      direction: path.direction
+      direction: path.direction,
     };
   };
 
@@ -265,7 +287,7 @@ const createEditorStoreCore = () => {
     }
     selectedElement.value = {
       kind: "device-batch",
-      deviceIds
+      deviceIds,
     };
   };
 
@@ -279,7 +301,11 @@ const createEditorStoreCore = () => {
     }
     rememberSnapshot();
     project.value.layers.base[idx] = value;
-    if (selectedElement.value.kind === "cell" && selectedElement.value.x === x && selectedElement.value.y === y) {
+    if (
+      selectedElement.value.kind === "cell" &&
+      selectedElement.value.x === x &&
+      selectedElement.value.y === y
+    ) {
       selectedElement.value.active = value > 0;
     }
     markChanged();
@@ -293,13 +319,21 @@ const createEditorStoreCore = () => {
       return false;
     }
     if (value === 1) {
-      return applyPlatformAt(x, y);
+      const changed = applyPlatformAt(x, y);
+      if (changed) {
+        selectNone();
+      }
+      return changed;
     }
     // 队列区/等待区必须附着在已有平台上。
     if (!isCellInside(x, y) || getCell(x, y) === 0) {
       return false;
     }
-    return setCell(x, y, value);
+    const changed = setCell(x, y, value);
+    if (changed) {
+      selectNone();
+    }
+    return changed;
   };
 
   const fillPlatformBatch = (rows: number, cols: number) => {
@@ -322,6 +356,7 @@ const createEditorStoreCore = () => {
     markChanged();
     // 批量写入后强制替换引用，避免外层组件错过数组原位修改。
     forceProjectReplace();
+    selectNone();
     return true;
   };
 
@@ -342,7 +377,9 @@ const createEditorStoreCore = () => {
       path.direction = toolOptions.value.pathDirection;
     }
 
-    const existing = path.points.findIndex((item) => item.x === x && item.y === y);
+    const existing = path.points.findIndex(
+      (item) => item.x === x && item.y === y,
+    );
     if (existing >= 0) {
       if (snapshotTaken) {
         markChanged();
@@ -372,13 +409,19 @@ const createEditorStoreCore = () => {
     if (!path || path.points.length === 0) {
       return false;
     }
-    const next = path.points.filter((point) => !(point.x === x && point.y === y));
+    const next = path.points.filter(
+      (point) => !(point.x === x && point.y === y),
+    );
     if (next.length === path.points.length) {
       return false;
     }
     rememberSnapshot();
     path.points = next;
-    if (selectedElement.value.kind === "path-point" && selectedElement.value.x === x && selectedElement.value.y === y) {
+    if (
+      selectedElement.value.kind === "path-point" &&
+      selectedElement.value.x === x &&
+      selectedElement.value.y === y
+    ) {
       selectNone();
     }
     markChanged();
@@ -398,7 +441,8 @@ const createEditorStoreCore = () => {
   };
 
   const createDeviceName = (type: DeviceType) => {
-    const count = project.value.devices.filter((item) => item.type === type).length + 1;
+    const count =
+      project.value.devices.filter((item) => item.type === type).length + 1;
     return `${type}-${String(count).padStart(2, "0")}`;
   };
 
@@ -407,7 +451,9 @@ const createEditorStoreCore = () => {
     if (!type || !canPlaceDeviceAt(type, x, y)) {
       return false;
     }
-    const existing = project.value.devices.find((item) => item.x === x && item.y === y);
+    const existing = project.value.devices.find(
+      (item) => item.x === x && item.y === y,
+    );
     if (existing && existing.type === type) {
       return false;
     }
@@ -419,9 +465,10 @@ const createEditorStoreCore = () => {
       existing.config = createDeviceConfig(
         type,
         toolOptions.value.supplyMode,
-        toolOptions.value.unloadMode
+        toolOptions.value.unloadMode,
       );
       markChanged();
+      selectNone();
       return true;
     }
 
@@ -435,10 +482,11 @@ const createEditorStoreCore = () => {
       config: createDeviceConfig(
         type,
         toolOptions.value.supplyMode,
-        toolOptions.value.unloadMode
-      )
+        toolOptions.value.unloadMode,
+      ),
     });
     markChanged();
+    selectNone();
     return true;
   };
 
@@ -447,13 +495,17 @@ const createEditorStoreCore = () => {
       selectNone();
       return;
     }
-    const device = project.value.devices.find((item) => item.x === x && item.y === y);
+    const device = project.value.devices.find(
+      (item) => item.x === x && item.y === y,
+    );
     if (device) {
       selectDevice(device.id);
       return;
     }
     for (const path of project.value.overlays.robotPaths) {
-      const index = path.points.findIndex((item) => item.x === x && item.y === y);
+      const index = path.points.findIndex(
+        (item) => item.x === x && item.y === y,
+      );
       if (index >= 0) {
         selectPathPoint(path.id, index);
         return;
@@ -462,13 +514,21 @@ const createEditorStoreCore = () => {
     selectCell(x, y);
   };
 
-  const selectElementsInRect = (x1: number, y1: number, x2: number, y2: number) => {
+  const selectElementsInRect = (
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number,
+  ) => {
     const minX = Math.max(0, Math.min(x1, x2));
     const maxX = Math.min(width.value - 1, Math.max(x1, x2));
     const minY = Math.max(0, Math.min(y1, y2));
     const maxY = Math.min(height.value - 1, Math.max(y1, y2));
     const deviceIds = project.value.devices
-      .filter((item) => item.x >= minX && item.x <= maxX && item.y >= minY && item.y <= maxY)
+      .filter(
+        (item) =>
+          item.x >= minX && item.x <= maxX && item.y >= minY && item.y <= maxY,
+      )
       .sort((a, b) => {
         if (a.y !== b.y) {
           return a.y - b.y;
@@ -492,12 +552,17 @@ const createEditorStoreCore = () => {
     const pathPoints: SelectedPathPointRef[] = [];
     for (const path of project.value.overlays.robotPaths) {
       path.points.forEach((point, index) => {
-        if (point.x >= minX && point.x <= maxX && point.y >= minY && point.y <= maxY) {
+        if (
+          point.x >= minX &&
+          point.x <= maxX &&
+          point.y >= minY &&
+          point.y <= maxY
+        ) {
           pathPoints.push({
             pathId: path.id,
             index,
             x: point.x,
-            y: point.y
+            y: point.y,
           });
         }
       });
@@ -521,15 +586,27 @@ const createEditorStoreCore = () => {
       selectNone();
       return;
     }
-    if (deviceIds.length === 1 && cells.length === 0 && pathPoints.length === 0) {
+    if (
+      deviceIds.length === 1 &&
+      cells.length === 0 &&
+      pathPoints.length === 0
+    ) {
       selectDevice(deviceIds[0]);
       return;
     }
-    if (deviceIds.length === 0 && cells.length === 1 && pathPoints.length === 0) {
+    if (
+      deviceIds.length === 0 &&
+      cells.length === 1 &&
+      pathPoints.length === 0
+    ) {
       selectCell(cells[0].x, cells[0].y);
       return;
     }
-    if (deviceIds.length === 0 && cells.length === 0 && pathPoints.length === 1) {
+    if (
+      deviceIds.length === 0 &&
+      cells.length === 0 &&
+      pathPoints.length === 1
+    ) {
       const point = pathPoints[0];
       selectPathPoint(point.pathId, point.index);
       return;
@@ -543,7 +620,7 @@ const createEditorStoreCore = () => {
       kind: "mixed-batch",
       deviceIds,
       cells,
-      pathPoints
+      pathPoints,
     };
   };
 
@@ -595,7 +672,10 @@ const createEditorStoreCore = () => {
     speedLimit?: number;
     prefix?: string;
   }) => {
-    if (selectedElement.value.kind !== "device-batch" || selectedElement.value.deviceIds.length === 0) {
+    if (
+      selectedElement.value.kind !== "device-batch" ||
+      selectedElement.value.deviceIds.length === 0
+    ) {
       return 0;
     }
     rememberSnapshot();
@@ -636,7 +716,9 @@ const createEditorStoreCore = () => {
 
     if (selectedElement.value.kind === "path-point") {
       const { pathId, index } = selectedElement.value;
-      const path = project.value.overlays.robotPaths.find((item) => item.id === pathId);
+      const path = project.value.overlays.robotPaths.find(
+        (item) => item.id === pathId,
+      );
       if (!path || !path.points[index]) {
         selectNone();
         return false;
@@ -654,7 +736,9 @@ const createEditorStoreCore = () => {
 
       if (deviceIds.length > 0) {
         const idSet = new Set(deviceIds);
-        const next = project.value.devices.filter((item) => !idSet.has(item.id));
+        const next = project.value.devices.filter(
+          (item) => !idSet.has(item.id),
+        );
         if (next.length !== project.value.devices.length) {
           rememberSnapshot();
           project.value.devices = next;
@@ -689,7 +773,9 @@ const createEditorStoreCore = () => {
           grouped.set(item.pathId, list);
         });
         grouped.forEach((indices, pathId) => {
-          const path = project.value.overlays.robotPaths.find((item) => item.id === pathId);
+          const path = project.value.overlays.robotPaths.find(
+            (item) => item.id === pathId,
+          );
           if (!path) {
             return;
           }
@@ -759,8 +845,18 @@ const createEditorStoreCore = () => {
 
   const resetMapData = () => {
     rememberSnapshot();
-    const { width: w, height: h, cellSizeMeter, chunkSize } = project.value.grid;
-    const next = createEmptyProject(w, h, project.value.meta.scene, project.value.meta.name);
+    const {
+      width: w,
+      height: h,
+      cellSizeMeter,
+      chunkSize,
+    } = project.value.grid;
+    const next = createEmptyProject(
+      w,
+      h,
+      project.value.meta.scene,
+      project.value.meta.name,
+    );
     next.meta.tags = [...project.value.meta.tags];
     next.grid.cellSizeMeter = cellSizeMeter;
     next.grid.chunkSize = chunkSize;
@@ -781,7 +877,7 @@ const createEditorStoreCore = () => {
       Math.max(8, Math.floor(payload.width)),
       Math.max(8, Math.floor(payload.height)),
       payload.scene,
-      payload.name.trim() || "factory-map"
+      payload.name.trim() || "factory-map",
     );
     next.meta.tags = payload.tags.filter(Boolean);
     project.value = next;
@@ -806,7 +902,7 @@ const createEditorStoreCore = () => {
     // 校验范围：平台可用性、路径连续性、设备摆放规则。
     const nodeCount = project.value.layers.base.reduce<number>(
       (acc, item) => (item > 0 ? acc + 1 : acc),
-      0
+      0,
     );
     if (nodeCount === 0) {
       issues.push("未绘制钢平台，无法运行路径。");
@@ -818,16 +914,22 @@ const createEditorStoreCore = () => {
       }
       for (let i = 0; i < path.points.length; i += 1) {
         const point = path.points[i];
-        if (!isCellInside(point.x, point.y) || getCell(point.x, point.y) === 0) {
-          issues.push(`路径 ${path.name} 含无效点位 (${point.x}, ${point.y})。`);
+        if (
+          !isCellInside(point.x, point.y) ||
+          getCell(point.x, point.y) === 0
+        ) {
+          issues.push(
+            `路径 ${path.name} 含无效点位 (${point.x}, ${point.y})。`,
+          );
           break;
         }
         if (i > 0) {
           const prev = path.points[i - 1];
-          const manhattan = Math.abs(prev.x - point.x) + Math.abs(prev.y - point.y);
+          const manhattan =
+            Math.abs(prev.x - point.x) + Math.abs(prev.y - point.y);
           if (manhattan !== 1) {
             issues.push(
-              `路径 ${path.name} 存在非邻接连接 (${prev.x}, ${prev.y}) -> (${point.x}, ${point.y})。`
+              `路径 ${path.name} 存在非邻接连接 (${prev.x}, ${prev.y}) -> (${point.x}, ${point.y})。`,
             );
             break;
           }
@@ -836,8 +938,13 @@ const createEditorStoreCore = () => {
     });
     project.value.devices.forEach((device) => {
       if (ADJACENT_OFF_PLATFORM_TYPES.has(device.type)) {
-        if (getCell(device.x, device.y) > 0 || !hasAdjacentPlatform(device.x, device.y)) {
-          issues.push(`设备 ${device.name} 需放置在钢平台邻格且不能压在钢平台上。`);
+        if (
+          getCell(device.x, device.y) > 0 ||
+          !hasAdjacentPlatform(device.x, device.y)
+        ) {
+          issues.push(
+            `设备 ${device.name} 需放置在钢平台邻格且不能压在钢平台上。`,
+          );
         }
         return;
       }
@@ -847,7 +954,7 @@ const createEditorStoreCore = () => {
     });
     return {
       ok: issues.length === 0,
-      issues
+      issues,
     };
   };
 
@@ -920,16 +1027,19 @@ const createEditorStoreCore = () => {
     runPathCheck,
     touch,
     undo,
-    redo
+    redo,
   };
 };
 
-type MaybeRef<T> = T extends Ref<infer V> ? V : T extends ComputedRef<infer V> ? V : T;
+type MaybeRef<T> =
+  T extends Ref<infer V> ? V : T extends ComputedRef<infer V> ? V : T;
 type UnwrappedStore<T extends Record<string, unknown>> = {
   [K in keyof T]: MaybeRef<T[K]>;
 };
 
-export type EditorStore = UnwrappedStore<ReturnType<typeof createEditorStoreCore>>;
+export type EditorStore = UnwrappedStore<
+  ReturnType<typeof createEditorStoreCore>
+>;
 
 export const createEditorStore = (): EditorStore =>
   reactive(createEditorStoreCore()) as EditorStore;

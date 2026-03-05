@@ -1,7 +1,7 @@
 export const downloadTextFile = (
   filename: string,
   content: string,
-  mimeType = "application/json"
+  mimeType = "application/json",
 ) => {
   const blob = new Blob([content], { type: mimeType });
   const url = URL.createObjectURL(blob);

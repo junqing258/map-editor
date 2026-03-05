@@ -158,7 +158,7 @@ export const DEFAULT_MAP_HEIGHT = 64;
 const createDeviceCounts = (): Record<DeviceType, number> => ({
   supply: 0,
   unload: 0,
-  charger: 0
+  charger: 0,
 });
 
 export const emptyDeviceCounts = createDeviceCounts;
@@ -167,7 +167,7 @@ export const createEmptyProject = (
   width = DEFAULT_MAP_WIDTH,
   height = DEFAULT_MAP_HEIGHT,
   scene: SceneType = "production",
-  name = "factory-map"
+  name = "factory-map",
 ): MapProject => {
   const now = new Date().toISOString();
   return {
@@ -177,16 +177,16 @@ export const createEmptyProject = (
       createdAt: now,
       updatedAt: now,
       scene,
-      tags: []
+      tags: [],
     },
     grid: {
       width,
       height,
       chunkSize: 16,
-      cellSizeMeter: 0.55
+      cellSizeMeter: 0.55,
     },
     layers: {
-      base: new Array(width * height).fill(0)
+      base: new Array(width * height).fill(0),
     },
     overlays: {
       robotPaths: [
@@ -195,10 +195,10 @@ export const createEmptyProject = (
           name: "Main Route",
           color: "#0ea5e9",
           direction: "oneway",
-          points: []
-        }
-      ]
+          points: [],
+        },
+      ],
     },
-    devices: []
+    devices: [],
   };
 };
