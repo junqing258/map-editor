@@ -10,7 +10,14 @@ export default defineConfig({
     tailwindcss(),
     vue(),
     codeInspectorPlugin({
+      behavior: {
+        locate: true,
+        /* ai: {
+          codex: true,
+        }, */
+      },
       bundler: "vite",
+      editor: 'code', // 指定 IDE 为 vscode
     }),
   ],
   resolve: {

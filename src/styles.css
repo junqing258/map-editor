@@ -93,123 +93,6 @@ body,
   background: radial-gradient(circle at 20% 15%, var(--bg-top) 0, var(--bg) 46%, var(--bg-bottom) 100%);
 }
 
-.workspace {
-  display: grid;
-  grid-template-rows: auto auto minmax(0, 1fr);
-  gap: 10px;
-  width: 100%;
-  height: 100%;
-}
-
-.menu-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: center;
-  background: var(--panel);
-  border: 1px solid var(--panel-border);
-  border-radius: 12px;
-  padding: 8px 10px;
-  box-shadow: var(--shadow-sm);
-}
-
-.menu-section {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding-right: 10px;
-  border-right: 1px dashed var(--app-primary-soft);
-}
-
-.menu-section:last-child {
-  border-right: none;
-}
-
-.menu-title {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--app-primary);
-  padding: 3px 8px;
-  border-radius: 999px;
-  background: var(--app-primary-soft);
-}
-
-.options-bar {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 10px;
-  background: var(--panel-soft);
-  border: 1px solid var(--panel-border);
-  border-radius: 12px;
-  padding: 8px 10px;
-}
-
-.options-main {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.options-fixed {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.options-text {
-  margin: 0;
-  color: var(--app-muted);
-  font-size: 13px;
-}
-
-.option-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.app-shell {
-  display: grid;
-  grid-template-columns: 160px minmax(0, 1fr) 340px;
-  gap: 10px;
-  min-height: 0;
-}
-
-.toolbar,
-.prop-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  background: var(--panel);
-  border: 1px solid var(--panel-border);
-  border-radius: 12px;
-  padding: 12px;
-  overflow: auto;
-}
-
-.toolbar h1,
-.prop-panel h2 {
-  margin: 0;
-  font-size: 17px;
-  letter-spacing: 0.2px;
-}
-
-.tool-stack {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 8px;
-}
-
-.tool-btn-shadcn {
-  width: 100%;
-}
-
-.tool-select-icon {
-  color: var(--app-primary);
-  flex: 0 0 auto;
-}
-
 .tool-device-icon {
   flex: 0 0 auto;
 }
@@ -227,11 +110,11 @@ body,
 }
 
 /* 选中态（variant=default）时让设备图标跟随按钮文本色。 */
-.tool-btn-shadcn.bg-primary .tool-device-icon {
+.tool-action-btn.bg-primary .tool-device-icon {
   color: currentColor;
 }
-.tool-btn-shadcn.bg-primary .tool-dot.queue,
-.tool-btn-shadcn.bg-primary .tool-dot.waiting {
+.tool-action-btn.bg-primary .tool-dot.queue,
+.tool-action-btn.bg-primary .tool-dot.waiting {
   background: currentColor;
 }
 
@@ -262,15 +145,6 @@ body,
   background: var(--waiting);
 }
 
-.canvas-wrap {
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid var(--canvas-grid);
-  box-shadow: var(--shadow-md);
-  background: linear-gradient(130deg, var(--panel-soft) 0, var(--canvas-bg) 100%);
-  min-height: 0;
-}
-
 .map-canvas {
   width: 100%;
   height: 100%;
@@ -283,32 +157,6 @@ body,
   background: rgb(37 99 235 / 14%);
   pointer-events: none;
   z-index: 8;
-}
-
-.section {
-  border: 1px solid var(--panel-border);
-  background: var(--panel-soft);
-  border-radius: 10px;
-  padding: 10px;
-}
-
-.field {
-  display: block;
-  font-size: 13px;
-  color: var(--app-muted);
-  margin-top: 8px;
-}
-
-.field:first-child {
-  margin-top: 0;
-}
-
-.field-inline {
-  font-size: 13px;
-  color: var(--app-muted);
-  display: flex;
-  align-items: center;
-  gap: 6px;
 }
 
 .input {
@@ -335,134 +183,8 @@ body,
   border-color: var(--panel-border-strong);
 }
 
-.grid-inputs {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-
-.field-wide {
-  grid-column: 1 / -1;
-}
-
-.grid-inputs label {
-  font-size: 13px;
-  color: var(--app-muted);
-}
-
-.prop-item {
-  margin: 4px 0;
-  color: var(--app-primary);
-  font-size: 13px;
-}
-
-.prop-empty {
-  margin: 6px 0 0;
-  color: var(--app-muted);
-}
-
-.hint {
-  margin: 6px 0 0;
-  color: var(--app-muted);
-  font-size: 13px;
-}
-
-.error {
-  margin: 8px 0 0;
-  color: var(--danger);
-  font-size: 13px;
-}
-
 .hidden {
   display: none;
-}
-
-.modal-mask {
-  position: fixed;
-  inset: 0;
-  background: var(--overlay);
-  display: grid;
-  place-items: center;
-  z-index: 50;
-}
-
-.modal {
-  width: min(560px, 92vw);
-  background: var(--panel);
-  border: 1px solid var(--panel-border);
-  border-radius: 12px;
-  box-shadow: var(--shadow-lg);
-  padding: 14px;
-}
-
-.modal.large {
-  width: min(920px, 94vw);
-}
-
-.modal h3 {
-  margin: 0 0 10px;
-  font-size: 18px;
-}
-
-.modal-actions {
-  margin-top: 12px;
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-}
-
-.library-toolbar {
-  display: grid;
-  grid-template-columns: 1fr 140px auto;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-
-.library-list {
-  border: 1px solid var(--panel-border);
-  border-radius: 10px;
-  max-height: 55vh;
-  overflow: auto;
-  background: var(--panel-soft);
-}
-
-.library-item {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 10px;
-  border-bottom: 1px solid var(--app-primary-soft);
-}
-
-.library-item:last-child {
-  border-bottom: none;
-}
-
-.library-main {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto auto;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-}
-
-.library-name {
-  font-weight: 650;
-  color: var(--app-primary);
-}
-
-.library-tag {
-  font-size: 12px;
-  color: var(--info-text);
-  background: var(--info-soft);
-  border-radius: 999px;
-  padding: 2px 8px;
-}
-
-.library-time {
-  color: var(--app-muted);
-  font-size: 12px;
 }
 
 .input:focus-visible {
@@ -471,33 +193,6 @@ body,
   box-shadow: var(--focus-ring);
 }
 
-.library-actions {
-  display: flex;
-  gap: 6px;
-}
-
-@media (max-width: 1180px) {
-  .app-shell {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto minmax(420px, 1fr) auto;
-  }
-
-  .toolbar {
-    max-height: 220px;
-  }
-
-  .tool-stack {
-    grid-template-columns: repeat(3, minmax(120px, 1fr));
-  }
-
-  .options-bar {
-    grid-template-columns: 1fr;
-  }
-
-  .library-toolbar {
-    grid-template-columns: 1fr;
-  }
-}
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);

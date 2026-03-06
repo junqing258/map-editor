@@ -15,7 +15,7 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       code-inspector-plugin:
-        specifier: ^1.4.2
+        specifier: latest
         version: 1.4.2
       lucide-vue-next:
         specifier: ^0.576.0
