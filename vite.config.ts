@@ -12,9 +12,9 @@ export default defineConfig({
     codeInspectorPlugin({
       behavior: {
         locate: true,
-        /* ai: {
+        ai: {
           codex: true,
-        }, */
+        },
       },
       bundler: "vite",
       editor: 'code', // 指定 IDE 为 vscode
