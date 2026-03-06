@@ -44,7 +44,7 @@ export const parseProjectJson = (raw: string): MapProject => {
     data.overlays?.robotPaths?.map((path, index) => ({
       id: path.id || `path-${index + 1}`,
       name: path.name || `Path-${index + 1}`,
-      color: path.color || "#0ea5e9",
+      color: path.color || "#2563eb",
       direction: (path.direction === "bidirectional" ? "bidirectional" : "oneway") as PathDirection,
       points: (path.points ?? []).map((point) => ({
         x: Number(point.x ?? 0),

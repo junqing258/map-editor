@@ -12,7 +12,7 @@ interface ChunkEntry {
 
 // 设备主色：用于边框、图标着色和状态一致性展示。
 const deviceColorMap: Record<MapDevice["type"], string> = {
-  supply: "#16a34a",
+  supply: "#15803d",
   unload: "#d97706",
   charger: "#2563eb",
 };
@@ -87,7 +87,7 @@ export class GridRenderer {
     const app = new Application();
     await app.init({
       antialias: true,
-      background: new Color("#f4f8ff"),
+      background: new Color("#eef3f9"),
       resizeTo: host,
       autoDensity: true,
       resolution: window.devicePixelRatio || 1,
@@ -265,7 +265,7 @@ export class GridRenderer {
         // 禁用态叠加红色叉号，保持底色与图标仍可识别设备类型。
         this.deviceGraphics.setStrokeStyle({
           width: 2,
-          color: "#dc2626",
+          color: "#b91c1c",
         });
         this.deviceGraphics.moveTo(centerX - half + 1, centerY - half + 1);
         this.deviceGraphics.lineTo(centerX + half - 1, centerY + half - 1);
@@ -376,8 +376,8 @@ export class GridRenderer {
 
   private highlightCell(x: number, y: number) {
     this.selectionGraphics.rect(x * this.cellPixel, y * this.cellPixel, this.cellPixel, this.cellPixel);
-    this.selectionGraphics.fill({ color: "#fbbf24", alpha: 0.26 });
-    this.selectionGraphics.setStrokeStyle({ width: 2, color: "#f59e0b" });
+    this.selectionGraphics.fill({ color: "#fdba74", alpha: 0.26 });
+    this.selectionGraphics.setStrokeStyle({ width: 2, color: "#f97316" });
     this.selectionGraphics.stroke();
   }
 
@@ -387,7 +387,7 @@ export class GridRenderer {
       y * this.cellPixel + this.cellPixel / 2,
       Math.max(5, this.cellPixel * 0.45),
     );
-    this.selectionGraphics.setStrokeStyle({ width: 2, color: "#ef4444" });
+    this.selectionGraphics.setStrokeStyle({ width: 2, color: "#b91c1c" });
     this.selectionGraphics.stroke();
   }
 
@@ -418,7 +418,7 @@ export class GridRenderer {
 
     this.gridGraphics.setStrokeStyle({
       width: lineWidth,
-      color: "#d6deeb",
+      color: "#cad4e2",
     });
 
     for (let x = 0; x <= width; x += 1) {
@@ -473,16 +473,16 @@ export class GridRenderer {
       return Texture.WHITE;
     }
 
-    const baseColor = "#f8fbff";
+    const baseColor = "#f8fafc";
     const nodeColorMap: Record<number, string> = {
-      1: "#dbeafe",
-      2: "#e9d5ff",
-      3: "#bae6fd",
+      1: "#dbe4f0",
+      2: "#ede9fe",
+      3: "#cffafe",
     };
     const nodeBorderMap: Record<number, string> = {
-      1: "#93c5fd",
-      2: "#c084fc",
-      3: "#38bdf8",
+      1: "#94a3b8",
+      2: "#8b5cf6",
+      3: "#0891b2",
     };
     const mapWidth = this.project.grid.width;
     const { base } = this.project.layers;

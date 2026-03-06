@@ -193,7 +193,7 @@ export const createEmptyProject = (
         {
           id: "path-main",
           name: "Main Route",
-          color: "#0ea5e9",
+          color: "#2563eb",
           direction: "oneway",
           points: [],
         },
