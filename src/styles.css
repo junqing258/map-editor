@@ -99,7 +99,6 @@ body,
   gap: 10px;
   width: 100%;
   height: 100%;
-  padding: 10px;
 }
 
 .menu-bar {
@@ -133,49 +132,6 @@ body,
   padding: 3px 8px;
   border-radius: 999px;
   background: var(--app-primary-soft);
-}
-
-.menu-btn {
-  border: 1px solid var(--panel-border);
-  background: var(--panel);
-  color: var(--app-primary);
-  border-radius: 8px;
-  padding: 7px 10px;
-  font-size: 13px;
-  font-weight: 650;
-  cursor: pointer;
-  transition: border-color 200ms ease, background-color 200ms ease, color 200ms ease, box-shadow 200ms ease;
-}
-
-.menu-btn.active {
-  background: var(--app-accent-soft);
-  border-color: var(--app-accent-border);
-  color: var(--app-accent-text);
-}
-
-.menu-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.menu-btn:hover:not(:disabled) {
-  border-color: var(--panel-border-strong);
-  background: var(--panel-soft);
-}
-
-.menu-btn.active:hover {
-  border-color: var(--app-accent-border);
-  background: var(--app-accent-soft);
-}
-
-.menu-btn.full {
-  width: 100%;
-}
-
-.menu-btn.danger {
-  border-color: var(--danger-border);
-  background: var(--danger-soft);
-  color: var(--danger-text);
 }
 
 .options-bar {
@@ -245,48 +201,13 @@ body,
   gap: 8px;
 }
 
-.tool-btn {
-  border: 1px solid var(--panel-border);
-  background: var(--panel);
+.tool-btn-shadcn {
+  width: 100%;
+}
+
+.tool-select-icon {
   color: var(--app-primary);
-  border-radius: 10px;
-  padding: 9px 10px;
-  font-weight: 650;
-  font-size: 13px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: fit-content;
-  transition: border-color 200ms ease, background-color 200ms ease, color 200ms ease, box-shadow 200ms ease;
-}
-
-.tool-btn.active {
-  border-color: var(--app-accent-border);
-  background: var(--app-accent-soft);
-  color: var(--app-accent-text);
-}
-
-.tool-btn:hover {
-  border-color: var(--panel-border-strong);
-  background: var(--panel-soft);
-}
-
-.tool-btn.active:hover {
-  border-color: var(--app-accent-border);
-  background: var(--app-accent-soft);
-}
-
-.tool-flag {
-  width: 20px;
-  height: 20px;
-  border-radius: 7px;
-  background: var(--app-primary-soft);
-  border: 1px solid var(--panel-border);
-  display: grid;
-  place-items: center;
-  font-size: 11px;
-  font-weight: 700;
+  flex: 0 0 auto;
 }
 
 .tool-device-icon {
@@ -303,6 +224,15 @@ body,
 
 .tool-device-icon.charger {
   color: var(--info);
+}
+
+/* 选中态（variant=default）时让设备图标跟随按钮文本色。 */
+.tool-btn-shadcn.bg-primary .tool-device-icon {
+  color: currentColor;
+}
+.tool-btn-shadcn.bg-primary .tool-dot.queue,
+.tool-btn-shadcn.bg-primary .tool-dot.waiting {
+  background: currentColor;
 }
 
 .tool-dot {
@@ -389,7 +319,9 @@ body,
   margin-top: 4px;
   background: var(--panel);
   color: var(--text);
-  transition: border-color 200ms ease, box-shadow 200ms ease;
+  transition:
+    border-color 200ms ease,
+    box-shadow 200ms ease;
 }
 
 .input.mini {
@@ -533,8 +465,6 @@ body,
   font-size: 12px;
 }
 
-.menu-btn:focus-visible,
-.tool-btn:focus-visible,
 .input:focus-visible {
   outline: none;
   border-color: var(--app-accent-border);

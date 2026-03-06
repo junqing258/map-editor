@@ -1,6 +1,7 @@
 import { toRaw } from "vue";
 
 import type { ExportFormat, ExportPayload, MapOverviewStats, MapProject } from "@/types/map";
+import { safeStructuredClone } from "@/utils/safeClone";
 
 type PendingResolver = {
   resolve: (value: MapOverviewStats | ExportPayload) => void;
@@ -39,7 +40,7 @@ export const useMapWorker = () => {
   ) => {
     const currentId = requestId;
     requestId += 1;
-    const safeProject = structuredClone(toRaw(payload.project));
+    const safeProject = safeStructuredClone(toRaw(payload.project));
     const safePayload =
       payload.format === undefined ? { project: safeProject } : { project: safeProject, format: payload.format };
 

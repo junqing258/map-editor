@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { type PrimitiveProps, Primitive } from "reka-ui";
-import type { HTMLAttributes } from "vue";
-import { computed } from "vue";
+import { Primitive, type PrimitiveProps } from "reka-ui";
+import { computed, type HTMLAttributes } from "vue";
 
 import { cn } from "@/lib/utils";
 
@@ -24,11 +23,7 @@ const delegatedProps = computed(() => {
 </script>
 
 <template>
-  <Primitive
-    data-slot="button"
-    v-bind="delegatedProps"
-    :class="cn(buttonVariants({ variant, size }), props.class)"
-  >
+  <Primitive data-slot="button" v-bind="delegatedProps" :class="cn(buttonVariants({ variant, size }), props.class)">
     <slot />
   </Primitive>
 </template>

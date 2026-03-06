@@ -178,10 +178,12 @@ export class GridRenderer {
       if (path.points.length < 1) {
         continue;
       }
+      const alpha = 0.8
       // 路径线宽随单元尺寸比例变化，保证不同缩放/分辨率下可读性。
       this.pathGraphics.setStrokeStyle({
-        width: Math.max(2, this.cellPixel * 0.15),
+        width: Math.max(2, this.cellPixel * 0.09),
         color: path.color,
+        alpha
       });
 
       const start = path.points[0];
@@ -202,10 +204,10 @@ export class GridRenderer {
         this.pathGraphics.circle(
           point.x * this.cellPixel + this.cellPixel / 2,
           point.y * this.cellPixel + this.cellPixel / 2,
-          Math.max(2, this.cellPixel * 0.2),
+          Math.max(2, this.cellPixel * 0.12),
         );
       }
-      this.pathGraphics.fill({ color: path.color, alpha: 0.95 });
+      this.pathGraphics.fill({ color: path.color, alpha });
 
       if (path.direction === "oneway") {
         // 单向路径在每个线段中点绘制箭头，避免与端点圆形重叠。
@@ -218,10 +220,33 @@ export class GridRenderer {
             to.x * this.cellPixel + this.cellPixel / 2,
             to.y * this.cellPixel + this.cellPixel / 2,
             path.color,
+            alpha
           );
         }
       }
     }
+  }
+
+  private drawArrow(fromX: number, fromY: number, toX: number, toY: number, color: string, alpha: number) {
+    const dx = toX - fromX;
+    const dy = toY - fromY;
+    const length = Math.hypot(dx, dy);
+    if (length < 6) {
+      return;
+    }
+    const angle = Math.atan2(dy, dx);
+    const head = Math.max(4, this.cellPixel * 0.24);
+    // 箭头绘制在中点，避免覆盖路径端点圆。
+    const centerX = (fromX + toX) / 2;
+    const centerY = (fromY + toY) / 2;
+
+    const leftX = centerX - Math.cos(angle - Math.PI / 6) * head;
+    const leftY = centerY - Math.sin(angle - Math.PI / 6) * head;
+    const rightX = centerX - Math.cos(angle + Math.PI / 6) * head;
+    const rightY = centerY - Math.sin(angle + Math.PI / 6) * head;
+
+    this.arrowGraphics.poly([centerX, centerY, leftX, leftY, rightX, rightY]);
+    this.arrowGraphics.fill({ color, alpha });
   }
 
   redrawDevices(devices: MapDevice[]) {
@@ -352,27 +377,7 @@ export class GridRenderer {
     };
   }
 
-  private drawArrow(fromX: number, fromY: number, toX: number, toY: number, color: string) {
-    const dx = toX - fromX;
-    const dy = toY - fromY;
-    const length = Math.hypot(dx, dy);
-    if (length < 6) {
-      return;
-    }
-    const angle = Math.atan2(dy, dx);
-    const head = Math.max(4, this.cellPixel * 0.24);
-    // 箭头绘制在中点，避免覆盖路径端点圆。
-    const centerX = (fromX + toX) / 2;
-    const centerY = (fromY + toY) / 2;
 
-    const leftX = centerX - Math.cos(angle - Math.PI / 6) * head;
-    const leftY = centerY - Math.sin(angle - Math.PI / 6) * head;
-    const rightX = centerX - Math.cos(angle + Math.PI / 6) * head;
-    const rightY = centerY - Math.sin(angle + Math.PI / 6) * head;
-
-    this.arrowGraphics.poly([centerX, centerY, leftX, leftY, rightX, rightY]);
-    this.arrowGraphics.fill({ color, alpha: 0.95 });
-  }
 
   private highlightCell(x: number, y: number) {
     this.selectionGraphics.rect(x * this.cellPixel, y * this.cellPixel, this.cellPixel, this.cellPixel);
