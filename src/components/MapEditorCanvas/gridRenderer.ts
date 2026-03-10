@@ -2,6 +2,7 @@ import { Application, Assets, Color, Container, Graphics, Sprite, Texture } from
 
 import batteryChargingSvgRaw from "@/assets/icons/battery-charging.svg?raw";
 import packageMinusSvgRaw from "@/assets/icons/package-minus.svg?raw";
+import packageMinusMultiSortSvgRaw from "@/assets/icons/package-minus-multi-sort.svg?raw";
 import packagePlusSvgRaw from "@/assets/icons/package-plus.svg?raw";
 import type { MapDevice, MapProject, RobotPath, SelectedElement, ViewFlags } from "@/types/map";
 
@@ -17,10 +18,27 @@ const deviceColorMap: Record<MapDevice["type"], string> = {
   charger: "#2563eb",
 };
 
-const deviceIconSvgMap: Partial<Record<MapDevice["type"], string>> = {
+type DeviceIconKey = MapDevice["type"] | "unload-multi-sort";
+
+const deviceIconSvgMap: Partial<Record<DeviceIconKey, string>> = {
   supply: packagePlusSvgRaw,
   unload: packageMinusSvgRaw,
+  "unload-multi-sort": packageMinusMultiSortSvgRaw,
   charger: batteryChargingSvgRaw,
+};
+
+const getDeviceIconKey = (device: MapDevice): DeviceIconKey => {
+  if (device.type === "unload" && device.config.unloadMode === "multi-sort") {
+    return "unload-multi-sort";
+  }
+  return device.type;
+};
+
+const getDeviceIconColor = (key: DeviceIconKey) => {
+  if (key === "unload-multi-sort") {
+    return deviceColorMap.unload;
+  }
+  return deviceColorMap[key];
 };
 
 // 将原始 SVG 按设备类型着色并放大，避免缩放后图标过糊。
@@ -44,7 +62,7 @@ export class GridRenderer {
   private readonly deviceGraphics = new Graphics();
   private readonly deviceIconContainer = new Container();
   private readonly selectionGraphics = new Graphics();
-  private readonly deviceIconTextures: Partial<Record<MapDevice["type"], Texture>>;
+  private readonly deviceIconTextures: Partial<Record<DeviceIconKey, Texture>>;
   // 分块缓存，按 `chunkX:chunkY` 管理纹理生命周期，避免全图重绘。
   private readonly chunks = new Map<string, ChunkEntry>();
   private readonly cellPixel = 100;
@@ -64,7 +82,7 @@ export class GridRenderer {
     host: HTMLElement,
     app: Application,
     project: MapProject,
-    deviceIconTextures: Partial<Record<MapDevice["type"], Texture>>,
+    deviceIconTextures: Partial<Record<DeviceIconKey, Texture>>,
   ) {
     this.host = host;
     this.app = app;
@@ -260,7 +278,7 @@ export class GridRenderer {
       const centerY = device.y * this.cellPixel + this.cellPixel / 2;
       const size = this.cellPixel * 0.72;
       const half = size / 2;
-      const iconTexture = this.deviceIconTextures[device.type];
+      const iconTexture = this.deviceIconTextures[getDeviceIconKey(device)];
       const activeAlpha = device.config.enabled ? 0.95 : 0.35;
 
       if (iconTexture) {
@@ -521,19 +539,19 @@ export class GridRenderer {
   }
 
   private static async loadDeviceIconTextures() {
-    const textures: Partial<Record<MapDevice["type"], Texture>> = {};
-    const iconEntries = Object.entries(deviceIconSvgMap) as Array<[MapDevice["type"], string | undefined]>;
+    const textures: Partial<Record<DeviceIconKey, Texture>> = {};
+    const iconEntries = Object.entries(deviceIconSvgMap) as Array<[DeviceIconKey, string | undefined]>;
 
     await Promise.all(
-      iconEntries.map(async ([type, svgRaw]) => {
+      iconEntries.map(async ([key, svgRaw]) => {
         if (!svgRaw) {
           return;
         }
-        const color = deviceColorMap[type];
+        const color = getDeviceIconColor(key);
         const src = buildColoredSvgDataUrl(svgRaw, color);
         // 以更高分辨率加载 SVG，缩放时边缘更平滑。
-        textures[type] = await Assets.load<Texture>({
-          alias: `device-icon-${type}`,
+        textures[key] = await Assets.load<Texture>({
+          alias: `device-icon-${key}`,
           src,
           data: {
             resolution: 4,
