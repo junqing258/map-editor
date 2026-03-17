@@ -1,10 +1,10 @@
 import { toRaw } from "vue";
 
-import type { ExportFormat, ExportPayload, MapOverviewStats, MapProject } from "@/types/map";
+import type { ExportFormat, ExportPayload, MapOverviewStats, MapProject, PlatformPanel } from "@/types/map";
 import { safeStructuredClone } from "@/utils/safeClone";
 
 type PendingResolver = {
-  resolve: (value: MapOverviewStats | ExportPayload) => void;
+  resolve: (value: MapOverviewStats | ExportPayload | PlatformPanel[]) => void;
   reject: (reason?: unknown) => void;
 };
 
@@ -19,7 +19,7 @@ export const useMapWorker = () => {
     const msg = event.data as {
       requestId: number;
       ok: boolean;
-      result?: MapOverviewStats | ExportPayload;
+      result?: MapOverviewStats | ExportPayload | PlatformPanel[];
       error?: string;
     };
     const item = pending.get(msg.requestId);
@@ -31,11 +31,11 @@ export const useMapWorker = () => {
       item.reject(new Error(msg.error ?? "Worker request failed"));
       return;
     }
-    item.resolve(msg.result as MapOverviewStats | ExportPayload);
+    item.resolve(msg.result as MapOverviewStats | ExportPayload | PlatformPanel[]);
   };
 
-  const call = <T extends MapOverviewStats | ExportPayload>(
-    type: "stats" | "export",
+  const call = <T extends MapOverviewStats | ExportPayload | PlatformPanel[]>(
+    type: "stats" | "export" | "plan-panels",
     payload: { project: MapProject; format?: ExportFormat },
   ) => {
     const currentId = requestId;
@@ -46,7 +46,7 @@ export const useMapWorker = () => {
 
     return new Promise<T>((resolve, reject) => {
       pending.set(currentId, {
-        resolve: resolve as (value: MapOverviewStats | ExportPayload) => void,
+        resolve: resolve as (value: MapOverviewStats | ExportPayload | PlatformPanel[]) => void,
         reject,
       });
       try {
@@ -73,6 +73,11 @@ export const useMapWorker = () => {
       format,
     });
 
+  const planPlatformPanels = (project: MapProject) =>
+    call<PlatformPanel[]>("plan-panels", {
+      project,
+    });
+
   const terminate = () => {
     worker.terminate();
     pending.clear();
@@ -81,6 +86,7 @@ export const useMapWorker = () => {
   return {
     calcStats,
     exportForRobot,
+    planPlatformPanels,
     terminate,
   };
 };

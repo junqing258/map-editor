@@ -1,8 +1,10 @@
+import { buildPlatformPanelLayout } from "@/lib/platformPanelLayout";
 import type { ExportFormat, ExportPayload, MapOverviewStats, MapProject } from "@/types/map";
+import type { PlatformPanel } from "@/types/map";
 
 interface WorkerRequest {
   requestId: number;
-  type: "stats" | "export";
+  type: "stats" | "export" | "plan-panels";
   payload: {
     project: MapProject;
     format?: ExportFormat;
@@ -12,7 +14,7 @@ interface WorkerRequest {
 interface WorkerResponse {
   requestId: number;
   ok: boolean;
-  result?: MapOverviewStats | ExportPayload;
+  result?: MapOverviewStats | ExportPayload | PlatformPanel[];
   error?: string;
 }
 
@@ -113,6 +115,18 @@ workerSelf.onmessage = (event: MessageEvent<WorkerRequest>) => {
         requestId: req.requestId,
         ok: true,
         result,
+      });
+      return;
+    }
+    if (req.type === "plan-panels") {
+      post({
+        requestId: req.requestId,
+        ok: true,
+        result: buildPlatformPanelLayout(
+          req.payload.project.layers.base,
+          req.payload.project.grid.width,
+          req.payload.project.grid.height,
+        ),
       });
       return;
     }

@@ -80,11 +80,13 @@
             <Button size="sm" variant="default" @click="applyBatchPlatform">极速生成</Button>
           </div>
           <div class="flex flex-wrap items-center gap-2">
-            <Button size="sm" variant="outline" @click="planPlatformPanels">规划面板</Button>
+            <Button size="sm" variant="outline" :disabled="planningPanels" @click="planPlatformPanels">
+              {{ planningPanels ? "规划中..." : "规划面板" }}
+            </Button>
             <Button
               size="sm"
               variant="outline"
-              :disabled="store.project.overlays.platformPanels.length === 0"
+              :disabled="planningPanels || store.project.overlays.platformPanels.length === 0"
               @click="store.clearPlatformPanels()"
             >
               清除面板
@@ -529,6 +531,7 @@ const worker = useMapWorker();
 const fileRef = ref<HTMLInputElement | null>(null);
 const stats = ref<MapOverviewStats | null>(null);
 const busy = ref(false);
+const planningPanels = ref(false);
 const errorText = ref("");
 
 const showNewMap = ref(false);
@@ -681,8 +684,17 @@ const applyBatchPlatform = () => {
   store.fillPlatformBatch(store.toolOptions.batchRows, store.toolOptions.batchCols);
 };
 
-const planPlatformPanels = () => {
-  store.planPlatformPanels();
+const planPlatformPanels = async () => {
+  planningPanels.value = true;
+  try {
+    const panels = await worker.planPlatformPanels(store.project);
+    store.applyPlatformPanels(panels);
+    errorText.value = "";
+  } catch (error) {
+    errorText.value = error instanceof Error ? error.message : "规划面板失败";
+  } finally {
+    planningPanels.value = false;
+  }
 };
 
 const exportMap = async () => {
