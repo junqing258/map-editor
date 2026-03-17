@@ -16,6 +16,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "code-inspector-plugin": "2.0.0-beta.6",
+    "dayjs": "^1.11.20",
     "lucide-vue-next": "^0.576.0",
     "pixi.js": "^8.10.2",
     "reka-ui": "^2.9.0",

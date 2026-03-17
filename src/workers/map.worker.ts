@@ -18,6 +18,17 @@ interface WorkerResponse {
   error?: string;
 }
 
+const formatExportTimestamp = (date: Date) => {
+  const pad = (value: number) => value.toString().padStart(2, "0");
+  return [
+    date.getFullYear().toString(),
+    pad(date.getMonth() + 1),
+    pad(date.getDate()),
+    pad(date.getHours()),
+    pad(date.getMinutes()),
+  ].join("");
+};
+
 const calcStats = (project: MapProject): MapOverviewStats => {
   const width = project.grid.width;
   const height = project.grid.height;
@@ -68,6 +79,7 @@ const exportRosLike = (project: MapProject): ExportPayload => {
 };
 
 const exportCustom = (project: MapProject): ExportPayload => {
+  const timestamp = formatExportTimestamp(new Date());
   const payload = {
     format: "hyperleap-map-v2",
     name: project.meta.name,
@@ -85,7 +97,7 @@ const exportCustom = (project: MapProject): ExportPayload => {
     devices: project.devices,
   };
   return {
-    filename: `${project.meta.name}-map-v2.json`,
+    filename: `${project.meta.name}-map-v2-${timestamp}.json`,
     mimeType: "application/json",
     content: JSON.stringify(payload, null, 2),
   };
