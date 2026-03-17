@@ -79,6 +79,7 @@ const exportCustom = (project: MapProject): ExportPayload => {
       nodes: project.layers.base,
     },
     paths: project.overlays.robotPaths,
+    platformPanels: project.overlays.platformPanels,
     devices: project.devices,
   };
   return {

@@ -2,6 +2,7 @@ import {
   createEmptyProject,
   type MapProject,
   type PathDirection,
+  type PlatformPanel,
   type SceneType,
   type SupplyMode,
   type UnloadMode,
@@ -51,6 +52,38 @@ export const parseProjectJson = (raw: string): MapProject => {
         y: Number(point.y ?? 0),
       })),
     })) ?? fallback.overlays.robotPaths;
+
+  const normalizedPanels: PlatformPanel[] = Array.isArray(data.overlays?.platformPanels)
+    ? data.overlays.platformPanels.flatMap((panel, index) => {
+        const x = Number(panel.x ?? 0);
+        const y = Number(panel.y ?? 0);
+        const panelWidth = Number(panel.width ?? 0);
+        const panelHeight = Number(panel.height ?? 0);
+        if (
+          !Number.isFinite(x) ||
+          !Number.isFinite(y) ||
+          !Number.isFinite(panelWidth) ||
+          !Number.isFinite(panelHeight)
+        ) {
+          return [];
+        }
+        if (panelWidth <= 0 || panelHeight <= 0) {
+          return [];
+        }
+        const spec = panel.spec === "2x4" ? "2x4" : "1x2";
+        return [
+          {
+            id: panel.id || `panel-${index + 1}`,
+            x,
+            y,
+            width: panelWidth,
+            height: panelHeight,
+            spec,
+            rotated: Boolean(panel.rotated),
+          },
+        ];
+      })
+    : [];
 
   const normalizedDevices: MapProject["devices"] = [];
   (data.devices ?? []).forEach((device, index) => {
@@ -110,6 +143,7 @@ export const parseProjectJson = (raw: string): MapProject => {
     },
     overlays: {
       robotPaths: normalizedPaths,
+      platformPanels: normalizedPanels,
     },
     devices: normalizedDevices,
   };

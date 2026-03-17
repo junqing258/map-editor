@@ -1,0 +1,89 @@
+@startuml
+
+
+title 规划面板算法调用时序
+
+skinparam backgroundColor #ffffff
+skinparam shadowing false
+skinparam sequence {
+  ArrowColor #475569
+  LifeLineBorderColor #64748b
+  LifeLineBackgroundColor #f8fafc
+  ParticipantBorderColor #334155
+  ParticipantBackgroundColor #e2e8f0
+  ParticipantFontColor #0f172a
+  ActorBorderColor #0f766e
+  ActorBackgroundColor #ccfbf1
+  ActorFontColor #134e4a
+}
+skinparam note {
+  BackgroundColor #fffbeb
+  BorderColor #d97706
+}
+
+actor "UI / store.planPlatformPanels" as UI
+participant "buildPlatformPanelLayout" as Layout
+participant "buildOccupancy" as Occupancy
+participant "runLargePanelGreedy" as Greedy
+participant "canPlacePanel" as CanPlace
+participant "markPanelCells" as MarkUsed
+participant "buildDominoPanels" as Domino
+participant "Hopcroft-Karp\nbfs / dfs" as Matching
+participant "normalizePanels" as Normalize
+participant "chooseBetterLayout" as Choose
+
+UI -> Layout: 传入 base, gridWidth, gridHeight
+activate Layout
+
+Layout -> Occupancy: buildOccupancy(base)
+Occupancy --> Layout: occupied[]
+Layout -> Layout: 统计 occupiedCount\nbestPanels = null
+
+loop 遍历 PANEL_STRATEGIES
+  Layout -> Greedy: runLargePanelGreedy(occupied, width, height, strategy)
+  activate Greedy
+
+  loop 按 y/x 扫描每个网格
+    Greedy -> CanPlace: canPlacePanel(..., 2x4 候选)
+    CanPlace --> Greedy: true / false
+    alt 可以放入 2x4
+      Greedy -> MarkUsed: markPanelCells(...)
+      MarkUsed --> Greedy: used 已标记
+      Greedy -> Greedy: 记录 2x4 面板
+    else 当前位置无法放置
+    end
+  end
+
+  Greedy --> Layout: used + largePanels
+  deactivate Greedy
+
+  Layout -> Domino: buildDominoPanels(occupied, used, width, height)
+  activate Domino
+  Domino -> Domino: available = occupied && !used\n构造左右点集与邻接边
+  Domino -> Matching: bfs / dfs 求最大匹配
+  activate Matching
+  Matching --> Domino: 匹配结果
+  deactivate Matching
+  Domino -> Domino: 将匹配边转换成 1x2 面板
+  Domino --> Layout: dominoPanels
+  deactivate Domino
+
+  Layout -> Normalize: normalizePanels(largePanels + dominoPanels)
+  Normalize --> Layout: candidatePanels
+
+  Layout -> Choose: chooseBetterLayout(candidate, bestPanels, occupiedCount)
+  Choose --> Layout: 更优方案
+  Layout -> Layout: bestPanels = result
+end
+
+Layout --> UI: bestPanels
+deactivate Layout
+
+note right of Layout
+  评价优先级:
+  1. leftover 更少
+  2. 2x4 更多
+  3. 总面板数更少
+end note
+
+@enduml

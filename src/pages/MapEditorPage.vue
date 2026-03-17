@@ -42,6 +42,13 @@
         >
           导航块
         </Button>
+        <Button
+          size="sm"
+          :variant="store.viewFlags.showPanelLayout ? 'default' : 'outline'"
+          @click="store.setViewFlag('showPanelLayout')"
+        >
+          实际面板
+        </Button>
       </div>
     </header>
 
@@ -72,6 +79,22 @@
             </label>
             <Button size="sm" variant="default" @click="applyBatchPlatform">极速生成</Button>
           </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <Button size="sm" variant="outline" @click="planPlatformPanels">规划面板</Button>
+            <Button
+              size="sm"
+              variant="outline"
+              :disabled="store.project.overlays.platformPanels.length === 0"
+              @click="store.clearPlatformPanels()"
+            >
+              清除面板
+            </Button>
+          </div>
+          <p class="m-0 text-[13px] text-slate-600">按 2x4 优先、剩余用 1x2 自动铺排；平台轮廓改动后需重新规划。</p>
+          <p class="m-0 text-[13px] text-slate-600">
+            当前布局: 2x4 {{ panelLayoutStats.largeCount }} 块，1x2 {{ panelLayoutStats.smallCount }} 块，覆盖
+            {{ panelLayoutStats.coveredCellCount }}/{{ stats?.nodeCount ?? 0 }} 格
+          </p>
         </template>
 
         <template v-else-if="store.activeTool === 'path-draw'">
@@ -252,6 +275,10 @@
             平台状态: 排队区 {{ stats?.queueCellCount ?? 0 }} / 等待区
             {{ stats?.waitingCellCount ?? 0 }}
           </p>
+          <p class="my-1 text-[13px] text-slate-700">
+            实际面板: 2x4 {{ panelLayoutStats.largeCount }} / 1x2 {{ panelLayoutStats.smallCount }} / 未覆盖
+            {{ panelLayoutStats.uncoveredCellCount }}
+          </p>
         </section>
 
         <h2 class="m-0 text-[17px] font-semibold tracking-[0.2px] text-slate-800">对象属性</h2>
@@ -354,10 +381,17 @@
             <p class="my-1 text-[13px] text-slate-700">设备 {{ store.selectedElement.deviceIds.length }} 个</p>
             <p class="my-1 text-[13px] text-slate-700">钢平台 {{ store.selectedElement.cells.length }} 个</p>
             <p class="my-1 text-[13px] text-slate-700">路径点 {{ store.selectedElement.pathPoints.length }} 个</p>
-            <Button class="w-full" size="sm" variant="destructive" @click="store.deleteSelectedElement()">
-              删除所选元素
-            </Button>
           </template>
+
+          <Button
+            v-if="canDeleteSelectedElement"
+            class="mt-2 w-full"
+            size="sm"
+            variant="destructive"
+            @click="store.deleteSelectedElement()"
+          >
+            删除所选元素
+          </Button>
         </section>
 
         <h2 class="m-0 text-[17px] font-semibold tracking-[0.2px] text-slate-800">地图元数据</h2>
@@ -559,6 +593,38 @@ const selectedCellStatus = computed(() => {
   return "空白";
 });
 
+const canDeleteSelectedElement = computed(() => {
+  const selection = store.selectedElement;
+  if (selection.kind === "none") {
+    return false;
+  }
+  if (selection.kind === "cell") {
+    return selection.active;
+  }
+  if (selection.kind === "path-point" || selection.kind === "device") {
+    return true;
+  }
+  if (selection.kind === "device-batch") {
+    return selection.deviceIds.length > 0;
+  }
+  return selection.deviceIds.length + selection.cells.length + selection.pathPoints.length > 0;
+});
+
+const panelLayoutStats = computed(() => {
+  const panels = store.project.overlays.platformPanels;
+  const largeCount = panels.filter((panel) => panel.spec === "2x4").length;
+  const smallCount = panels.length - largeCount;
+  const coveredCellCount = panels.reduce((acc, panel) => acc + panel.width * panel.height, 0);
+  const platformCellCount =
+    stats.value?.nodeCount ?? store.project.layers.base.reduce<number>((acc, cell) => (cell > 0 ? acc + 1 : acc), 0);
+  return {
+    largeCount,
+    smallCount,
+    coveredCellCount,
+    uncoveredCellCount: Math.max(0, platformCellCount - coveredCellCount),
+  };
+});
+
 const filteredLibrary = computed(() =>
   libraryItems.value.filter((item) => {
     if (libraryFilter.value === "published" && item.draft) {
@@ -613,6 +679,10 @@ const createMap = () => {
 
 const applyBatchPlatform = () => {
   store.fillPlatformBatch(store.toolOptions.batchRows, store.toolOptions.batchCols);
+};
+
+const planPlatformPanels = () => {
+  store.planPlatformPanels();
 };
 
 const exportMap = async () => {

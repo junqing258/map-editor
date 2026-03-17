@@ -30,9 +30,21 @@ export interface PathPoint {
   y: number;
 }
 
+export type PlatformPanelSpec = "1x2" | "2x4";
+
 export interface CellCoord {
   x: number;
   y: number;
+}
+
+export interface PlatformPanel {
+  id: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  spec: PlatformPanelSpec;
+  rotated: boolean;
 }
 
 export interface SelectedPathPointRef {
@@ -73,6 +85,7 @@ export interface ViewFlags {
   showGrid: boolean;
   showPath: boolean;
   showNavBlock: boolean;
+  showPanelLayout: boolean;
 }
 
 export interface ToolOptions {
@@ -101,6 +114,7 @@ export interface MapProject {
   };
   overlays: {
     robotPaths: RobotPath[];
+    platformPanels: PlatformPanel[];
   };
   devices: MapDevice[];
 }
@@ -198,6 +212,7 @@ export const createEmptyProject = (
           points: [],
         },
       ],
+      platformPanels: [],
     },
     devices: [],
   };

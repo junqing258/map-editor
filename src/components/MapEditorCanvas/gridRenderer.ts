@@ -57,6 +57,7 @@ export class GridRenderer {
   private readonly baseContainer = new Container();
   private readonly overlayContainer = new Container();
   private readonly gridGraphics = new Graphics();
+  private readonly panelGraphics = new Graphics();
   private readonly pathGraphics = new Graphics();
   private readonly arrowGraphics = new Graphics();
   private readonly deviceGraphics = new Graphics();
@@ -71,6 +72,7 @@ export class GridRenderer {
     showGrid: true,
     showPath: true,
     showNavBlock: true,
+    showPanelLayout: true,
   };
   private view = {
     zoom: 1,
@@ -90,6 +92,7 @@ export class GridRenderer {
     this.deviceIconTextures = deviceIconTextures;
     this.overlayContainer.addChild(
       this.gridGraphics,
+      this.panelGraphics,
       this.pathGraphics,
       this.arrowGraphics,
       this.deviceGraphics,
@@ -120,6 +123,7 @@ export class GridRenderer {
     this.project = project;
     this.rebuildAllChunks();
     this.redrawGrid();
+    this.redrawPanels(project.overlays.platformPanels);
     this.redrawPaths(project.overlays.robotPaths);
     this.redrawDevices(project.devices);
   }
@@ -129,6 +133,7 @@ export class GridRenderer {
     this.flags = { ...flags };
     this.rebuildAllChunks();
     this.redrawGrid();
+    this.redrawPanels(this.project.overlays.platformPanels);
     this.redrawPaths(this.project.overlays.robotPaths);
     this.redrawDevices(this.project.devices);
   }
@@ -196,12 +201,12 @@ export class GridRenderer {
       if (path.points.length < 1) {
         continue;
       }
-      const alpha = 0.8
+      const alpha = 0.8;
       // 路径线宽随单元尺寸比例变化，保证不同缩放/分辨率下可读性。
       this.pathGraphics.setStrokeStyle({
         width: Math.max(2, this.cellPixel * 0.09),
         color: path.color,
-        alpha
+        alpha,
       });
 
       const start = path.points[0];
@@ -238,7 +243,7 @@ export class GridRenderer {
             to.x * this.cellPixel + this.cellPixel / 2,
             to.y * this.cellPixel + this.cellPixel / 2,
             path.color,
-            alpha
+            alpha,
           );
         }
       }
@@ -319,6 +324,50 @@ export class GridRenderer {
     }
   }
 
+  redrawPanels(panels: MapProject["overlays"]["platformPanels"]) {
+    this.panelGraphics.clear();
+    if (!this.flags.showPanelLayout || panels.length === 0) {
+      return;
+    }
+
+    const strokeWidth = Math.max(2, this.cellPixel * 0.04);
+    panels.forEach((panel) => {
+      const x = panel.x * this.cellPixel + 4;
+      const y = panel.y * this.cellPixel + 4;
+      const width = panel.width * this.cellPixel - 8;
+      const height = panel.height * this.cellPixel - 8;
+      const isLarge = panel.spec === "2x4";
+      const fillColor = isLarge ? "#f59e0b" : "#10b981";
+      const strokeColor = isLarge ? "#b45309" : "#047857";
+      const inset = isLarge ? 16 : 12;
+
+      this.panelGraphics.roundRect(x, y, width, height, 12);
+      this.panelGraphics.fill({ color: fillColor, alpha: isLarge ? 0.1 : 0.08 });
+      this.panelGraphics.setStrokeStyle({
+        width: strokeWidth,
+        color: strokeColor,
+        alpha: 0.9,
+      });
+      this.panelGraphics.stroke();
+
+      this.panelGraphics.setStrokeStyle({
+        width: Math.max(1, strokeWidth * 0.65),
+        color: strokeColor,
+        alpha: 0.45,
+      });
+      if (panel.rotated) {
+        const centerX = x + width / 2;
+        this.panelGraphics.moveTo(centerX, y + inset);
+        this.panelGraphics.lineTo(centerX, y + height - inset);
+      } else {
+        const centerY = y + height / 2;
+        this.panelGraphics.moveTo(x + inset, centerY);
+        this.panelGraphics.lineTo(x + width - inset, centerY);
+      }
+      this.panelGraphics.stroke();
+    });
+  }
+
   highlightSelection(selection: SelectedElement, project: MapProject) {
     this.selectionGraphics.clear();
     if (selection.kind === "none") {
@@ -394,8 +443,6 @@ export class GridRenderer {
       y: Math.floor(worldY / this.cellPixel),
     };
   }
-
-
 
   private highlightCell(x: number, y: number) {
     this.selectionGraphics.rect(x * this.cellPixel, y * this.cellPixel, this.cellPixel, this.cellPixel);

@@ -1,0 +1,89 @@
+@startuml
+' !include /Users/zhangjunqing/Documents/orchard_uml/src/core.puml
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title 规划面板算法原理
+
+skinparam backgroundColor #ffffff
+skinparam shadowing false
+skinparam activity {
+  BackgroundColor #f8fafc
+  BorderColor #475569
+  FontColor #0f172a
+  DiamondBackgroundColor #fff7ed
+  DiamondBorderColor #c2410c
+  StartColor #0f766e
+  EndColor #b91c1c
+  BarColor #64748b
+}
+skinparam note {
+  BackgroundColor #fffbeb
+  BorderColor #d97706
+}
+
+start
+
+:输入钢平台 base 图层;
+:buildOccupancy(base)\n将 cell > 0 转成 occupied 布尔矩阵;
+:统计 occupiedCount;
+
+note right
+  occupied=true 表示该网格可用于铺板
+  queue / waiting 也会参与当前版本的铺排
+end note
+
+:bestPanels = null;
+
+while (还有候选策略?) is (是)
+  :取一个 PANEL_STRATEGY;
+
+  partition "阶段1: 2x4 优先贪心铺排" {
+    :初始化 used=false;
+    :从上到下、从左到右扫描网格;
+    while (还有未扫描网格?) is (是)
+      if (当前位置 occupied=false\n或 used=true?) then (跳过)
+      else (尝试铺设)
+        if (当前策略下能放入 2x4?) then (能)
+          :markPanelCells(...)\n标记该矩形区域为 used;
+          :记录一个 2x4 面板;
+        else (不能)
+        endif
+      endif
+    endwhile (完成)
+  }
+
+  partition "阶段2: 剩余区域补 1x2" {
+    :available = occupied && !used;
+    :把 available 网格构造成二分图;
+    note right
+      左侧点集: (x+y)%2==0 的格子
+      边: 上下左右相邻且同样 available
+    end note
+
+    :Hopcroft-Karp 最大匹配;
+    :把每一条匹配边转换成 1x2 面板;
+  }
+
+  partition "阶段3: 归一化与评分" {
+    :合并 2x4 + 1x2 面板;
+    :normalizePanels()\n补 id 并按坐标排序;
+    :计算 covered / leftover / largeCount;
+    if (candidate 比 bestPanels 更优?) then (是)
+      :bestPanels = candidate;
+    else (否)
+    endif
+  }
+endwhile (否)
+
+:返回 bestPanels;
+
+note right
+  chooseBetterLayout 比较顺序:
+  1. leftover 更少
+  2. 2x4 数量更多
+  3. 总面板数更少
+end note
+
+stop
+@enduml

@@ -265,6 +265,14 @@ watch(
 );
 
 watch(
+  () => store.project.overlays.platformPanels,
+  (panels) => {
+    renderer?.redrawPanels(panels);
+  },
+  { deep: true },
+);
+
+watch(
   () => store.project.overlays.robotPaths,
   (paths) => {
     renderer?.redrawPaths(paths);
