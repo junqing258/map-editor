@@ -156,7 +156,7 @@
       class="grid min-h-0 grid-cols-[170px_minmax(0,1fr)_340px] gap-2.5 max-[1180px]:grid-cols-1 max-[1180px]:grid-rows-[auto_minmax(420px,1fr)_auto]"
     >
       <aside
-        class="flex h-hull flex-col gap-2.5 overflow-auto rounded-xl border border-slate-300 bg-white p-3 max-[1180px]:max-h-[220px]"
+        class="flex h-hull flex-col gap-2.5 overflow-auto rounded-xl border border-slate-300 bg-white p-3 max-[1180px]:max-h-55"
       >
         <h1 class="m-0 text-[17px] font-semibold tracking-[0.2px] text-slate-800">快捷工具</h1>
         <div class="grid grid-cols-1 gap-2 max-[1180px]:grid-cols-3">
@@ -245,7 +245,7 @@
       </aside>
 
       <main
-        class="min-h-0 overflow-hidden rounded-xl border border-slate-300 bg-gradient-to-br from-slate-50 to-slate-100 shadow-md"
+        class="min-h-0 overflow-hidden rounded-xl border border-slate-300 bg-linear-to-br from-slate-50 to-slate-100 shadow-md"
       >
         <MapEditorCanvas :store="store" />
       </main>
@@ -285,8 +285,80 @@
 
         <h2 class="m-0 text-[17px] font-semibold tracking-[0.2px] text-slate-800">对象属性</h2>
         <section class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+          <div v-if="store.batchSelectionState" class="mb-3 rounded-xl border border-slate-200 bg-white p-3 shadow-xs">
+            <div class="flex items-center justify-between gap-2">
+              <p class="m-0 text-[13px] font-medium text-slate-800">框选类型</p>
+              <div class="flex flex-wrap gap-1.5">
+                <Button size="sm" variant="outline" @click="store.selectAllBatchSelectionTypes()">全选</Button>
+                <Button size="sm" variant="outline" @click="store.clearBatchSelectionTypes()">清空</Button>
+              </div>
+            </div>
+            <p class="mt-1 text-[12px] text-slate-500">勾选后保留当前类型，取消勾选后从本次框选结果中移除。</p>
+            <div class="mt-2 grid gap-2">
+              <label
+                v-if="store.batchSelectionState.availableCounts.devices > 0"
+                class="flex items-center justify-between gap-2 rounded-lg border border-slate-200 px-2.5 py-2 text-[13px] text-slate-700"
+              >
+                <span class="inline-flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    class="size-4 rounded border-slate-300 text-slate-700 focus-visible:ring-2 focus-visible:ring-slate-400"
+                    :checked="store.batchSelectionState.filter.devices"
+                    @change="toggleBatchSelectionType('devices', $event)"
+                  />
+                  <span>设备</span>
+                </span>
+                <span class="text-[12px] text-slate-500">
+                  {{ store.batchSelectionState.selectedCounts.devices }}/{{
+                    store.batchSelectionState.availableCounts.devices
+                  }}
+                </span>
+              </label>
+              <label
+                v-if="store.batchSelectionState.availableCounts.cells > 0"
+                class="flex items-center justify-between gap-2 rounded-lg border border-slate-200 px-2.5 py-2 text-[13px] text-slate-700"
+              >
+                <span class="inline-flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    class="size-4 rounded border-slate-300 text-slate-700 focus-visible:ring-2 focus-visible:ring-slate-400"
+                    :checked="store.batchSelectionState.filter.cells"
+                    @change="toggleBatchSelectionType('cells', $event)"
+                  />
+                  <span>钢平台</span>
+                </span>
+                <span class="text-[12px] text-slate-500">
+                  {{ store.batchSelectionState.selectedCounts.cells }}/{{
+                    store.batchSelectionState.availableCounts.cells
+                  }}
+                </span>
+              </label>
+              <label
+                v-if="store.batchSelectionState.availableCounts.pathPoints > 0"
+                class="flex items-center justify-between gap-2 rounded-lg border border-slate-200 px-2.5 py-2 text-[13px] text-slate-700"
+              >
+                <span class="inline-flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    class="size-4 rounded border-slate-300 text-slate-700 focus-visible:ring-2 focus-visible:ring-slate-400"
+                    :checked="store.batchSelectionState.filter.pathPoints"
+                    @change="toggleBatchSelectionType('pathPoints', $event)"
+                  />
+                  <span>路径点</span>
+                </span>
+                <span class="text-[12px] text-slate-500">
+                  {{ store.batchSelectionState.selectedCounts.pathPoints }}/{{
+                    store.batchSelectionState.availableCounts.pathPoints
+                  }}
+                </span>
+              </label>
+            </div>
+          </div>
+
           <template v-if="store.selectedElement.kind === 'none'">
-            <p class="mt-1.5 text-[13px] text-slate-500">未选中对象</p>
+            <p class="mt-1.5 text-[13px] text-slate-500">
+              {{ store.batchSelectionState ? "当前未勾选任何框选类型" : "未选中对象" }}
+            </p>
           </template>
 
           <template v-else-if="store.selectedElement.kind === 'cell'">
@@ -502,13 +574,16 @@
 <script setup lang="ts">
 import { BatteryCharging, Eraser, MousePointer2, PackageMinus, PackagePlus, Route, Square } from "lucide-vue-next";
 import { computed, onBeforeUnmount, onMounted, reactive, ref, toRaw, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
 import { createEditorStore } from "@/components/MapEditorCanvas/editorStore";
 import MapEditorCanvas from "@/components/MapEditorCanvas/index.vue";
 import { Button } from "@/components/ui/button";
 import { useMapWorker } from "@/composables/useMapWorker";
-import type { MapOverviewStats, MapProject, PathCheckResult, SceneType } from "@/types/map";
-import { DEFAULT_MAP_HEIGHT, DEFAULT_MAP_WIDTH } from "@/types/map";
+import { normalizeMapId } from "@/lib/mapIdentity";
+import { loadCachedMapProject, saveCachedMapProject } from "@/lib/mapPersistence";
+import type { BatchSelectionFilter, MapOverviewStats, MapProject, PathCheckResult, SceneType } from "@/types/map";
+import { createEmptyProject, DEFAULT_MAP_HEIGHT, DEFAULT_MAP_WIDTH } from "@/types/map";
 import { downloadTextFile } from "@/utils/download";
 import { parseProjectJson } from "@/utils/projectIO";
 import { safeStructuredClone } from "@/utils/safeClone";
@@ -524,7 +599,10 @@ interface LibraryItem {
 }
 
 const LIB_KEY = "hyperleap-map-library-v1";
+const AUTOSAVE_DELAY_MS = 160;
 
+const route = useRoute();
+const router = useRouter();
 const store = createEditorStore();
 const worker = useMapWorker();
 
@@ -644,6 +722,95 @@ const filteredLibrary = computed(() =>
 );
 
 let statsTimer: number | null = null;
+let persistTimer: number | null = null;
+let hydratingRoute = false;
+let routeHydrationToken = 0;
+
+const getRouteMapId = (value: unknown = route.params.mapId) => {
+  const rawValue = Array.isArray(value) ? value[0] : value;
+  return normalizeMapId(rawValue);
+};
+
+const syncEditorUiState = () => {
+  tagsText.value = store.project.meta.tags.join(",");
+  checkResult.value = null;
+};
+
+const replaceRouteMapId = async (mapId: string) => {
+  if (getRouteMapId() === mapId) {
+    return;
+  }
+  await router.replace({
+    name: "map-editor",
+    params: { mapId },
+  });
+};
+
+const persistCurrentProject = async () => {
+  try {
+    await saveCachedMapProject(safeStructuredClone(toRaw(store.project)));
+  } catch (error) {
+    console.error("缓存地图失败", error);
+  }
+};
+
+const schedulePersist = (force = false) => {
+  if (hydratingRoute && !force) {
+    return;
+  }
+  if (persistTimer) {
+    window.clearTimeout(persistTimer);
+  }
+  persistTimer = window.setTimeout(() => {
+    persistTimer = null;
+    void persistCurrentProject();
+  }, AUTOSAVE_DELAY_MS);
+};
+
+const restoreProjectFromRoute = async (routeMapId: string | null) => {
+  const currentToken = ++routeHydrationToken;
+  hydratingRoute = true;
+
+  try {
+    if (!routeMapId) {
+      await replaceRouteMapId(store.project.meta.id);
+      syncEditorUiState();
+      return;
+    }
+
+    if (store.project.meta.id === routeMapId) {
+      syncEditorUiState();
+      return;
+    }
+
+    const cachedProject = await loadCachedMapProject(routeMapId);
+    if (currentToken !== routeHydrationToken) {
+      return;
+    }
+
+    if (cachedProject) {
+      store.resetProject(cachedProject, { clearHistory: true, skipHistory: true });
+    } else {
+      store.resetProject(
+        createEmptyProject(DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT, "production", "factory-map", routeMapId),
+        {
+          clearHistory: true,
+          skipHistory: true,
+        },
+      );
+    }
+
+    syncEditorUiState();
+    errorText.value = "";
+    await replaceRouteMapId(store.project.meta.id);
+  } catch (error) {
+    errorText.value = error instanceof Error ? error.message : "恢复地图失败";
+    console.error(error);
+  } finally {
+    hydratingRoute = false;
+    schedulePersist(true);
+  }
+};
 
 const refreshStats = async () => {
   try {
@@ -668,15 +835,17 @@ const checkPath = () => {
 };
 
 const createMap = () => {
-  store.createNewMap({
-    name: newMapForm.name,
-    width: newMapForm.width,
-    height: newMapForm.height,
-    scene: newMapForm.scene,
-    tags: newMapForm.tagsText.split(",").map((item) => item.trim()),
-  });
-  tagsText.value = store.project.meta.tags.join(",");
-  checkResult.value = null;
+  store.createNewMap(
+    {
+      name: newMapForm.name,
+      width: newMapForm.width,
+      height: newMapForm.height,
+      scene: newMapForm.scene,
+      tags: newMapForm.tagsText.split(",").map((item) => item.trim()),
+    },
+    { clearHistory: true },
+  );
+  syncEditorUiState();
   showNewMap.value = false;
 };
 
@@ -724,9 +893,8 @@ const importProjectJson = async (event: Event) => {
   try {
     const text = await file.text();
     const project = parseProjectJson(text);
-    store.resetProject(project);
-    tagsText.value = store.project.meta.tags.join(",");
-    checkResult.value = null;
+    store.resetProject(project, { clearHistory: true });
+    syncEditorUiState();
     errorText.value = "";
   } catch (error) {
     errorText.value = error instanceof Error ? error.message : "导入失败";
@@ -774,7 +942,7 @@ const saveLibrary = () => {
 };
 
 const saveToLibrary = (draft: boolean) => {
-  const id = `${store.project.meta.name}-${draft ? "draft" : "published"}`;
+  const id = `${store.project.meta.id}-${draft ? "draft" : "published"}`;
   const now = new Date().toISOString().slice(0, 19).replace("T", " ");
   const entry: LibraryItem = {
     id,
@@ -800,9 +968,8 @@ const openLibraryItem = (id: string) => {
   if (!item) {
     return;
   }
-  store.resetProject(parseProjectJson(JSON.stringify(item.project)));
-  tagsText.value = store.project.meta.tags.join(",");
-  checkResult.value = null;
+  store.resetProject(parseProjectJson(JSON.stringify(item.project)), { clearHistory: true });
+  syncEditorUiState();
   showLibrary.value = false;
 };
 
@@ -851,6 +1018,13 @@ const applyBatchProps = () => {
     prefix: batchForm.prefix.trim() || undefined,
     enabled: batchForm.enabledMode === "keep" ? undefined : batchForm.enabledMode === "true",
     speedLimit: Number.isFinite(speedValue) ? speedValue : undefined,
+  });
+};
+
+const toggleBatchSelectionType = (key: keyof BatchSelectionFilter, event: Event) => {
+  const target = event.target as HTMLInputElement;
+  store.setBatchSelectionFilterState({
+    [key]: target.checked,
   });
 };
 
@@ -918,6 +1092,17 @@ watch(
     statsTimer = window.setTimeout(() => {
       void refreshStats();
     }, 80);
+    schedulePersist();
+  },
+);
+
+watch(
+  () => store.project.meta.id,
+  (mapId) => {
+    if (hydratingRoute) {
+      return;
+    }
+    void replaceRouteMapId(mapId);
   },
 );
 
@@ -939,9 +1124,17 @@ watch(
   { immediate: true },
 );
 
+watch(
+  () => route.params.mapId,
+  (mapId) => {
+    void restoreProjectFromRoute(getRouteMapId(mapId));
+  },
+  { immediate: true },
+);
+
 onMounted(() => {
   loadLibrary();
-  tagsText.value = store.project.meta.tags.join(",");
+  syncEditorUiState();
   void refreshStats();
   window.addEventListener("keydown", onKeyDown);
 });
@@ -949,6 +1142,10 @@ onMounted(() => {
 onBeforeUnmount(() => {
   if (statsTimer) {
     window.clearTimeout(statsTimer);
+  }
+  if (persistTimer) {
+    window.clearTimeout(persistTimer);
+    void persistCurrentProject();
   }
   worker.terminate();
   window.removeEventListener("keydown", onKeyDown);

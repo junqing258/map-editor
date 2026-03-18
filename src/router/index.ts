@@ -6,13 +6,17 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: "/",
+      path: "/maps/:mapId?",
       name: "map-editor",
       component: MapEditorPage,
     },
     {
+      path: "/",
+      redirect: "/maps",
+    },
+    {
       path: "/:pathMatch(.*)*",
-      redirect: "/",
+      redirect: "/maps",
     },
   ],
 });

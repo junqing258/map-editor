@@ -82,6 +82,7 @@ const exportCustom = (project: MapProject): ExportPayload => {
   const timestamp = formatExportTimestamp(new Date());
   const payload = {
     format: "hyperleap-map-v2",
+    id: project.meta.id,
     name: project.meta.name,
     scene: project.meta.scene,
     tags: project.meta.tags,

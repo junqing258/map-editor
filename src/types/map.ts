@@ -1,3 +1,5 @@
+import { createMapId } from "@/lib/mapIdentity";
+
 export type CellValue = 0 | 1 | 2 | 3;
 export type PlatformCellValue = 1 | 2 | 3;
 
@@ -54,6 +56,18 @@ export interface SelectedPathPointRef {
   y: number;
 }
 
+export interface BatchSelectionSource {
+  deviceIds: string[];
+  cells: CellCoord[];
+  pathPoints: SelectedPathPointRef[];
+}
+
+export interface BatchSelectionFilter {
+  devices: boolean;
+  cells: boolean;
+  pathPoints: boolean;
+}
+
 export interface RobotPath {
   id: string;
   name: string;
@@ -98,6 +112,7 @@ export interface ToolOptions {
 }
 
 export interface MapProjectMeta {
+  id: string;
   name: string;
   createdAt: string;
   updatedAt: string;
@@ -123,22 +138,22 @@ export type SelectedElement =
   | { kind: "none" }
   | { kind: "cell"; x: number; y: number; active: boolean }
   | {
-      kind: "path-point";
-      pathId: string;
-      pathName: string;
-      index: number;
-      x: number;
-      y: number;
-      direction: PathDirection;
-    }
+    kind: "path-point";
+    pathId: string;
+    pathName: string;
+    index: number;
+    x: number;
+    y: number;
+    direction: PathDirection;
+  }
   | { kind: "device"; deviceId: string }
   | { kind: "device-batch"; deviceIds: string[] }
   | {
-      kind: "mixed-batch";
-      deviceIds: string[];
-      cells: CellCoord[];
-      pathPoints: SelectedPathPointRef[];
-    };
+    kind: "mixed-batch";
+    deviceIds: string[];
+    cells: CellCoord[];
+    pathPoints: SelectedPathPointRef[];
+  };
 
 export type ExportFormat = "ros" | "custom";
 
@@ -182,11 +197,13 @@ export const createEmptyProject = (
   height = DEFAULT_MAP_HEIGHT,
   scene: SceneType = "production",
   name = "factory-map",
+  id = createMapId(name),
 ): MapProject => {
   const now = new Date().toISOString();
   return {
     version: "2.0.0",
     meta: {
+      id,
       name,
       createdAt: now,
       updatedAt: now,

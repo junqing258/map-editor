@@ -2,6 +2,8 @@ import { computed, type ComputedRef, reactive, type Ref, ref, toRaw } from "vue"
 
 import { arePanelsEqual } from "@/lib/platformPanelLayout";
 import {
+  type BatchSelectionFilter,
+  type BatchSelectionSource,
   type CellCoord,
   type CellValue,
   createEmptyProject,
@@ -24,6 +26,16 @@ import {
 const MAX_HISTORY = 100;
 const PATH_COLOR_PALETTE = ["#2563eb", "#f97316", "#16a34a", "#dc2626", "#7c3aed", "#0f766e"];
 const cellIndex = (x: number, y: number, width: number) => y * width + x;
+const createEmptyBatchSelectionFilter = (): BatchSelectionFilter => ({
+  devices: false,
+  cells: false,
+  pathPoints: false,
+});
+const createDefaultBatchSelectionPreference = (): BatchSelectionFilter => ({
+  devices: true,
+  cells: true,
+  pathPoints: true,
+});
 // 统一深拷贝入口：优先 structuredClone，失败时回退到可容错的 JSON 方案。
 const cloneProject = (source: MapProject): MapProject => {
   const raw = toRaw(source);
@@ -113,6 +125,9 @@ const createEditorStoreCore = () => {
   const toolOptions = ref<ToolOptions>(createDefaultOptions());
   const viewFlags = ref<ViewFlags>(createDefaultViewFlags());
   const selectedElement = ref<SelectedElement>({ kind: "none" });
+  const batchSelectionSource = ref<BatchSelectionSource | null>(null);
+  const batchSelectionFilter = ref<BatchSelectionFilter>(createEmptyBatchSelectionFilter());
+  const batchSelectionPreference = ref<BatchSelectionFilter>(createDefaultBatchSelectionPreference());
   const revision = ref(0);
   const centerSignal = ref(0);
 
@@ -141,6 +156,105 @@ const createEditorStoreCore = () => {
   );
 
   const singleSelectedDevice = computed(() => (selectedDevices.value.length === 1 ? selectedDevices.value[0] : null));
+
+  const normalizeBatchSelectionFilter = (source: BatchSelectionSource, filter: BatchSelectionFilter): BatchSelectionFilter => ({
+    devices: source.deviceIds.length > 0 ? filter.devices : false,
+    cells: source.cells.length > 0 ? filter.cells : false,
+    pathPoints: source.pathPoints.length > 0 ? filter.pathPoints : false,
+  });
+
+  const buildSelectedElementFromBatchSelection = (
+    source: BatchSelectionSource,
+    filter: BatchSelectionFilter,
+  ): SelectedElement => {
+    const normalized = normalizeBatchSelectionFilter(source, filter);
+    const deviceIds = normalized.devices ? source.deviceIds : [];
+    const cells = normalized.cells ? source.cells : [];
+    const pathPoints = normalized.pathPoints ? source.pathPoints : [];
+    const total = deviceIds.length + cells.length + pathPoints.length;
+
+    if (total === 0) {
+      return { kind: "none" };
+    }
+    if (deviceIds.length === 1 && cells.length === 0 && pathPoints.length === 0) {
+      return { kind: "device", deviceId: deviceIds[0] };
+    }
+    if (deviceIds.length === 0 && cells.length === 1 && pathPoints.length === 0) {
+      const cell = cells[0];
+      return {
+        kind: "cell",
+        x: cell.x,
+        y: cell.y,
+        active: getCell(cell.x, cell.y) > 0,
+      };
+    }
+    if (deviceIds.length === 0 && cells.length === 0 && pathPoints.length === 1) {
+      const point = pathPoints[0];
+      const path = project.value.overlays.robotPaths.find((item) => item.id === point.pathId);
+      return {
+        kind: "path-point",
+        pathId: point.pathId,
+        pathName: path?.name ?? point.pathId,
+        index: point.index,
+        x: point.x,
+        y: point.y,
+        direction: path?.direction ?? "oneway",
+      };
+    }
+    if (cells.length === 0 && pathPoints.length === 0) {
+      return {
+        kind: "device-batch",
+        deviceIds,
+      };
+    }
+    return {
+      kind: "mixed-batch",
+      deviceIds,
+      cells,
+      pathPoints,
+    };
+  };
+
+  const clearBatchSelectionSource = () => {
+    batchSelectionSource.value = null;
+    batchSelectionFilter.value = createEmptyBatchSelectionFilter();
+  };
+
+  const setBatchSelection = (source: BatchSelectionSource, filter?: BatchSelectionFilter) => {
+    const nextFilter = normalizeBatchSelectionFilter(source, filter ?? batchSelectionPreference.value);
+    batchSelectionSource.value = {
+      deviceIds: [...source.deviceIds],
+      cells: [...source.cells],
+      pathPoints: [...source.pathPoints],
+    };
+    batchSelectionFilter.value = nextFilter;
+    selectedElement.value = buildSelectedElementFromBatchSelection(source, nextFilter);
+  };
+
+  const batchSelectionState = computed(() => {
+    const source = batchSelectionSource.value;
+    if (!source) {
+      return null;
+    }
+    const filter = normalizeBatchSelectionFilter(source, batchSelectionFilter.value);
+    return {
+      filter,
+      availableCounts: {
+        devices: source.deviceIds.length,
+        cells: source.cells.length,
+        pathPoints: source.pathPoints.length,
+      },
+      selectedCounts: {
+        devices: filter.devices ? source.deviceIds.length : 0,
+        cells: filter.cells ? source.cells.length : 0,
+        pathPoints: filter.pathPoints ? source.pathPoints.length : 0,
+      },
+    };
+  });
+
+  const setSelectedElementNone = () => {
+    selectedElement.value = { kind: "none" };
+  };
 
   const isCellInside = (x: number, y: number) => x >= 0 && y >= 0 && x < width.value && y < height.value;
 
@@ -285,13 +399,20 @@ const createEditorStoreCore = () => {
     actionHasSnapshot = false;
   };
 
+  const clearHistoryState = () => {
+    past.value = [];
+    future.value = [];
+  };
+
   const selectNone = () => {
-    selectedElement.value = { kind: "none" };
+    clearBatchSelectionSource();
+    setSelectedElementNone();
   };
 
   const selectCell = (x: number, y: number) => {
+    clearBatchSelectionSource();
     if (!isCellInside(x, y)) {
-      selectNone();
+      setSelectedElementNone();
       return;
     }
     selectedElement.value = {
@@ -303,9 +424,10 @@ const createEditorStoreCore = () => {
   };
 
   const selectPathPoint = (pathId: string, index: number) => {
+    clearBatchSelectionSource();
     const path = project.value.overlays.robotPaths.find((item) => item.id === pathId);
     if (!path || !path.points[index]) {
-      selectNone();
+      setSelectedElementNone();
       return;
     }
     const point = path.points[index];
@@ -321,15 +443,17 @@ const createEditorStoreCore = () => {
   };
 
   const selectDevice = (deviceId: string) => {
+    clearBatchSelectionSource();
     selectedElement.value = { kind: "device", deviceId };
   };
 
   const selectDevicesBatch = (deviceIds: string[]) => {
+    clearBatchSelectionSource();
     if (deviceIds.length <= 1) {
       if (deviceIds.length === 1) {
-        selectDevice(deviceIds[0]);
+        selectedElement.value = { kind: "device", deviceId: deviceIds[0] };
       } else {
-        selectNone();
+        setSelectedElementNone();
       }
       return;
     }
@@ -654,31 +778,52 @@ const createEditorStoreCore = () => {
       selectNone();
       return;
     }
-    if (deviceIds.length === 1 && cells.length === 0 && pathPoints.length === 0) {
-      selectDevice(deviceIds[0]);
-      return;
-    }
-    if (deviceIds.length === 0 && cells.length === 1 && pathPoints.length === 0) {
-      selectCell(cells[0].x, cells[0].y);
-      return;
-    }
-    if (deviceIds.length === 0 && cells.length === 0 && pathPoints.length === 1) {
-      const point = pathPoints[0];
-      selectPathPoint(point.pathId, point.index);
-      return;
-    }
-    if (cells.length === 0 && pathPoints.length === 0) {
-      selectDevicesBatch(deviceIds);
-      return;
-    }
-
-    selectedElement.value = {
-      kind: "mixed-batch",
+    const source = {
       deviceIds,
       cells,
       pathPoints,
     };
+    if (total === 1) {
+      clearBatchSelectionSource();
+      selectedElement.value = buildSelectedElementFromBatchSelection(source, {
+        devices: true,
+        cells: true,
+        pathPoints: true,
+      });
+      return;
+    }
+    setBatchSelection(source);
   };
+
+  const setBatchSelectionFilterState = (patch: Partial<BatchSelectionFilter>) => {
+    const source = batchSelectionSource.value;
+    if (!source) {
+      return false;
+    }
+    const preference = {
+      ...batchSelectionPreference.value,
+      ...patch,
+    };
+    const next = normalizeBatchSelectionFilter(source, preference);
+    batchSelectionPreference.value = preference;
+    batchSelectionFilter.value = next;
+    selectedElement.value = buildSelectedElementFromBatchSelection(source, next);
+    return true;
+  };
+
+  const selectAllBatchSelectionTypes = () =>
+    setBatchSelectionFilterState({
+      devices: true,
+      cells: true,
+      pathPoints: true,
+    });
+
+  const clearBatchSelectionTypes = () =>
+    setBatchSelectionFilterState({
+      devices: false,
+      cells: false,
+      pathPoints: false,
+    });
 
   const updateSingleDevice = (patch: {
     name?: string;
@@ -902,7 +1047,7 @@ const createEditorStoreCore = () => {
   const resetMapData = () => {
     rememberSnapshot();
     const { width: w, height: h, cellSizeMeter, chunkSize } = project.value.grid;
-    const next = createEmptyProject(w, h, project.value.meta.scene, project.value.meta.name);
+    const next = createEmptyProject(w, h, project.value.meta.scene, project.value.meta.name, project.value.meta.id);
     next.meta.tags = [...project.value.meta.tags];
     next.grid.cellSizeMeter = cellSizeMeter;
     next.grid.chunkSize = chunkSize;
@@ -911,25 +1056,39 @@ const createEditorStoreCore = () => {
     revision.value += 1;
   };
 
-  const createNewMap = (payload: { name: string; width: number; height: number; scene: SceneType; tags: string[] }) => {
-    rememberSnapshot();
+  const createNewMap = (
+    payload: { id?: string; name: string; width: number; height: number; scene: SceneType; tags: string[] },
+    options?: { clearHistory?: boolean; skipHistory?: boolean },
+  ) => {
+    if (!options?.skipHistory) {
+      rememberSnapshot();
+    }
     const next = createEmptyProject(
       Math.max(8, Math.floor(payload.width)),
       Math.max(8, Math.floor(payload.height)),
       payload.scene,
       payload.name.trim() || "factory-map",
+      payload.id,
     );
     next.meta.tags = payload.tags.filter(Boolean);
     project.value = next;
     toolOptions.value = createDefaultOptions();
     selectNone();
+    if (options?.clearHistory) {
+      clearHistoryState();
+    }
     revision.value += 1;
   };
 
-  const resetProject = (next?: MapProject) => {
-    rememberSnapshot();
+  const resetProject = (next?: MapProject, options?: { clearHistory?: boolean; skipHistory?: boolean }) => {
+    if (!options?.skipHistory) {
+      rememberSnapshot();
+    }
     project.value = next ?? createEmptyProject();
     selectNone();
+    if (options?.clearHistory) {
+      clearHistoryState();
+    }
     revision.value += 1;
   };
 
@@ -1013,6 +1172,7 @@ const createEditorStoreCore = () => {
     toolOptions,
     viewFlags,
     selectedElement,
+    batchSelectionState,
     selectedDeviceIds,
     selectedDevices,
     singleSelectedDevice,
@@ -1041,6 +1201,9 @@ const createEditorStoreCore = () => {
     placeDeviceByTool,
     selectByCell,
     selectElementsInRect,
+    setBatchSelectionFilterState,
+    selectAllBatchSelectionTypes,
+    clearBatchSelectionTypes,
     selectNone,
     clearSelection,
     deleteSelectedElement,

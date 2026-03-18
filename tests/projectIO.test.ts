@@ -5,6 +5,7 @@ import { parseProjectJson } from "@/utils/projectIO";
 describe("parseProjectJson", () => {
   it("parses legacy and exported fields into the current project shape", () => {
     const raw = JSON.stringify({
+      id: "demo-route-id",
       name: "  Demo Map  ",
       scene: "simulation",
       tags: ["alpha", 1, "beta"],
@@ -51,6 +52,7 @@ describe("parseProjectJson", () => {
     const project = parseProjectJson(raw);
 
     expect(project.version).toBe("2.0.0");
+    expect(project.meta.id).toBe("demo-route-id");
     expect(project.meta.name).toBe("Demo Map");
     expect(project.meta.scene).toBe("simulation");
     expect(project.meta.tags).toEqual(["alpha", "beta"]);
@@ -111,6 +113,7 @@ describe("parseProjectJson", () => {
     );
 
     expect(project.meta.name).toBe("factory-map");
+    expect(project.meta.id).toMatch(/^factory-map-/);
     expect(project.meta.scene).toBe("production");
     expect(project.overlays.robotPaths).toHaveLength(1);
     expect(project.overlays.robotPaths[0]).toMatchObject({

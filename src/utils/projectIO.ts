@@ -1,3 +1,4 @@
+import { resolveMapId } from "@/lib/mapIdentity";
 import {
   createEmptyProject,
   type GridConfig,
@@ -22,6 +23,7 @@ type LegacyProjectJson = Partial<MapProject> & {
 
 type ExportedProjectJson = {
   format?: string;
+  id?: unknown;
   name?: unknown;
   scene?: unknown;
   tags?: unknown;
@@ -53,7 +55,8 @@ export const parseProjectJson = (raw: string): MapProject => {
         ? data.name.trim()
         : "factory-map";
   const scene = normalizeScene(data.meta?.scene ?? data.scene);
-  const fallback = createEmptyProject(width, height, scene, name);
+  const mapId = resolveMapId(data.meta?.id ?? data.id, name);
+  const fallback = createEmptyProject(width, height, scene, name, mapId);
   const base = Array.isArray(data.layers?.base)
     ? data.layers.base
     : Array.isArray(data.grid?.nodes)
@@ -159,6 +162,7 @@ export const parseProjectJson = (raw: string): MapProject => {
     meta: {
       ...fallback.meta,
       ...data.meta,
+      id: mapId,
       name,
       scene,
       tags: Array.isArray(data.meta?.tags)
