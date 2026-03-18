@@ -113,7 +113,15 @@ const syncCanvasCursor = () => {
     canvasCursor.value = store.canApplyToolAt(store.activeTool, hoverCell.x, hoverCell.y) ? "copy" : "not-allowed";
     return;
   }
-  if (store.activeTool === "path-draw" || store.activeTool === "path-erase") {
+  if (store.activeTool === "path-erase") {
+    if (!hoverCell.active) {
+      canvasCursor.value = "crosshair";
+      return;
+    }
+    canvasCursor.value = store.canApplyToolAt(store.activeTool, hoverCell.x, hoverCell.y) ? "pointer" : "not-allowed";
+    return;
+  }
+  if (store.activeTool === "path-draw") {
     canvasCursor.value = "crosshair";
     return;
   }

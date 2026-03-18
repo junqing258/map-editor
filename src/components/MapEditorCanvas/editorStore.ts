@@ -163,6 +163,35 @@ const createEditorStoreCore = () => {
     return onPlatform;
   };
 
+  const hasActivePathPointAt = (x: number, y: number) => {
+    if (!isCellInside(x, y)) {
+      return false;
+    }
+    const path =
+      project.value.overlays.robotPaths.find((item) => item.id === activePathId.value) ??
+      project.value.overlays.robotPaths[0];
+    return Boolean(path?.points.some((item) => item.x === x && item.y === y));
+  };
+
+  const canAddPathPointAt = (x: number, y: number) => {
+    if (!isCellInside(x, y) || getCell(x, y) === 0) {
+      return false;
+    }
+    const path = getActivePath();
+    if (!path) {
+      return false;
+    }
+    const existing = path.points.findIndex((item) => item.x === x && item.y === y);
+    if (existing >= 0) {
+      return true;
+    }
+    const prev = path.points[path.points.length - 1];
+    if (!prev) {
+      return true;
+    }
+    return Math.abs(prev.x - x) + Math.abs(prev.y - y) === 1;
+  };
+
   const canApplyToolAt = (tool: ToolType, x: number, y: number) => {
     if (tool === "platform") {
       return isCellInside(x, y) && getCell(x, y) !== 1;
@@ -174,10 +203,10 @@ const createEditorStoreCore = () => {
       return isCellInside(x, y) && getCell(x, y) > 0 && getCell(x, y) !== 3;
     }
     if (tool === "path-draw") {
-      return isCellInside(x, y) && getCell(x, y) > 0;
+      return canAddPathPointAt(x, y);
     }
     if (tool === "path-erase") {
-      return isCellInside(x, y);
+      return hasActivePathPointAt(x, y);
     }
     const deviceType = getDeviceTypeByTool(tool);
     if (deviceType) {
@@ -425,6 +454,13 @@ const createEditorStoreCore = () => {
     if (prev && prev.x === x && prev.y === y) {
       selectPathPoint(path.id, path.points.length - 1);
       return path.points.length - 1;
+    }
+    if (prev) {
+      const manhattan = Math.abs(prev.x - x) + Math.abs(prev.y - y);
+      // 路径绘制阶段就限制为上下左右相邻，禁止斜向或跨格连接。
+      if (manhattan !== 1) {
+        return -1;
+      }
     }
 
     if (!snapshotTaken) {
