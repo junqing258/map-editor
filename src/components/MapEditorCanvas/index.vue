@@ -1,5 +1,5 @@
 <template>
-  <div ref="hostRef" class="map-canvas" @contextmenu.prevent>
+  <div ref="hostRef" class="map-canvas" :style="{ cursor: canvasCursor }" @contextmenu.prevent>
     <div v-if="selectionBox.visible" class="map-select-rect" :style="selectionBoxStyle" />
   </div>
 </template>
@@ -45,6 +45,12 @@ let selectionMoved = false;
 let selectStartCell = { x: 0, y: 0 };
 let selectStartPointer = { x: 0, y: 0 };
 let lastPointer = { x: 0, y: 0 };
+const hoverCell = reactive({
+  active: false,
+  x: 0,
+  y: 0,
+});
+const canvasCursor = ref("default");
 
 const selectionBox = reactive({
   visible: false,
@@ -66,6 +72,53 @@ const isDeviceTool = () =>
 
 const isPlatformStateTool = () =>
   store.activeTool === "platform" || store.activeTool === "queue" || store.activeTool === "waiting";
+
+const isPlacementTool = () => isPlatformStateTool() || isDeviceTool();
+
+const setHoverCellByClient = (clientX: number, clientY: number) => {
+  if (!renderer || !hostRef.value) {
+    hoverCell.active = false;
+    syncCanvasCursor();
+    return;
+  }
+  const rect = hostRef.value.getBoundingClientRect();
+  const inside =
+    clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom;
+  if (!inside) {
+    hoverCell.active = false;
+    syncCanvasCursor();
+    return;
+  }
+  const { x, y } = renderer.screenToCell(clientX, clientY);
+  hoverCell.active = true;
+  hoverCell.x = x;
+  hoverCell.y = y;
+  syncCanvasCursor();
+};
+
+const syncCanvasCursor = () => {
+  if (panning) {
+    canvasCursor.value = "grabbing";
+    return;
+  }
+  if (store.activeTool === "select") {
+    canvasCursor.value = selecting ? "crosshair" : "default";
+    return;
+  }
+  if (isPlacementTool()) {
+    if (!hoverCell.active) {
+      canvasCursor.value = "crosshair";
+      return;
+    }
+    canvasCursor.value = store.canApplyToolAt(store.activeTool, hoverCell.x, hoverCell.y) ? "copy" : "not-allowed";
+    return;
+  }
+  if (store.activeTool === "path-draw" || store.activeTool === "path-erase") {
+    canvasCursor.value = "crosshair";
+    return;
+  }
+  canvasCursor.value = "default";
+};
 
 const updateSelectionBox = (clientX: number, clientY: number) => {
   if (!hostRef.value) {
@@ -102,6 +155,7 @@ const applyToolAt = (clientX: number, clientY: number) => {
     if (changed) {
       renderer.updateChunkByCell(x, y);
     }
+    syncCanvasCursor();
     return;
   }
 
@@ -110,6 +164,7 @@ const applyToolAt = (clientX: number, clientY: number) => {
     if (index >= 0) {
       renderer.redrawPaths(store.project.overlays.robotPaths);
     }
+    syncCanvasCursor();
     return;
   }
 
@@ -118,6 +173,7 @@ const applyToolAt = (clientX: number, clientY: number) => {
     if (changed) {
       renderer.redrawPaths(store.project.overlays.robotPaths);
     }
+    syncCanvasCursor();
     return;
   }
 
@@ -126,21 +182,25 @@ const applyToolAt = (clientX: number, clientY: number) => {
     if (changed) {
       renderer.redrawDevices(store.project.devices);
     }
+    syncCanvasCursor();
     return;
   }
 
   store.selectByCell(x, y);
+  syncCanvasCursor();
 };
 
 const onPointerDown = (event: PointerEvent) => {
   if (!renderer) {
     return;
   }
+  setHoverCellByClient(event.clientX, event.clientY);
   lastPointer = { x: event.clientX, y: event.clientY };
 
   if (event.button === 1 || event.button === 2) {
     // 中键/右键始终进入平移，避免和编辑工具冲突。
     panning = true;
+    syncCanvasCursor();
     return;
   }
   if (event.button !== 0) {
@@ -153,6 +213,7 @@ const onPointerDown = (event: PointerEvent) => {
     selectStartPointer = { x: event.clientX, y: event.clientY };
     selectStartCell = renderer.screenToCell(event.clientX, event.clientY);
     hideSelectionBox();
+    syncCanvasCursor();
     return;
   }
 
@@ -164,6 +225,7 @@ const onPointerDown = (event: PointerEvent) => {
 
   store.beginAction();
   painting = true;
+  syncCanvasCursor();
   applyToolAt(event.clientX, event.clientY);
 };
 
@@ -171,11 +233,13 @@ const onPointerMove = (event: PointerEvent) => {
   if (!renderer) {
     return;
   }
+  setHoverCellByClient(event.clientX, event.clientY);
   if (panning) {
     const dx = event.clientX - lastPointer.x;
     const dy = event.clientY - lastPointer.y;
     renderer.panBy(dx, dy);
     lastPointer = { x: event.clientX, y: event.clientY };
+    syncCanvasCursor();
     return;
   }
 
@@ -223,6 +287,7 @@ const stopGesture = (event?: PointerEvent) => {
     store.endAction();
   }
   painting = false;
+  syncCanvasCursor();
 };
 
 const onWheel = (event: WheelEvent) => {
@@ -235,6 +300,7 @@ const onWheel = (event: WheelEvent) => {
 };
 
 const onPointerUp = (event: PointerEvent) => {
+  setHoverCellByClient(event.clientX, event.clientY);
   lastPointer = { x: event.clientX, y: event.clientY };
   stopGesture(event);
 };
@@ -248,6 +314,7 @@ onMounted(async () => {
   renderer.setProject(store.project);
   renderer.centerView();
   renderer.highlightSelection(store.selectedElement, store.project);
+  syncCanvasCursor();
 
   // move/up 监听挂在 window 上，保证指针移出画布仍能正确收敛手势。
   hostRef.value.addEventListener("pointerdown", onPointerDown);
@@ -308,6 +375,13 @@ watch(
   () => store.centerSignal,
   () => {
     renderer?.centerView();
+  },
+);
+
+watch(
+  () => store.activeTool,
+  () => {
+    syncCanvasCursor();
   },
 );
 

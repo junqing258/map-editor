@@ -163,6 +163,33 @@ const createEditorStoreCore = () => {
     return onPlatform;
   };
 
+  const canApplyToolAt = (tool: ToolType, x: number, y: number) => {
+    if (tool === "platform") {
+      return isCellInside(x, y) && getCell(x, y) !== 1;
+    }
+    if (tool === "queue") {
+      return isCellInside(x, y) && getCell(x, y) > 0 && getCell(x, y) !== 2;
+    }
+    if (tool === "waiting") {
+      return isCellInside(x, y) && getCell(x, y) > 0 && getCell(x, y) !== 3;
+    }
+    if (tool === "path-draw") {
+      return isCellInside(x, y) && getCell(x, y) > 0;
+    }
+    if (tool === "path-erase") {
+      return isCellInside(x, y);
+    }
+    const deviceType = getDeviceTypeByTool(tool);
+    if (deviceType) {
+      if (!canPlaceDeviceAt(deviceType, x, y)) {
+        return false;
+      }
+      const existing = project.value.devices.find((item) => item.x === x && item.y === y);
+      return !existing || existing.type !== deviceType;
+    }
+    return isCellInside(x, y);
+  };
+
   const getCell = (x: number, y: number): CellValue => {
     if (!isCellInside(x, y)) {
       return 0;
@@ -932,6 +959,7 @@ const createEditorStoreCore = () => {
     setViewFlag,
     requestCenterView,
     getCell,
+    canApplyToolAt,
     setCell,
     applyPlatformAt,
     applyPlatformStateByTool,
