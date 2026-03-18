@@ -7,15 +7,15 @@ type GreedyScanOrder = "row-major" | "col-major";
 
 // 面板规划会把“是否先放 2x4、优先横放还是竖放”当成不同策略逐一尝试。
 const PANEL_STRATEGIES: PanelCandidate[][] = [
+  [
+    { spec: "2x4", width: 4, height: 2, rotated: false },
+    { spec: "2x4", width: 2, height: 4, rotated: true },
+  ],
+  [
+    { spec: "2x4", width: 2, height: 4, rotated: true },
+    { spec: "2x4", width: 4, height: 2, rotated: false },
+  ],
   [],
-  [
-    { spec: "2x4", width: 4, height: 2, rotated: false },
-    { spec: "2x4", width: 2, height: 4, rotated: true },
-  ],
-  [
-    { spec: "2x4", width: 2, height: 4, rotated: true },
-    { spec: "2x4", width: 4, height: 2, rotated: false },
-  ],
 ];
 
 // 除了面板方向策略，还会比较扫描顺序，降低单一路径贪心造成的局部最优风险。
