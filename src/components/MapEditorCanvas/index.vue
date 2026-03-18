@@ -82,8 +82,7 @@ const setHoverCellByClient = (clientX: number, clientY: number) => {
     return;
   }
   const rect = hostRef.value.getBoundingClientRect();
-  const inside =
-    clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom;
+  const inside = clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom;
   if (!inside) {
     hoverCell.active = false;
     syncCanvasCursor();
