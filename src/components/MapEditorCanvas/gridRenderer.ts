@@ -7,19 +7,21 @@ import packagePlusSvgRaw from "@/assets/icons/package-plus.svg?raw";
 import type { MapDevice, MapProject, RobotPath, SelectedElement, ViewFlags } from "@/types/map";
 
 interface ChunkEntry {
+  // chunk 以 sprite + texture 成对缓存，便于替换时同时释放显示对象和 GPU 资源。
   sprite: Sprite;
   texture: Texture;
 }
 
 // 设备主色：用于边框、图标着色和状态一致性展示。
 const deviceColorMap: Record<MapDevice["type"], string> = {
-  supply: "#15803d",
-  unload: "#d97706",
-  charger: "#2563eb",
+  supply: "#10b981",
+  unload: "#f59e0b",
+  charger: "#38bdf8",
 };
 
 type DeviceIconKey = MapDevice["type"] | "unload-multi-sort";
 
+// 卸货口在 multi-sort 模式下使用独立图标，其余设备类型与业务 type 一一对应。
 const deviceIconSvgMap: Partial<Record<DeviceIconKey, string>> = {
   supply: packagePlusSvgRaw,
   unload: packageMinusSvgRaw,
@@ -28,6 +30,7 @@ const deviceIconSvgMap: Partial<Record<DeviceIconKey, string>> = {
 };
 
 const getDeviceIconKey = (device: MapDevice): DeviceIconKey => {
+  // 图标选择只关心“设备类别 + 特殊卸货模式”，避免渲染层直接理解更多业务细节。
   if (device.type === "unload" && device.config.unloadMode === "multi-sort") {
     return "unload-multi-sort";
   }
@@ -53,8 +56,9 @@ const buildColoredSvgDataUrl = (svgRaw: string, color: string) => {
 export class GridRenderer {
   private readonly app: Application;
   private readonly host: HTMLElement;
-  // baseContainer 只放静态分块底图；overlayContainer 放网格、路径、选中态等动态层。
+  // baseContainer 只承载按 chunk 缓存的静态底图 sprite，编辑时支持局部替换。
   private readonly baseContainer = new Container();
+  // overlayContainer 汇总所有动态图层，统一跟随视图缩放和平移。
   private readonly overlayContainer = new Container();
   private readonly gridGraphics = new Graphics();
   private readonly panelGraphics = new Graphics();
@@ -108,7 +112,7 @@ export class GridRenderer {
     const app = new Application();
     await app.init({
       antialias: true,
-      background: new Color("#eef3f9"),
+      background: new Color("#f8fafc"),
       resizeTo: host,
       autoDensity: true,
       resolution: window.devicePixelRatio || 1,
@@ -287,6 +291,7 @@ export class GridRenderer {
       const activeAlpha = device.config.enabled ? 0.95 : 0.35;
 
       if (iconTexture) {
+        // 底板由 Graphics 批量绘制，图标本体继续用 Sprite 复用纹理，兼顾性能与清晰度。
         this.deviceGraphics.roundRect(centerX - half, centerY - half, size, size, 10);
         this.deviceGraphics.fill({
           color: "#ffffff",
@@ -323,7 +328,7 @@ export class GridRenderer {
       }
     }
   }
-
+  // 绘制规格面板
   redrawPanels(panels: MapProject["overlays"]["platformPanels"]) {
     this.panelGraphics.clear();
     if (!this.flags.showPanelLayout || panels.length === 0) {
@@ -338,9 +343,10 @@ export class GridRenderer {
       const height = panel.height * this.cellPixel - 8;
       const isLarge = panel.spec === "2x4";
       const fillColor = isLarge ? "#f59e0b" : "#10b981";
-      const strokeColor = isLarge ? "#b45309" : "#047857";
+      const strokeColor = isLarge ? "#b45309" : "#059669";
       const inset = isLarge ? 16 : 12;
 
+      // 先画外框，再补一条中轴线提示朝向/规格，避免平台块视觉过于实心。
       this.panelGraphics.roundRect(x, y, width, height, 12);
       this.panelGraphics.fill({ color: fillColor, alpha: isLarge ? 0.1 : 0.08 });
       this.panelGraphics.setStrokeStyle({
@@ -445,13 +451,15 @@ export class GridRenderer {
   }
 
   private highlightCell(x: number, y: number) {
+    // 选中格子保留原底图可见性，因此只叠加半透明填充和描边。
     this.selectionGraphics.rect(x * this.cellPixel, y * this.cellPixel, this.cellPixel, this.cellPixel);
-    this.selectionGraphics.fill({ color: "#fdba74", alpha: 0.26 });
-    this.selectionGraphics.setStrokeStyle({ width: 2, color: "#f97316" });
+    this.selectionGraphics.fill({ color: "#2ec6d6", alpha: 0.2 });
+    this.selectionGraphics.setStrokeStyle({ width: 2, color: "#2ec6d6" });
     this.selectionGraphics.stroke();
   }
 
   private highlightPathPoint(x: number, y: number) {
+    // 路径点用圆环高亮，和格子选中态区分开，便于混合批量选择时快速识别。
     this.selectionGraphics.circle(
       x * this.cellPixel + this.cellPixel / 2,
       y * this.cellPixel + this.cellPixel / 2,
@@ -520,6 +528,7 @@ export class GridRenderer {
     const texture = this.buildChunkTexture(chunkX, chunkY);
     const sprite = new Sprite(texture);
     const chunkPixel = this.project.grid.chunkSize * this.cellPixel;
+    // chunk sprite 始终定位到世界坐标原点系，缩放/平移统一交给容器处理。
     sprite.x = chunkX * chunkPixel;
     sprite.y = chunkY * chunkPixel;
     sprite.roundPixels = true;
@@ -531,6 +540,7 @@ export class GridRenderer {
     const { width, height, chunkSize } = this.project.grid;
     const startX = chunkX * chunkSize;
     const startY = chunkY * chunkSize;
+    // 边缘 chunk 可能不足一个完整块，需要按实际剩余格子数裁切尺寸。
     const cellsX = Math.min(chunkSize, width - startX);
     const cellsY = Math.min(chunkSize, height - startY);
     // 每个 chunk 离屏绘制成纹理，再作为 Sprite 放入 baseContainer。
@@ -544,15 +554,16 @@ export class GridRenderer {
     }
 
     const baseColor = "#f8fafc";
+    // 1: 普通钢平台，2: 排队区，3: 等待区
     const nodeColorMap: Record<number, string> = {
-      1: "#dbe4f0",
+      1: "#e2e8f0",
       2: "#ede9fe",
-      3: "#cffafe",
+      3: "#d7f5f8",
     };
     const nodeBorderMap: Record<number, string> = {
-      1: "#94a3b8",
+      1: "#cbd5e1",
       2: "#8b5cf6",
-      3: "#0891b2",
+      3: "#2ec6d6",
     };
     const mapWidth = this.project.grid.width;
     const { base } = this.project.layers;
@@ -570,6 +581,7 @@ export class GridRenderer {
           if (value === 0) {
             continue;
           }
+          // 单元格留出 1px 内边距，让网格线和节点填充层次更清楚。
           ctx.fillStyle = nodeColorMap[value] ?? nodeColorMap[1];
           ctx.fillRect(x * this.cellPixel + 1, y * this.cellPixel + 1, this.cellPixel - 2, this.cellPixel - 2);
           ctx.strokeStyle = nodeBorderMap[value] ?? nodeBorderMap[1];
