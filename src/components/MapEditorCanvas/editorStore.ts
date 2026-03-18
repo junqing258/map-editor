@@ -10,6 +10,7 @@ import {
   type MapProject,
   type PathCheckResult,
   type PlatformPanel,
+  type RobotPath,
   type SceneType,
   type SelectedElement,
   type SelectedPathPointRef,
@@ -21,6 +22,7 @@ import {
 } from "@/types/map";
 
 const MAX_HISTORY = 100;
+const PATH_COLOR_PALETTE = ["#2563eb", "#f97316", "#16a34a", "#dc2626", "#7c3aed", "#0f766e"];
 const cellIndex = (x: number, y: number, width: number) => y * width + x;
 // 统一深拷贝入口：优先 structuredClone，失败时回退到可容错的 JSON 方案。
 const cloneProject = (source: MapProject): MapProject => {
@@ -167,29 +169,14 @@ const createEditorStoreCore = () => {
     if (!isCellInside(x, y)) {
       return false;
     }
-    const path =
-      project.value.overlays.robotPaths.find((item) => item.id === activePathId.value) ??
-      project.value.overlays.robotPaths[0];
-    return Boolean(path?.points.some((item) => item.x === x && item.y === y));
+    return Boolean(findPathPointAt(x, y));
   };
 
   const canAddPathPointAt = (x: number, y: number) => {
     if (!isCellInside(x, y) || getCell(x, y) === 0) {
       return false;
     }
-    const path = getActivePath();
-    if (!path) {
-      return false;
-    }
-    const existing = path.points.findIndex((item) => item.x === x && item.y === y);
-    if (existing >= 0) {
-      return true;
-    }
-    const prev = path.points[path.points.length - 1];
-    if (!prev) {
-      return true;
-    }
-    return Math.abs(prev.x - x) + Math.abs(prev.y - y) === 1;
+    return true;
   };
 
   const canApplyToolAt = (tool: ToolType, x: number, y: number) => {
@@ -231,6 +218,27 @@ const createEditorStoreCore = () => {
       project.value.overlays.robotPaths.find((item) => item.id === activePathId.value) ??
       project.value.overlays.robotPaths[0];
     return path ?? null;
+  };
+
+  const findPathPointAt = (x: number, y: number) => {
+    for (const path of project.value.overlays.robotPaths) {
+      const index = path.points.findIndex((item) => item.x === x && item.y === y);
+      if (index >= 0) {
+        return { path, index };
+      }
+    }
+    return null;
+  };
+
+  const createPath = (): RobotPath => {
+    const nextIndex = project.value.overlays.robotPaths.length + 1;
+    return {
+      id: `path-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      name: `Route ${nextIndex}`,
+      color: PATH_COLOR_PALETTE[(nextIndex - 1) % PATH_COLOR_PALETTE.length],
+      direction: toolOptions.value.pathDirection,
+      points: [],
+    };
   };
 
   // 拖拽绘制期间只保留一次快照，避免一个手势产生大量撤销节点。
@@ -424,30 +432,25 @@ const createEditorStoreCore = () => {
     return true;
   };
 
-  const addPathPoint = (x: number, y: number) => {
+  const addPathPoint = (x: number, y: number, startNewStroke = false) => {
     if (!isCellInside(x, y) || getCell(x, y) === 0) {
       return -1;
     }
-    const path = getActivePath();
-    if (!path) {
-      return -1;
+    const hit = findPathPointAt(x, y);
+    if (hit) {
+      activePathId.value = hit.path.id;
+      selectPathPoint(hit.path.id, hit.index);
+      return hit.index;
     }
 
-    // 方向切换也属于路径编辑，需要先记录一次快照。
+    let path = getActivePath();
     let snapshotTaken = false;
-    if (path.direction !== toolOptions.value.pathDirection) {
+    if (!path) {
       rememberSnapshot();
       snapshotTaken = true;
-      path.direction = toolOptions.value.pathDirection;
-    }
-
-    const existing = path.points.findIndex((item) => item.x === x && item.y === y);
-    if (existing >= 0) {
-      if (snapshotTaken) {
-        markChanged();
-      }
-      selectPathPoint(path.id, existing);
-      return existing;
+      path = createPath();
+      project.value.overlays.robotPaths.push(path);
+      activePathId.value = path.id;
     }
 
     const prev = path.points[path.points.length - 1];
@@ -457,10 +460,32 @@ const createEditorStoreCore = () => {
     }
     if (prev) {
       const manhattan = Math.abs(prev.x - x) + Math.abs(prev.y - y);
-      // 路径绘制阶段就限制为上下左右相邻，禁止斜向或跨格连接。
       if (manhattan !== 1) {
-        return -1;
+        // 新的一笔如果落在非相邻位置，则开启一条新的路径，而不是强行把中间补齐。
+        if (!startNewStroke) {
+          return -1;
+        }
+        if (!snapshotTaken) {
+          rememberSnapshot();
+          snapshotTaken = true;
+        }
+        path = createPath();
+        project.value.overlays.robotPaths.push(path);
+        activePathId.value = path.id;
+        path.points.push({ x, y });
+        selectPathPoint(path.id, 0);
+        markChanged();
+        return 0;
       }
+    }
+
+    // 方向切换也属于路径编辑，需要先记录一次快照。
+    if (path.direction !== toolOptions.value.pathDirection) {
+      if (!snapshotTaken) {
+        rememberSnapshot();
+        snapshotTaken = true;
+      }
+      path.direction = toolOptions.value.pathDirection;
     }
 
     if (!snapshotTaken) {
@@ -474,16 +499,19 @@ const createEditorStoreCore = () => {
   };
 
   const erasePathPointAt = (x: number, y: number) => {
-    const path = getActivePath();
-    if (!path || path.points.length === 0) {
-      return false;
-    }
-    const next = path.points.filter((point) => !(point.x === x && point.y === y));
-    if (next.length === path.points.length) {
+    const hit = findPathPointAt(x, y);
+    if (!hit) {
       return false;
     }
     rememberSnapshot();
-    path.points = next;
+    activePathId.value = hit.path.id;
+    const next = hit.path.points.filter((point) => !(point.x === x && point.y === y));
+    if (next.length === 0 && project.value.overlays.robotPaths.length > 1) {
+      project.value.overlays.robotPaths = project.value.overlays.robotPaths.filter((item) => item.id !== hit.path.id);
+      activePathId.value = project.value.overlays.robotPaths[0]?.id ?? "";
+    } else {
+      hit.path.points = next;
+    }
     if (selectedElement.value.kind === "path-point" && selectedElement.value.x === x && selectedElement.value.y === y) {
       selectNone();
     }
@@ -497,7 +525,12 @@ const createEditorStoreCore = () => {
       return false;
     }
     rememberSnapshot();
-    path.points = [];
+    if (project.value.overlays.robotPaths.length > 1) {
+      project.value.overlays.robotPaths = project.value.overlays.robotPaths.filter((item) => item.id !== path.id);
+      activePathId.value = project.value.overlays.robotPaths[0]?.id ?? "";
+    } else {
+      path.points = [];
+    }
     selectNone();
     markChanged();
     return true;

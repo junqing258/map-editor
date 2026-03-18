@@ -107,7 +107,7 @@
               <option value="bidirectional">全向</option>
             </select>
           </label>
-          <p class="m-0 text-[13px] text-slate-600">左键连续描绘路径，路径点必须落在钢平台上。</p>
+          <p class="m-0 text-[13px] text-slate-600">左键连续描绘路径；松开后在其他位置重新起笔可新建另一条路径。</p>
         </template>
 
         <template v-else-if="store.activeTool === 'path-erase'">

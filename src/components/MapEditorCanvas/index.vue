@@ -22,7 +22,7 @@ import { GridRenderer } from "./gridRenderer";
   endAction: () => void;
   applyPlatformAt: (x: number, y: number) => boolean;
   applyPlatformStateByTool: (tool: ToolType, x: number, y: number) => boolean;
-  addPathPoint: (x: number, y: number) => number;
+  addPathPoint: (x: number, y: number, startNewStroke?: boolean) => number;
   erasePathPointAt: (x: number, y: number) => boolean;
   placeDeviceByTool: (tool: ToolType, x: number, y: number) => boolean;
   selectByCell: (x: number, y: number) => void;
@@ -151,7 +151,7 @@ const hideSelectionBox = () => {
   selectionBox.height = 0;
 };
 
-const applyToolAt = (clientX: number, clientY: number) => {
+const applyToolAt = (clientX: number, clientY: number, startNewStroke = false) => {
   if (!renderer) {
     return;
   }
@@ -168,7 +168,7 @@ const applyToolAt = (clientX: number, clientY: number) => {
   }
 
   if (store.activeTool === "path-draw") {
-    const index = store.addPathPoint(x, y);
+    const index = store.addPathPoint(x, y, startNewStroke);
     if (index >= 0) {
       renderer.redrawPaths(store.project.overlays.robotPaths);
     }
@@ -234,7 +234,7 @@ const onPointerDown = (event: PointerEvent) => {
   store.beginAction();
   painting = true;
   syncCanvasCursor();
-  applyToolAt(event.clientX, event.clientY);
+  applyToolAt(event.clientX, event.clientY, store.activeTool === "path-draw");
 };
 
 const onPointerMove = (event: PointerEvent) => {
