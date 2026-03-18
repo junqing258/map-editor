@@ -7,6 +7,8 @@
     "dev": "vite --port 3700",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "lint": "eslint . --ext .ts,.vue,.js,.mjs,.cjs",
     "lint:fix": "eslint . --ext .ts,.vue,.js,.mjs,.cjs --fix",
     "format": "prettier . --write",
@@ -43,6 +45,7 @@
     "tailwindcss": "^4.2.1",
     "typescript": "^5.9.3",
     "vite": "^7.1.0",
+    "vitest": "^4.1.0",
     "vue-component-type-helpers": "^3.2.5",
     "vue-eslint-parser": "^9.4.3",
     "vue-tsc": "^3.0.4"
