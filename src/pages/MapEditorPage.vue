@@ -539,7 +539,7 @@
             <option value="published">已发布</option>
             <option value="draft">草稿</option>
           </select>
-          <Button size="sm" variant="destructive" @click="deleteLibrarySelected">删除选中</Button>
+          <Button variant="destructive" @click="deleteLibrarySelected">删除选中</Button>
         </div>
         <div class="max-h-[55vh] overflow-auto rounded-xl border border-slate-200 bg-slate-50">
           <div
@@ -581,7 +581,12 @@ import MapEditorCanvas from "@/components/MapEditorCanvas/index.vue";
 import { Button } from "@/components/ui/button";
 import { useMapWorker } from "@/composables/useMapWorker";
 import { normalizeMapId } from "@/lib/mapIdentity";
-import { loadCachedMapProject, saveCachedMapProject } from "@/lib/mapPersistence";
+import {
+  loadCachedLibraryItems,
+  loadCachedMapProject,
+  saveCachedLibraryItems,
+  saveCachedMapProject,
+} from "@/lib/mapPersistence";
 import type { BatchSelectionFilter, MapOverviewStats, MapProject, PathCheckResult, SceneType } from "@/types/map";
 import { createEmptyProject, DEFAULT_MAP_HEIGHT, DEFAULT_MAP_WIDTH } from "@/types/map";
 import { downloadTextFile } from "@/utils/download";
@@ -923,25 +928,24 @@ const exportDevicesCsv = () => {
   downloadTextFile(`${store.project.meta.name}-devices.csv`, rows.join("\n"), "text/csv");
 };
 
-const loadLibrary = () => {
+const loadLibrary = async () => {
   try {
-    const raw = localStorage.getItem(LIB_KEY);
-    if (!raw) {
-      libraryItems.value = [];
-      return;
-    }
-    const parsed = JSON.parse(raw) as LibraryItem[];
-    libraryItems.value = Array.isArray(parsed) ? parsed : [];
-  } catch {
+    libraryItems.value = await loadCachedLibraryItems<LibraryItem>(LIB_KEY);
+  } catch (error) {
     libraryItems.value = [];
+    console.error("读取地图库失败", error);
   }
 };
 
-const saveLibrary = () => {
-  localStorage.setItem(LIB_KEY, JSON.stringify(libraryItems.value));
+const saveLibrary = async () => {
+  try {
+    await saveCachedLibraryItems(LIB_KEY, libraryItems.value);
+  } catch (error) {
+    console.error("保存地图库失败", error);
+  }
 };
 
-const saveToLibrary = (draft: boolean) => {
+const saveToLibrary = async (draft: boolean) => {
   const id = `${store.project.meta.id}-${draft ? "draft" : "published"}`;
   const now = new Date().toISOString().slice(0, 19).replace("T", " ");
   const entry: LibraryItem = {
@@ -954,11 +958,11 @@ const saveToLibrary = (draft: boolean) => {
     project: safeStructuredClone(toRaw(store.project)),
   };
   libraryItems.value = [entry, ...libraryItems.value.filter((item) => item.id !== id)];
-  saveLibrary();
+  await saveLibrary();
 };
 
-const openLibrary = () => {
-  loadLibrary();
+const openLibrary = async () => {
+  await loadLibrary();
   librarySelected.value = [];
   showLibrary.value = true;
 };
@@ -989,13 +993,13 @@ const toggleLibrarySelect = (id: string) => {
   }
 };
 
-const deleteLibrarySelected = () => {
+const deleteLibrarySelected = async () => {
   if (librarySelected.value.length === 0) {
     return;
   }
   libraryItems.value = libraryItems.value.filter((item) => !librarySelected.value.includes(item.id));
   librarySelected.value = [];
-  saveLibrary();
+  await saveLibrary();
 };
 
 const applySingleProps = () => {
@@ -1059,12 +1063,12 @@ const onKeyDown = (event: KeyboardEvent) => {
   }
   if (key === "o") {
     event.preventDefault();
-    openLibrary();
+    void openLibrary();
     return;
   }
   if (key === "s") {
     event.preventDefault();
-    saveToLibrary(false);
+    void saveToLibrary(false);
     return;
   }
   if (key === "z" && event.shiftKey) {
@@ -1133,7 +1137,7 @@ watch(
 );
 
 onMounted(() => {
-  loadLibrary();
+  void loadLibrary();
   syncEditorUiState();
   void refreshStats();
   window.addEventListener("keydown", onKeyDown);
