@@ -447,7 +447,7 @@
               速度覆盖
               <input v-model="batchForm.speedLimitText" class="input" placeholder="留空为不修改" />
             </label>
-            <Button class="w-full" size="sm" @click="applyBatchProps">批量应用</Button>
+            <Button class="w-full mt-2" size="sm" @click="applyBatchProps">批量应用</Button>
           </template>
 
           <template v-else-if="store.selectedElement.kind === 'mixed-batch'">

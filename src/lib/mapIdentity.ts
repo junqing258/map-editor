@@ -13,7 +13,7 @@ export const normalizeMapId = (value: unknown): string | null => {
 export const createMapId = (name = "factory-map"): string => {
   const base = normalizeMapId(name) ?? "map";
   const suffix = `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`;
-  return collapseHyphens(`${base}_${suffix}`).slice(0, MAP_ID_MAX_LENGTH);
+  return collapseHyphens(`${base}-${suffix}`).slice(0, MAP_ID_MAX_LENGTH);
 };
 
 export const resolveMapId = (value: unknown, fallbackName = "factory-map"): string =>
