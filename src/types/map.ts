@@ -134,26 +134,36 @@ export interface MapProject {
   devices: MapDevice[];
 }
 
+export interface MapLibraryItem {
+  id: string;
+  name: string;
+  draft: boolean;
+  scene: SceneType;
+  tags: string[];
+  updatedAt: string;
+  project: MapProject;
+}
+
 export type SelectedElement =
   | { kind: "none" }
   | { kind: "cell"; x: number; y: number; active: boolean }
   | {
-    kind: "path-point";
-    pathId: string;
-    pathName: string;
-    index: number;
-    x: number;
-    y: number;
-    direction: PathDirection;
-  }
+      kind: "path-point";
+      pathId: string;
+      pathName: string;
+      index: number;
+      x: number;
+      y: number;
+      direction: PathDirection;
+    }
   | { kind: "device"; deviceId: string }
   | { kind: "device-batch"; deviceIds: string[] }
   | {
-    kind: "mixed-batch";
-    deviceIds: string[];
-    cells: CellCoord[];
-    pathPoints: SelectedPathPointRef[];
-  };
+      kind: "mixed-batch";
+      deviceIds: string[];
+      cells: CellCoord[];
+      pathPoints: SelectedPathPointRef[];
+    };
 
 export type ExportFormat = "ros" | "custom";
 

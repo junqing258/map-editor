@@ -525,49 +525,13 @@
       </div>
     </div>
 
-    <div
-      v-if="showLibrary"
-      class="fixed inset-0 z-50 grid place-items-center bg-slate-900/40 p-3"
-      @click.self="showLibrary = false"
-    >
-      <div class="w-[min(920px,94vw)] rounded-xl border border-slate-300 bg-white p-4 shadow-2xl">
-        <h3 class="mb-2.5 text-lg font-semibold text-slate-900">地图库</h3>
-        <div class="mb-2 grid grid-cols-[1fr_140px_auto] gap-2 max-[1180px]:grid-cols-1">
-          <input v-model="librarySearch" class="input" placeholder="搜索地图名称" />
-          <select v-model="libraryFilter" class="input">
-            <option value="all">全部</option>
-            <option value="published">已发布</option>
-            <option value="draft">草稿</option>
-          </select>
-          <Button variant="destructive" @click="deleteLibrarySelected">删除选中</Button>
-        </div>
-        <div class="max-h-[55vh] overflow-auto rounded-xl border border-slate-200 bg-slate-50">
-          <div
-            v-for="item in filteredLibrary"
-            :key="item.id"
-            class="grid grid-cols-[1fr_auto] items-center gap-2 border-b border-slate-200 px-3 py-2 last:border-b-0"
-          >
-            <label class="grid grid-cols-[auto_minmax(0,1fr)_auto_auto] items-center gap-2 text-[13px]">
-              <input
-                type="checkbox"
-                class="size-4 rounded border-slate-300 text-slate-700 focus-visible:ring-2 focus-visible:ring-slate-400"
-                :checked="librarySelected.includes(item.id)"
-                @change="toggleLibrarySelect(item.id)"
-              />
-              <span class="truncate font-semibold text-slate-800">{{ item.name }}</span>
-              <span class="rounded-full bg-blue-100 px-2 py-0.5 text-xs text-blue-900">
-                {{ item.draft ? "草稿" : "发布" }}
-              </span>
-              <span class="text-xs text-slate-500">{{ item.updatedAt }}</span>
-            </label>
-            <div class="flex gap-1.5">
-              <Button size="sm" variant="outline" @click="openLibraryItem(item.id)">打开</Button>
-              <Button size="sm" variant="outline" @click="exportLibraryItem(item.id)">导出</Button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <MapLibraryDialog
+      v-model:open="showLibrary"
+      :items="libraryItems"
+      @delete-selected="deleteLibraryItems"
+      @export-item="exportLibraryItem"
+      @open-item="openLibraryItem"
+    />
   </div>
 </template>
 
@@ -578,6 +542,7 @@ import { useRoute, useRouter } from "vue-router";
 
 import { createEditorStore } from "@/components/MapEditorCanvas/editorStore";
 import MapEditorCanvas from "@/components/MapEditorCanvas/index.vue";
+import MapLibraryDialog from "@/components/MapLibraryDialog.vue";
 import { Button } from "@/components/ui/button";
 import { useMapWorker } from "@/composables/useMapWorker";
 import { normalizeMapId } from "@/lib/mapIdentity";
@@ -587,21 +552,11 @@ import {
   saveCachedLibraryItems,
   saveCachedMapProject,
 } from "@/lib/mapPersistence";
-import type { BatchSelectionFilter, MapOverviewStats, MapProject, PathCheckResult, SceneType } from "@/types/map";
+import type { BatchSelectionFilter, MapLibraryItem, MapOverviewStats, PathCheckResult, SceneType } from "@/types/map";
 import { createEmptyProject, DEFAULT_MAP_HEIGHT, DEFAULT_MAP_WIDTH } from "@/types/map";
 import { downloadTextFile } from "@/utils/download";
 import { parseProjectJson } from "@/utils/projectIO";
 import { safeStructuredClone } from "@/utils/safeClone";
-
-interface LibraryItem {
-  id: string;
-  name: string;
-  draft: boolean;
-  scene: SceneType;
-  tags: string[];
-  updatedAt: string;
-  project: MapProject;
-}
 
 const LIB_KEY = "hyperleap-map-library-v1";
 const AUTOSAVE_DELAY_MS = 160;
@@ -647,10 +602,7 @@ const batchForm = reactive({
   speedLimitText: "",
 });
 
-const libraryItems = ref<LibraryItem[]>([]);
-const librarySearch = ref("");
-const libraryFilter = ref<"all" | "published" | "draft">("all");
-const librarySelected = ref<string[]>([]);
+const libraryItems = ref<MapLibraryItem[]>([]);
 
 const checkStatus = computed(() => {
   if (!checkResult.value) {
@@ -710,21 +662,6 @@ const panelLayoutStats = computed(() => {
     uncoveredCellCount: Math.max(0, platformCellCount - coveredCellCount),
   };
 });
-
-const filteredLibrary = computed(() =>
-  libraryItems.value.filter((item) => {
-    if (libraryFilter.value === "published" && item.draft) {
-      return false;
-    }
-    if (libraryFilter.value === "draft" && !item.draft) {
-      return false;
-    }
-    if (!librarySearch.value.trim()) {
-      return true;
-    }
-    return item.name.toLowerCase().includes(librarySearch.value.trim().toLowerCase());
-  }),
-);
 
 let statsTimer: number | null = null;
 let persistTimer: number | null = null;
@@ -930,7 +867,7 @@ const exportDevicesCsv = () => {
 
 const loadLibrary = async () => {
   try {
-    libraryItems.value = await loadCachedLibraryItems<LibraryItem>(LIB_KEY);
+    libraryItems.value = await loadCachedLibraryItems<MapLibraryItem>(LIB_KEY);
   } catch (error) {
     libraryItems.value = [];
     console.error("读取地图库失败", error);
@@ -948,7 +885,7 @@ const saveLibrary = async () => {
 const saveToLibrary = async (draft: boolean) => {
   const id = `${store.project.meta.id}-${draft ? "draft" : "published"}`;
   const now = new Date().toISOString().slice(0, 19).replace("T", " ");
-  const entry: LibraryItem = {
+  const entry: MapLibraryItem = {
     id,
     name: store.project.meta.name,
     draft,
@@ -963,7 +900,6 @@ const saveToLibrary = async (draft: boolean) => {
 
 const openLibrary = async () => {
   await loadLibrary();
-  librarySelected.value = [];
   showLibrary.value = true;
 };
 
@@ -985,20 +921,11 @@ const exportLibraryItem = (id: string) => {
   downloadTextFile(`${item.name}.project.json`, JSON.stringify(item.project, null, 2));
 };
 
-const toggleLibrarySelect = (id: string) => {
-  if (librarySelected.value.includes(id)) {
-    librarySelected.value = librarySelected.value.filter((item) => item !== id);
-  } else {
-    librarySelected.value = [...librarySelected.value, id];
-  }
-};
-
-const deleteLibrarySelected = async () => {
-  if (librarySelected.value.length === 0) {
+const deleteLibraryItems = async (ids: string[]) => {
+  if (ids.length === 0) {
     return;
   }
-  libraryItems.value = libraryItems.value.filter((item) => !librarySelected.value.includes(item.id));
-  librarySelected.value = [];
+  libraryItems.value = libraryItems.value.filter((item) => !ids.includes(item.id));
   await saveLibrary();
 };
 
