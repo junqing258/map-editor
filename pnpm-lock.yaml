@@ -21,8 +21,8 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       code-inspector-plugin:
-        specifier: 2.0.0-beta.6
-        version: 2.0.0-beta.6(zod@4.3.6)
+        specifier: 1.4.5
+        version: 1.4.5
       dayjs:
         specifier: ^1.11.20
         version: 1.11.20
@@ -132,12 +132,6 @@ importers:
 
 packages:
 
-  '@anthropic-ai/claude-agent-sdk@0.2.70':
-    resolution: {integrity: sha512-ABaB37jWt7dZXfIDHebHv99jX9GIyqc0aSjcz9nxq79eauOpa+64Cah5hx/yzhsWz7m5GEtjbMIZCClTfnRRhg==}
-    engines: {node: '>=18.0.0'}
-    peerDependencies:
-      zod: ^4.0.0
-
   '@babel/helper-string-parser@7.27.1':
     resolution: {integrity: sha512-qMlSxKbpRlAridDExk92nSobyDdpPijUq2DW6oDnUqd0iOGxmQjyqhMIihI9+zv4LPyZdRje2cavWPbCbWm3eA==}
     engines: {node: '>=6.9.0'}
@@ -155,23 +149,23 @@ packages:
     resolution: {integrity: sha512-LwdZHpScM4Qz8Xw2iKSzS+cfglZzJGvofQICy7W7v4caru4EaAmyUuO6BGrbyQ2mYV11W0U8j5mBhd14dd3B0A==}
     engines: {node: '>=6.9.0'}
 
-  '@code-inspector/core@2.0.0-beta.6':
-    resolution: {integrity: sha512-gdeixLN9lLLPQrBfjYPfAJmR3zQtyHTO9hbuFwMqkyk/5UXtzKTSL9yvei3vRLXaNhieXcYrr4RdLt5deUFE2Q==}
+  '@code-inspector/core@1.4.5':
+    resolution: {integrity: sha512-wskkSRX13TAqJG65d5sq0bRZ4kYktas/iE70xqXMOeqW/A6n2Zqhw5QRHANmEmlBvB9bP/bse+9iBkNN3Q2Skw==}
 
-  '@code-inspector/esbuild@2.0.0-beta.6':
-    resolution: {integrity: sha512-yi8vXpUY6Uc+llwNknskiTVVgbSpT2noWDN0s9OqNYgW9WMjxYXE7jiYpIHRawVxBJf9HrO9V1BhFAz1nRUSww==}
+  '@code-inspector/esbuild@1.4.5':
+    resolution: {integrity: sha512-KBwq7waqZ3L1CW7N9ff7aS0HxzamrslR08i5ovkLQe1p6tH9Axe9zzCrBnvgmB0UZsT2r/5wKLOWyEpq5+VYKw==}
 
-  '@code-inspector/mako@2.0.0-beta.6':
-    resolution: {integrity: sha512-6qyI0oMlJJE74bGJDPTT5RcrDMmG0zmkXaAGYNiKjiLOGZFfUD+0127EAA2XkO/D4ieYkvscEgbLr9miGE5ZCg==}
+  '@code-inspector/mako@1.4.5':
+    resolution: {integrity: sha512-yrHgE5+b4ZL29Xt+y0H/9xrXSbRskq7dFhmE9GYFWCcgdWNCMD25hZd7xZVije94++H65Vw6Bu/abfqEx0peog==}
 
-  '@code-inspector/turbopack@2.0.0-beta.6':
-    resolution: {integrity: sha512-KRkHY7T8BKNj2XelOpwCf6mxAq2u0EQiqxJOGHTnd2ItPlUa0VeGS16rlzrF9sajUo3HqOM7HGUg42SVRzdPfw==}
+  '@code-inspector/turbopack@1.4.5':
+    resolution: {integrity: sha512-IG39ikmQthdx/oAxhpV7zsIQZ3Jpycl88JzH+UXHq0ZpfHwa1KdNc/9erP3kFMY4+ANmkmerqBk57knmRTGMRQ==}
 
-  '@code-inspector/vite@2.0.0-beta.6':
-    resolution: {integrity: sha512-XwmFdh/mdDIvuBzbY2n60LhMoXjifwhEKVUO9knfjFKipiCRCySeaT1YIWQkJ1CVsLqBJUf6qHoA6Ih2vqZbVg==}
+  '@code-inspector/vite@1.4.5':
+    resolution: {integrity: sha512-vBtH91afwYL7JV4zWcJJTFd65LJ4SZz5E9AwGgCF30/L1mdDx7U29D+M+JpaxSgsMB6monKSZh+ubbqYe0ixpQ==}
 
-  '@code-inspector/webpack@2.0.0-beta.6':
-    resolution: {integrity: sha512-H2WZmUOmdtyc3rWV79xSZNipuEW0tF/L6SCFcbI5CP3RoOuykoG8jiY9WIRKtGwIXGOnAgIxfdh5BspByEcbDw==}
+  '@code-inspector/webpack@1.4.5':
+    resolution: {integrity: sha512-lwUv+X1FNSUWz+FKcUsE2dT2pg6VFRRXKt16hg/m+Lwtdet2adfi6BFLZmNz3OPIEGbRB5Kjx6bfaghZhbDCCg==}
 
   '@esbuild/aix-ppc64@0.27.3':
     resolution: {integrity: sha512-9fJMTNFTWZMh5qwrBItuziu834eOCUcEqymSH7pY+zoMVEZg3gcPuBNxH1EvfVYe9h0x/Ptw8KBzv7qxb7l8dg==}
@@ -372,95 +366,6 @@ packages:
     resolution: {integrity: sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==}
     deprecated: Use @eslint/object-schema instead
 
-  '@img/sharp-darwin-arm64@0.34.5':
-    resolution: {integrity: sha512-imtQ3WMJXbMY4fxb/Ndp6HBTNVtWCUI0WdobyheGf5+ad6xX8VIDO8u2xE4qc/fr08CKG/7dDseFtn6M6g/r3w==}
-    engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0}
-    cpu: [arm64]
-    os: [darwin]
-
-  '@img/sharp-darwin-x64@0.34.5':
-    resolution: {integrity: sha512-YNEFAF/4KQ/PeW0N+r+aVVsoIY0/qxxikF2SWdp+NRkmMB7y9LBZAVqQ4yhGCm/H3H270OSykqmQMKLBhBJDEw==}
-    engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0}
-    cpu: [x64]
-    os: [darwin]
-
-  '@img/sharp-libvips-darwin-arm64@1.2.4':
-    resolution: {integrity: sha512-zqjjo7RatFfFoP0MkQ51jfuFZBnVE2pRiaydKJ1G/rHZvnsrHAOcQALIi9sA5co5xenQdTugCvtb1cuf78Vf4g==}
-    cpu: [arm64]
-    os: [darwin]
-
-  '@img/sharp-libvips-darwin-x64@1.2.4':
-    resolution: {integrity: sha512-1IOd5xfVhlGwX+zXv2N93k0yMONvUlANylbJw1eTah8K/Jtpi15KC+WSiaX/nBmbm2HxRM1gZ0nSdjSsrZbGKg==}
-    cpu: [x64]
-    os: [darwin]
-
-  '@img/sharp-libvips-linux-arm64@1.2.4':
-    resolution: {integrity: sha512-excjX8DfsIcJ10x1Kzr4RcWe1edC9PquDRRPx3YVCvQv+U5p7Yin2s32ftzikXojb1PIFc/9Mt28/y+iRklkrw==}
-    cpu: [arm64]
-    os: [linux]
-
-  '@img/sharp-libvips-linux-arm@1.2.4':
-    resolution: {integrity: sha512-bFI7xcKFELdiNCVov8e44Ia4u2byA+l3XtsAj+Q8tfCwO6BQ8iDojYdvoPMqsKDkuoOo+X6HZA0s0q11ANMQ8A==}
-    cpu: [arm]
-    os: [linux]
-
-  '@img/sharp-libvips-linux-x64@1.2.4':
-    resolution: {integrity: sha512-tJxiiLsmHc9Ax1bz3oaOYBURTXGIRDODBqhveVHonrHJ9/+k89qbLl0bcJns+e4t4rvaNBxaEZsFtSfAdquPrw==}
-    cpu: [x64]
-    os: [linux]
-
-  '@img/sharp-libvips-linuxmusl-arm64@1.2.4':
-    resolution: {integrity: sha512-FVQHuwx1IIuNow9QAbYUzJ+En8KcVm9Lk5+uGUQJHaZmMECZmOlix9HnH7n1TRkXMS0pGxIJokIVB9SuqZGGXw==}
-    cpu: [arm64]
-    os: [linux]
-
-  '@img/sharp-libvips-linuxmusl-x64@1.2.4':
-    resolution: {integrity: sha512-+LpyBk7L44ZIXwz/VYfglaX/okxezESc6UxDSoyo2Ks6Jxc4Y7sGjpgU9s4PMgqgjj1gZCylTieNamqA1MF7Dg==}
-    cpu: [x64]
-    os: [linux]
-
-  '@img/sharp-linux-arm64@0.34.5':
-    resolution: {integrity: sha512-bKQzaJRY/bkPOXyKx5EVup7qkaojECG6NLYswgktOZjaXecSAeCWiZwwiFf3/Y+O1HrauiE3FVsGxFg8c24rZg==}
-    engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0}
-    cpu: [arm64]
-    os: [linux]
-
-  '@img/sharp-linux-arm@0.34.5':
-    resolution: {integrity: sha512-9dLqsvwtg1uuXBGZKsxem9595+ujv0sJ6Vi8wcTANSFpwV/GONat5eCkzQo/1O6zRIkh0m/8+5BjrRr7jDUSZw==}
-    engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0}
-    cpu: [arm]
-    os: [linux]
-
-  '@img/sharp-linux-x64@0.34.5':
-    resolution: {integrity: sha512-MEzd8HPKxVxVenwAa+JRPwEC7QFjoPWuS5NZnBt6B3pu7EG2Ge0id1oLHZpPJdn3OQK+BQDiw9zStiHBTJQQQQ==}
-    engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0}
-    cpu: [x64]
-    os: [linux]
-
-  '@img/sharp-linuxmusl-arm64@0.34.5':
-    resolution: {integrity: sha512-fprJR6GtRsMt6Kyfq44IsChVZeGN97gTD331weR1ex1c1rypDEABN6Tm2xa1wE6lYb5DdEnk03NZPqA7Id21yg==}
-    engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0}
-    cpu: [arm64]
-    os: [linux]
-
-  '@img/sharp-linuxmusl-x64@0.34.5':
-    resolution: {integrity: sha512-Jg8wNT1MUzIvhBFxViqrEhWDGzqymo3sV7z7ZsaWbZNDLXRJZoRGrjulp60YYtV4wfY8VIKcWidjojlLcWrd8Q==}
-    engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0}
-    cpu: [x64]
-    os: [linux]
-
-  '@img/sharp-win32-arm64@0.34.5':
-    resolution: {integrity: sha512-WQ3AgWCWYSb2yt+IG8mnC6Jdk9Whs7O0gxphblsLvdhSpSTtmu69ZG1Gkb6NuvxsNACwiPV6cNSZNzt0KPsw7g==}
-    engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0}
-    cpu: [arm64]
-    os: [win32]
-
-  '@img/sharp-win32-x64@0.34.5':
-    resolution: {integrity: sha512-+29YMsqY2/9eFEiW93eqWnuLcWcufowXewwSNIT6UwZdUUCrM3oFjMWH/Z6/TMmb4hlFenmfAVbpWeup2jryCw==}
-    engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0}
-    cpu: [x64]
-    os: [win32]
-
   '@internationalized/date@3.12.0':
     resolution: {integrity: sha512-/PyIMzK29jtXaGU23qTvNZxvBXRtKbNnGDFD+PY6CZw/Y8Ex8pFUzkuCJCG9aOqmShjqhS9mPqP6Dk5onQY8rQ==}
 
@@ -494,51 +399,6 @@ packages:
   '@nodelib/fs.walk@1.2.8':
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
-
-  '@openai/codex-sdk@0.106.0':
-    resolution: {integrity: sha512-at3XbAMrUKPF/cDBph9VS2V+P3CPxQpQt0tQD2oZb1Sju3N5OZJDpfhbRinwc0mzSssA1gw/0o2qNCHNghtfxw==}
-    engines: {node: '>=18'}
-
-  '@openai/codex@0.106.0':
-    resolution: {integrity: sha512-GgzVs+mOaJfAFalI+QqEXcuJuBODhIg217g+B5jg6HMujux3Q4yeSki57x8MD/DJ43hRq9X1DTyZL/345Bo0Ag==}
-    engines: {node: '>=16'}
-    hasBin: true
-
-  '@openai/codex@0.106.0-darwin-arm64':
-    resolution: {integrity: sha512-icTUe8ZKRH2RqO2qS/FPNLMP1TloxbfM/5RxGRjh2xkd8wXDvYFeEnP2siKKLISFT49+oIbT0phUeSPR2Tlg4A==}
-    engines: {node: '>=16'}
-    cpu: [arm64]
-    os: [darwin]
-
-  '@openai/codex@0.106.0-darwin-x64':
-    resolution: {integrity: sha512-i9/V2CEfH3QlhZkA/iG/Sw8eR8I8uvH23AoIrd91/LbFX77aAjzg7rSdshU6thhdy2fhiyPjKq23/bVk5cvh5g==}
-    engines: {node: '>=16'}
-    cpu: [x64]
-    os: [darwin]
-
-  '@openai/codex@0.106.0-linux-arm64':
-    resolution: {integrity: sha512-l/xmB0w+LTf9c/0CLEkQclUfPNsOlPENR0lxiATSv9vGaQdCi/P3MEI+L1iOMWn2Nx7o04foCfkSJiKV38n4DQ==}
-    engines: {node: '>=16'}
-    cpu: [arm64]
-    os: [linux]
-
-  '@openai/codex@0.106.0-linux-x64':
-    resolution: {integrity: sha512-cVNGR8nlnW4V+2ofDt8+Q1mbR7JwxZGvSWjXJ+9GvEt0DBEO0Q5KRIsJa6iSYqTcH6V5oBcTFiK//+HDbTaFNQ==}
-    engines: {node: '>=16'}
-    cpu: [x64]
-    os: [linux]
-
-  '@openai/codex@0.106.0-win32-arm64':
-    resolution: {integrity: sha512-8CBtM8Nr4gDqQNKl4VK/+vRv9Mj+Et0pMZqEKFXZ+3Vwovs3lFDsuDET4XQ1trk11UejFNpPCk9Tle9P99hGTw==}
-    engines: {node: '>=16'}
-    cpu: [arm64]
-    os: [win32]
-
-  '@openai/codex@0.106.0-win32-x64':
-    resolution: {integrity: sha512-fF1AKwRDf6t54OmEgMf3JyaJrFWUozeYBa3W/0P6LkaTfCz68zrajL5yO78mhf/rf9eAb83PIkvej0EHBzTheQ==}
-    engines: {node: '>=16'}
-    cpu: [x64]
-    os: [win32]
 
   '@pixi/colord@2.9.6':
     resolution: {integrity: sha512-nezytU2pw587fQstUu1AsJZDVEynjskwOL+kibwcdxsMBFqPsFFNA7xl0ii/gXuDi6M0xj3mfRJj8pBSc2jCfA==}
@@ -1072,8 +932,8 @@ packages:
     resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
     engines: {node: '>=6'}
 
-  code-inspector-plugin@2.0.0-beta.6:
-    resolution: {integrity: sha512-f2JgOFxZYVqdBSXkf18e79UlRwMaRNyryZhGYOaL2RIZpV3Rm9dN6a41dRboAOZ4iyuRCHbPhUkOrkMC8ZlISg==}
+  code-inspector-plugin@1.4.5:
+    resolution: {integrity: sha512-yp3zHd5AZhtVoBNOzKQuJVo1wZe7AIO2vAiVhF8WIAK02IwM9+gY+Pr9deajx+XyJLbzMW+3CgdfLIh+xxW2Hg==}
 
   color-convert@2.0.1:
     resolution: {integrity: sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==}
@@ -1378,8 +1238,8 @@ packages:
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
 
-  launch-ide@1.4.2:
-    resolution: {integrity: sha512-WBpeW75kpkQq6zKPiMPg3SmkdqAyH8zcrDe9FYluUaOQoPktXv/F3HDfSvxxTOAHvajetHxo5mMKro/pL5sOWA==}
+  launch-ide@1.4.3:
+    resolution: {integrity: sha512-v2xMAarJOFy51kuesYEIIx5r4WHvsV+VLMU49K24bdiRZGUpo1ZulO1DRrLozM5BMbXUfRfrUTM2PbBfYCeA4Q==}
 
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
@@ -1481,11 +1341,6 @@ packages:
 
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
-
-  marked@17.0.4:
-    resolution: {integrity: sha512-NOmVMM+KAokHMvjWmC5N/ZOvgmSWuqJB8FoYI019j4ogb/PeRMKoKIjReZ2w3376kkA8dSJIP8uD993Kxc0iRQ==}
-    engines: {node: '>= 20'}
-    hasBin: true
 
   minimatch@10.2.4:
     resolution: {integrity: sha512-oRjTw/97aTBN0RHbYCdtF1MQfvusSIBQM0IZEgzl6426+8jSC0nF1a/GmnVLpfB9yyr6g6FTqWqiZVbxrtaCIg==}
@@ -1929,21 +1784,6 @@ packages:
 
 snapshots:
 
-  '@anthropic-ai/claude-agent-sdk@0.2.70(zod@4.3.6)':
-    dependencies:
-      zod: 4.3.6
-    optionalDependencies:
-      '@img/sharp-darwin-arm64': 0.34.5
-      '@img/sharp-darwin-x64': 0.34.5
-      '@img/sharp-linux-arm': 0.34.5
-      '@img/sharp-linux-arm64': 0.34.5
-      '@img/sharp-linux-x64': 0.34.5
-      '@img/sharp-linuxmusl-arm64': 0.34.5
-      '@img/sharp-linuxmusl-x64': 0.34.5
-      '@img/sharp-win32-arm64': 0.34.5
-      '@img/sharp-win32-x64': 0.34.5
-    optional: true
-
   '@babel/helper-string-parser@7.27.1': {}
 
   '@babel/helper-validator-identifier@7.28.5': {}
@@ -1957,57 +1797,47 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
 
-  '@code-inspector/core@2.0.0-beta.6(zod@4.3.6)':
+  '@code-inspector/core@1.4.5':
     dependencies:
       '@vue/compiler-dom': 3.5.29
       chalk: 4.1.1
       dotenv: 16.6.1
-      launch-ide: 1.4.2
-      marked: 17.0.4
+      launch-ide: 1.4.3
       portfinder: 1.0.38
-    optionalDependencies:
-      '@anthropic-ai/claude-agent-sdk': 0.2.70(zod@4.3.6)
-      '@openai/codex-sdk': 0.106.0
     transitivePeerDependencies:
       - supports-color
-      - zod
 
-  '@code-inspector/esbuild@2.0.0-beta.6(zod@4.3.6)':
+  '@code-inspector/esbuild@1.4.5':
     dependencies:
-      '@code-inspector/core': 2.0.0-beta.6(zod@4.3.6)
+      '@code-inspector/core': 1.4.5
     transitivePeerDependencies:
       - supports-color
-      - zod
 
-  '@code-inspector/mako@2.0.0-beta.6(zod@4.3.6)':
+  '@code-inspector/mako@1.4.5':
     dependencies:
-      '@code-inspector/core': 2.0.0-beta.6(zod@4.3.6)
+      '@code-inspector/core': 1.4.5
     transitivePeerDependencies:
       - supports-color
-      - zod
 
-  '@code-inspector/turbopack@2.0.0-beta.6(zod@4.3.6)':
+  '@code-inspector/turbopack@1.4.5':
     dependencies:
-      '@code-inspector/core': 2.0.0-beta.6(zod@4.3.6)
-      '@code-inspector/webpack': 2.0.0-beta.6(zod@4.3.6)
+      '@code-inspector/core': 1.4.5
+      '@code-inspector/webpack': 1.4.5
     transitivePeerDependencies:
       - supports-color
-      - zod
 
-  '@code-inspector/vite@2.0.0-beta.6(zod@4.3.6)':
+  '@code-inspector/vite@1.4.5':
     dependencies:
-      '@code-inspector/core': 2.0.0-beta.6(zod@4.3.6)
+      '@code-inspector/core': 1.4.5
       chalk: 4.1.1
     transitivePeerDependencies:
       - supports-color
-      - zod
 
-  '@code-inspector/webpack@2.0.0-beta.6(zod@4.3.6)':
+  '@code-inspector/webpack@1.4.5':
     dependencies:
-      '@code-inspector/core': 2.0.0-beta.6(zod@4.3.6)
+      '@code-inspector/core': 1.4.5
     transitivePeerDependencies:
       - supports-color
-      - zod
 
   '@esbuild/aix-ppc64@0.27.3':
     optional: true
@@ -2142,68 +1972,6 @@ snapshots:
 
   '@humanwhocodes/object-schema@2.0.3': {}
 
-  '@img/sharp-darwin-arm64@0.34.5':
-    optionalDependencies:
-      '@img/sharp-libvips-darwin-arm64': 1.2.4
-    optional: true
-
-  '@img/sharp-darwin-x64@0.34.5':
-    optionalDependencies:
-      '@img/sharp-libvips-darwin-x64': 1.2.4
-    optional: true
-
-  '@img/sharp-libvips-darwin-arm64@1.2.4':
-    optional: true
-
-  '@img/sharp-libvips-darwin-x64@1.2.4':
-    optional: true
-
-  '@img/sharp-libvips-linux-arm64@1.2.4':
-    optional: true
-
-  '@img/sharp-libvips-linux-arm@1.2.4':
-    optional: true
-
-  '@img/sharp-libvips-linux-x64@1.2.4':
-    optional: true
-
-  '@img/sharp-libvips-linuxmusl-arm64@1.2.4':
-    optional: true
-
-  '@img/sharp-libvips-linuxmusl-x64@1.2.4':
-    optional: true
-
-  '@img/sharp-linux-arm64@0.34.5':
-    optionalDependencies:
-      '@img/sharp-libvips-linux-arm64': 1.2.4
-    optional: true
-
-  '@img/sharp-linux-arm@0.34.5':
-    optionalDependencies:
-      '@img/sharp-libvips-linux-arm': 1.2.4
-    optional: true
-
-  '@img/sharp-linux-x64@0.34.5':
-    optionalDependencies:
-      '@img/sharp-libvips-linux-x64': 1.2.4
-    optional: true
-
-  '@img/sharp-linuxmusl-arm64@0.34.5':
-    optionalDependencies:
-      '@img/sharp-libvips-linuxmusl-arm64': 1.2.4
-    optional: true
-
-  '@img/sharp-linuxmusl-x64@0.34.5':
-    optionalDependencies:
-      '@img/sharp-libvips-linuxmusl-x64': 1.2.4
-    optional: true
-
-  '@img/sharp-win32-arm64@0.34.5':
-    optional: true
-
-  '@img/sharp-win32-x64@0.34.5':
-    optional: true
-
   '@internationalized/date@3.12.0':
     dependencies:
       '@swc/helpers': 0.5.19
@@ -2242,39 +2010,6 @@ snapshots:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.20.1
-
-  '@openai/codex-sdk@0.106.0':
-    dependencies:
-      '@openai/codex': 0.106.0
-    optional: true
-
-  '@openai/codex@0.106.0':
-    optionalDependencies:
-      '@openai/codex-darwin-arm64': '@openai/codex@0.106.0-darwin-arm64'
-      '@openai/codex-darwin-x64': '@openai/codex@0.106.0-darwin-x64'
-      '@openai/codex-linux-arm64': '@openai/codex@0.106.0-linux-arm64'
-      '@openai/codex-linux-x64': '@openai/codex@0.106.0-linux-x64'
-      '@openai/codex-win32-arm64': '@openai/codex@0.106.0-win32-arm64'
-      '@openai/codex-win32-x64': '@openai/codex@0.106.0-win32-x64'
-    optional: true
-
-  '@openai/codex@0.106.0-darwin-arm64':
-    optional: true
-
-  '@openai/codex@0.106.0-darwin-x64':
-    optional: true
-
-  '@openai/codex@0.106.0-linux-arm64':
-    optional: true
-
-  '@openai/codex@0.106.0-linux-x64':
-    optional: true
-
-  '@openai/codex@0.106.0-win32-arm64':
-    optional: true
-
-  '@openai/codex@0.106.0-win32-x64':
-    optional: true
 
   '@pixi/colord@2.9.6': {}
 
@@ -2804,18 +2539,17 @@ snapshots:
 
   clsx@2.1.1: {}
 
-  code-inspector-plugin@2.0.0-beta.6(zod@4.3.6):
+  code-inspector-plugin@1.4.5:
     dependencies:
-      '@code-inspector/core': 2.0.0-beta.6(zod@4.3.6)
-      '@code-inspector/esbuild': 2.0.0-beta.6(zod@4.3.6)
-      '@code-inspector/mako': 2.0.0-beta.6(zod@4.3.6)
-      '@code-inspector/turbopack': 2.0.0-beta.6(zod@4.3.6)
-      '@code-inspector/vite': 2.0.0-beta.6(zod@4.3.6)
-      '@code-inspector/webpack': 2.0.0-beta.6(zod@4.3.6)
+      '@code-inspector/core': 1.4.5
+      '@code-inspector/esbuild': 1.4.5
+      '@code-inspector/mako': 1.4.5
+      '@code-inspector/turbopack': 1.4.5
+      '@code-inspector/vite': 1.4.5
+      '@code-inspector/webpack': 1.4.5
       chalk: 4.1.1
     transitivePeerDependencies:
       - supports-color
-      - zod
 
   color-convert@2.0.1:
     dependencies:
@@ -3126,7 +2860,7 @@ snapshots:
     dependencies:
       json-buffer: 3.0.1
 
-  launch-ide@1.4.2:
+  launch-ide@1.4.3:
     dependencies:
       chalk: 4.1.1
       dotenv: 16.6.1
@@ -3210,8 +2944,6 @@ snapshots:
   magic-string@0.30.21:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
-
-  marked@17.0.4: {}
 
   minimatch@10.2.4:
     dependencies:

@@ -16,12 +16,6 @@ export default defineConfig(() => {
       ...(!isVitest
         ? [
           codeInspectorPlugin({
-            /* behavior: {
-              locate: true,
-              ai: {
-                codex: true,
-              },
-            }, */
             bundler: "vite",
             // editor: "code", // 指定 IDE 为 vscode
           }),

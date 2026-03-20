@@ -1,7 +1,7 @@
 <template>
-  <div class="grid h-full w-full grid-rows-[auto_auto_minmax(0,1fr)] gap-2.5 p-2.5">
+  <div class="grid h-full w-full grid-rows-[auto_auto_minmax(0,1fr)] gap-2">
     <header
-      class="flex flex-wrap items-center gap-2 rounded-xl border border-slate-300 bg-white/90 px-3 py-2 shadow-sm backdrop-blur"
+      class="flex flex-wrap items-center gap-2 border border-slate-300 bg-white/90 px-3 py-2 shadow-sm backdrop-blur"
     >
       <div class="flex items-center gap-2 border-r border-dashed border-slate-200 pr-3 last:border-r-0">
         <span class="ui-pill ui-pill-muted text-xs font-bold">地图</span>
@@ -52,7 +52,7 @@
     </header>
 
     <section
-      class="grid grid-cols-[minmax(0,1fr)_auto] gap-2.5 rounded-xl border border-slate-300 bg-slate-50/90 px-3 py-2 max-[1180px]:grid-cols-1"
+      class="grid grid-cols-[minmax(0,1fr)_auto] gap-2.5 border border-slate-300 bg-slate-50/90 px-3 py-2 max-[1180px]:grid-cols-1"
     >
       <div class="flex flex-wrap items-center gap-2.5">
         <template v-if="store.activeTool === 'select'">
@@ -151,10 +151,12 @@
       </div>
     </section>
 
-    <div class="relative h-full min-h-0 max-[1180px]:grid max-[1180px]:grid-cols-1 max-[1180px]:grid-rows-[auto_minmax(420px,1fr)_auto] max-[1180px]:gap-2.5">
+    <div
+      class="relative h-full min-h-0 max-[1180px]:grid max-[1180px]:grid-cols-1 max-[1180px]:grid-rows-[auto_minmax(420px,1fr)_auto] max-[1180px]:gap-2.5"
+    >
       <aside
-        class="absolute inset-y-0 left-0 z-20 min-h-0 overflow-hidden rounded-l-xl rounded-r-none border border-slate-300 bg-white/96 shadow-lg shadow-slate-900/5 backdrop-blur-sm transition-[width] duration-200 max-[1180px]:static max-[1180px]:w-auto max-[1180px]:max-h-55 max-[1180px]:rounded-xl max-[1180px]:bg-white max-[1180px]:shadow-none max-[1180px]:backdrop-blur-none"
-        :class="leftPanelCollapsed ? 'w-11' : 'w-[170px]'"
+        class="absolute inset-y-0 left-0 z-20 min-h-0 overflow-hidden border border-slate-300 bg-white/96 shadow-lg shadow-slate-900/5 backdrop-blur-sm transition-[width] duration-200 max-[1180px]:static max-[1180px]:w-auto max-[1180px]:max-h-55 max-[1180px]:rounded-xl max-[1180px]:bg-white max-[1180px]:shadow-none max-[1180px]:backdrop-blur-none"
+        :class="leftPanelCollapsed ? 'w-11' : 'w-42.5'"
       >
         <div v-if="leftPanelCollapsed" class="flex h-full flex-col items-center gap-3 px-1.5 py-3">
           <button
@@ -271,14 +273,14 @@
       </aside>
 
       <main
-        class="min-h-0 h-full overflow-hidden rounded-xl border border-slate-300 bg-linear-to-br from-slate-50 to-slate-100 shadow-md max-[1180px]:min-h-[420px]"
+        class="min-h-0 h-full overflow-hidden border border-slate-300 bg-linear-to-br from-slate-50 to-slate-100 shadow-md max-[1180px]:min-h-[420px]"
       >
         <MapEditorCanvas :store="store" />
       </main>
 
       <aside
-        class="absolute inset-y-0 right-0 z-20 min-h-0 overflow-hidden rounded-l-none rounded-r-xl border border-slate-300 bg-white/96 shadow-lg shadow-slate-900/5 backdrop-blur-sm transition-[width] duration-200 max-[1180px]:static max-[1180px]:w-auto max-[1180px]:rounded-xl max-[1180px]:bg-white max-[1180px]:shadow-none max-[1180px]:backdrop-blur-none"
-        :class="rightPanelCollapsed ? 'w-11' : 'w-[340px]'"
+        class="absolute inset-y-0 right-0 z-20 min-h-0 overflow-hidden border border-slate-300 bg-white/96 shadow-lg shadow-slate-900/5 backdrop-blur-sm transition-[width] duration-200 max-[1180px]:static max-[1180px]:w-auto max-[1180px]:rounded-xl max-[1180px]:bg-white max-[1180px]:shadow-none max-[1180px]:backdrop-blur-none"
+        :class="rightPanelCollapsed ? 'w-11' : 'w-85'"
       >
         <div v-if="rightPanelCollapsed" class="flex h-full flex-col items-center gap-3 px-1.5 py-3">
           <button
