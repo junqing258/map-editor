@@ -100,9 +100,9 @@
               <div class="min-w-0 flex-1">
                 <div class="flex items-start gap-3">
                   <Checkbox
-                    :checked="selectedIds.includes(item.id)"
+                    :model-value="selectedIds.includes(item.id)"
                     class="mt-1 border-slate-300 data-[state=checked]:border-slate-900 data-[state=checked]:bg-slate-900"
-                    @update:checked="updateSelected(item.id, $event)"
+                    @update:model-value="updateSelected(item.id, $event)"
                   />
 
                   <div class="min-w-0 space-y-3">
