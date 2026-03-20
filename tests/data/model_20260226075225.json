@@ -1,0 +1,8074 @@
+{
+  "id": "SfYABhC4",
+  "meta": {},
+  "info": {
+    "name": "分拣机二层",
+    "key": "bfaf94b3c5c3ee3f6ca1b1a8af75f07768faa00b",
+    "layer": 1,
+    "width": 1400,
+    "height": 560,
+    "blocks": 242,
+    "max_value": 1,
+    "resolution": 0.013750000000000002,
+    "simulation": true,
+    "interval": 550,
+    "original": {
+      "x": 50000,
+      "y": 50000
+    },
+    "create_date": "2026-01-14T07:33:04.253Z",
+    "modify_date": "2026-01-14T07:33:04.253Z",
+    "last_modify_user": "admin",
+    "groups": [
+      "分组一"
+    ]
+  },
+  "basic": [],
+  "advanced": [],
+  "marks": [
+    {
+      "code": "-7EzK7Ci",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 11.825,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 173066759,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "-7_bmsj1",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 0.825,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 260024065,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "-cDGGB6b",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 11.275,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 289107020,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "-h9HgxaE",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 1.375,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 702929914,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "0Pa_-hkz",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 2.475,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 543942907,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "0lasi9Ci",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 15.675,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 257182166,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "16bpqrLo",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 1.925,
+      "y": 1.925,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 87846025,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "1NSW84Yi",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 15.125,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 103968001,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "1PYdLoWm",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 18.425,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 986811127,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "1nOzd0jL",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 16.225,
+      "y": 5.775,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 475349467,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "25NyQGjr",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 18.975,
+      "y": 3.575,
+      "heading": [
+        180
+      ],
+      "lock": false,
+      "location": {
+        "mark": 48663020,
+        "tag": "chargerPort",
+        "facing": [
+          180.0
+        ],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": false,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "2BSBWVgA",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 14.575,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 680183878,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "2CE8tUtM",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 8.525,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 56334355,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "2XUrxlKq",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 3.025,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 530979836,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "2_xvsckQ",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 9.075,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 69005515,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "2gyxZz3N",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 2.475,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 80076968,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "2tsNNOwn",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 0.275,
+      "y": 1.375,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 750187709,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "2txzH4CG",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 10.725,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 283353297,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "3-Ve6F89",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 1.925,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 289708804,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "3-pWhzBC",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 11.275,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 820023575,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "3RZZV4jl",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 17.325,
+      "y": 6.325,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 54189313,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "3WdE_nYe",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 6.325,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 822796962,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "3lgiMKE3",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 9.625,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 39763186,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "3qZHk9bZ",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 1.375,
+      "y": 0.275,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 607643840,
+        "tag": "loadPort",
+        "facing": [],
+        "capacity": 5
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "3sgr2klJ",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 3.575,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 152355206,
+        "tag": "sorterPort",
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "3te_E0I-",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 13.475,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 459791612,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "3v9uOakl",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 3.575,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 68950495,
+        "tag": "sorterPort",
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "4495pgmf",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 5.225,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 609965350,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "47LPjrDR",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 8.525,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 938929660,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "4943n2at",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 16.225,
+      "y": 6.875,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 369464447,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "4JWp04uA",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 10.725,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 391521316,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "4UTqT-qu",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 13.475,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 517128671,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "4uwZVZrY",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 17.325,
+      "y": 5.775,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 820470759,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "4zbQCUhe",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 16.775,
+      "y": 6.325,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 126284709,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "5ekAKlmZ",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 10.725,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 151417375,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "5xxz4BMG",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 6.325,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 493960746,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "6-t8gPYj",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 16.775,
+      "y": 5.775,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 927578601,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "6CC5z8HZ",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 1.925,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 350284355,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "6K75sND5",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 16.225,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 61456671,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "6j24et8J",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 1.375,
+      "y": 1.925,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 917241922,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "7XptxyWP",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 12.925,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 34525773,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "7n1ODXRM",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 4.675,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 168998034,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "86JYCxCF",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 6.325,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 968678049,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "8HCqB4RE",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 18.975,
+      "y": 4.675,
+      "heading": [
+        180
+      ],
+      "lock": false,
+      "location": {
+        "mark": 704204110,
+        "tag": "chargerPort",
+        "facing": [
+          180.0
+        ],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": false,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "8ImHBnpb",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 12.925,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 513180428,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "8NX4xcDW",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 3.025,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 466069449,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "8Z2BZtr_",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 0.275,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 593177864,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "8wTknecg",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 10.175,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 678737851,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "9QVH-cMO",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 10.175,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 678575710,
+        "tag": "sorterPort",
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "9mTDCts2",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 0.825,
+      "y": 1.925,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 952886283,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "9pYWsNPC",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 12.925,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 499987383,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "AVr7Xkrf",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 12.375,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 575761731,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "BEk1Qpxb",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 6.875,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 587763616,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "CDxn-2E0",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 5.775,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 778814845,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "CmDsViFL",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 5.775,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 20841657,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "Cvd6Qiun",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 5.225,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 553256408,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "D3iQOKtg",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 1.375,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 693270371,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "DCg2JOTO",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 14.575,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 894763182,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "DmeY8fsj",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 1.375,
+      "y": 0.825,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 806025479,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "Dmk7KAMc",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 1.925,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 356317479,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "EMTPIOd9",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 16.775,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 871411750,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "EPveXjDk",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 8.525,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 629988399,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "Eb1a0Zo3",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 18.975,
+      "y": 4.125,
+      "heading": [
+        180
+      ],
+      "lock": false,
+      "location": {
+        "mark": 653911719,
+        "tag": "chargerPort",
+        "facing": [
+          180.0
+        ],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": false,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "Ebh1dn8n",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 3.575,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 236839336,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "EjUTZD-G",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 14.575,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 832448252,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "EyeTk1t5",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 16.775,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 422537089,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "F161E4ns",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 7.975,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 226094574,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "FmVfrJoU",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 17.875,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 188577764,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "Fp2xWXEt",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 0.275,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 768861088,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "FuIzqmWD",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 15.675,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 335605705,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "Fzk5YHgt",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 2.475,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 159086694,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "GKVG6Cf6",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 6.325,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 514190753,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "GUHxLpxd",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 14.025,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 659706601,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "Gak8sa-Z",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 4.125,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 645724986,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "GkdCPxm2",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 4.675,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 644339116,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "GrdwPUMk",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 0.275,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 484533049,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "HCDe-QZI",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 1.375,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 389153498,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "Hnqjm6IV",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 16.775,
+      "y": 7.425,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 768836706,
+        "tag": "loadPort",
+        "facing": [],
+        "capacity": 5
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "IH9ZtChN",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 12.925,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 572048287,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "I_SCnQ3m",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 12.375,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 984832210,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "Io8hAX87",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 15.675,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 837662720,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "J81djPco",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 12.375,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 103918765,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "JVFiHv4F",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 9.625,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 833696738,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "KkUpoCOJ",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 14.575,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 735249201,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "L-bV6jJj",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 10.725,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 869280228,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "L32RqyBh",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 8.525,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 220193327,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "LFnmjGIJ",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 17.325,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 702282108,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "L_2yoHUc",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 1.925,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 35243242,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "Lef6kk1a",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 11.275,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 200631038,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "LwTYIFCh",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 18.975,
+      "y": 3.025,
+      "heading": [
+        180
+      ],
+      "lock": false,
+      "location": {
+        "mark": 907958804,
+        "tag": "chargerPort",
+        "facing": [
+          180.0
+        ],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": false,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "M1ykdVlw",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 0.825,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 10380090,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "McKa58yh",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 0.825,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 540453641,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "MidlA7PV",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 16.775,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 387215720,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "N2ZGjyjo",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 7.425,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 59922253,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "NFEh61Mi",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 13.475,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 849597921,
+        "tag": "sorterPort",
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "NLhu1TUT",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 7.975,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 734386591,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "NQZ7Jkfq",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 17.875,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 420001237,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "OFOfeyOa",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 5.775,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 720517900,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "OLyi7qkh",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 17.875,
+      "y": 7.425,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 306841765,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "OcuWZvOg",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 3.025,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 95991809,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "P5kwCg9m",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 5.225,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 169726057,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "P8DhzWjr",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 1.375,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 288452132,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "PGDKmOUE",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 16.225,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 901997162,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "PYN2vy-P",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 5.225,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 482741800,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "PaLETI9l",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 4.125,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 448165960,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "Pjmnp131",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 17.875,
+      "y": 5.775,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 794702281,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "PnOBCP57",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 3.025,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 175433814,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "PzVBCd7u",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 1.925,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 328064598,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "Q9VU3n0T",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 10.725,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 880745993,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "QEYhWnxn",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 16.225,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 427637572,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "QIyBvH6c",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 1.925,
+      "y": 0.275,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 694731452,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "QYx62uNK",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 4.675,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 674126188,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "QcEDfkay",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 14.575,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 947894541,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "Qje5Uepg",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 17.325,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 584830109,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "RDXKJtVN",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 17.325,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 86972064,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "Rea0xRRC",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 6.875,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 98146728,
+        "tag": "sorterPort",
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "RqjHR93k",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 7.975,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 492792425,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "Rw0NyMb9",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 17.325,
+      "y": 7.425,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 603604398,
+        "tag": "loadPort",
+        "facing": [],
+        "capacity": 5
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "RwNP7TRm",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 7.425,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 803250272,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "S-FicQQF",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 9.075,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 732802883,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "ScSfxbsF",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 4.125,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 854333609,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "TYGtJNSk",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 15.125,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 780266651,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "TjOxcpW6",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 15.675,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 27756940,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "U3jHPnLy",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 10.175,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 332925903,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "UAjdRBnO",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 18.425,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 645090565,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "UYhPC532",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 9.075,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 183699222,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "V9qZrf4a",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 7.425,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 891142506,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "VDtZfLSB",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 1.925,
+      "y": 1.375,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 325413446,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "VY46GtFQ",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 16.225,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 601721279,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "VZEqlg5E",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 0.825,
+      "y": 1.375,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 859683283,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "VmGUFKla",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 8.525,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 788136620,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "W0yE-odU",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 15.675,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 658112363,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "WIpXwAx0",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 13.475,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 275578004,
+        "tag": "sorterPort",
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "WJmQD_80",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 6.875,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 249068757,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "WOaMB3Ko",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 14.025,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 763796816,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "Wd5DcV6t",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 16.225,
+      "y": 6.325,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 198760161,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "WgI_zWId",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 3.575,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 417326440,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "WnTglrfM",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 10.175,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 162002328,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "WoTwuKbx",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 9.075,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 33271685,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "XUZYUdN0",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 11.825,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 798357447,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "XZbxDdUd",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 17.325,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 909724530,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "XnjlUPXM",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 6.875,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 786241706,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "YOmpHoXu",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 0.825,
+      "y": 0.275,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 357462705,
+        "tag": "loadPort",
+        "facing": [],
+        "capacity": 5
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "YScOf5Y8",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 0.825,
+      "y": 0.825,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 128215073,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "Yn1fYPez",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 14.025,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 331644417,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "ZHWzpBtb",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 1.375,
+      "y": 1.375,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 134047102,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "ZTX620F8",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 17.325,
+      "y": 6.875,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 506613832,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "Z_0cpOJJ",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 4.125,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 15534715,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "ZovPHNnF",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 16.775,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 57503298,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "_J3Mj6tc",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 18.425,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 89545222,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "_Rr1XFT8",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 15.675,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 881098444,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "_TI6zZfc",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 0.275,
+      "y": 0.825,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 93534792,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "_kkW5NFV",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 15.125,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 539912357,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "_pgLzmZg",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 11.825,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 164260875,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "aEl2mC3a",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 4.675,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 784112871,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "aHBpssUc",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 6.325,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 87574618,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "aROgw8Ts",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 0.825,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 706848057,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "ajkCp6C-",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 17.875,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 700273767,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "b-A8_fNE",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 14.025,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 246000450,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "b35JVGGg",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 11.275,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 444828628,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "b8_Stuuc",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 6.875,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 516285315,
+        "tag": "sorterPort",
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "bGtzlJEG",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 13.475,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 772698423,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "b_W1zUZ1",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 5.775,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 417425538,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "bevRCNHc",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 0.275,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 470193654,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "byMzaYWd",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 11.825,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 190873655,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "cD7Df-5m",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 1.375,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 791801356,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "cQGXQO2p",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 14.025,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 61038704,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "ccmxhmnp",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 9.625,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 361879375,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "dGbJDh_C",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 12.375,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 277589857,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "dNrCk26J",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 6.325,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 385049255,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "dOz8J0dq",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 12.925,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 190040886,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "dikTHb0a",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 5.225,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 91717225,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "eH9jO9dp",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 17.875,
+      "y": 6.875,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 148891910,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "eMlH2coE",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 9.625,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 80389868,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "eQoZRHqU",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 17.325,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 39999416,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "ejsRZUPj",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 0.275,
+      "y": 0.275,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 154548585,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "fGTkpwrx",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 15.125,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 219320782,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "fzO1UEei",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 12.925,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 830460334,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "g6_Bwijs",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 16.775,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 84055747,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "gEg_lik6",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 17.875,
+      "y": 6.325,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 472634011,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "gIIQ-oqY",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 0.275,
+      "y": 1.925,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 713888387,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "gZygWeN_",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 15.125,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 746544880,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "gtnaIcyt",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 17.875,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 673170023,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "hTu4GKCX",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 11.825,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 457799427,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "hVwIIzRI",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 1.925,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 74095397,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "hzZfbYX-",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 2.475,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 785434172,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "i3jzS5AZ",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 9.075,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 833752443,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "iB0HQEtY",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 18.425,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 205280072,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "iXcfVce4",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 0.275,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 32483936,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "iZbzytyw",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 17.875,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 755378894,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "jxCG99EN",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 7.975,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 316497156,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "jzO67zNH",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 8.525,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 303727557,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "lQMErBkc",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 10.175,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 17534839,
+        "tag": "sorterPort",
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "lQooXgy2",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 18.975,
+      "y": 5.225,
+      "heading": [
+        180
+      ],
+      "lock": false,
+      "location": {
+        "mark": 456944346,
+        "tag": "chargerPort",
+        "facing": [
+          180.0
+        ],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": false,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "lXGn95nW",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 7.425,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 605117890,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "llnVnNZ6",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 11.275,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 211826649,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "luzWZDo5",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 7.425,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 900859405,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "mTFFlJPT",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 1.375,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 509912565,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "mpBKNkds",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 15.125,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 38712771,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "msiQtKB5",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 3.025,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 202528106,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "nB3iwsCE",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 16.775,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 845767395,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "nRaaz9Dv",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 12.375,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 192088660,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "nsdazkDM",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 3.575,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 295596309,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "o9aYDcWi",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 4.125,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 200280798,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "oJlOcDmh",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 18.425,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 656952054,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "p1DX6yKU",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 7.425,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 306907054,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "p6I0dxBI",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 14.025,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 4749333,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "p7nL0e1h",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 10.725,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 128510310,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "pHZUKJRc",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 9.075,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 497879396,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "pSKSBzbC",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 3.575,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 631446149,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "pWTPRiIp",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 16.225,
+      "y": 7.425,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 486630910,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "pgYCsVjo",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 3.025,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 7823007,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "pna52T8y",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 16.775,
+      "y": 6.875,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 355552199,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "qEC65sg3",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 18.425,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 36863379,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "qEw5sy10",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 10.175,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 46265342,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "qu0o6D8T",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 14.575,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 398509397,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "rG6roCzU",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 1.925,
+      "y": 0.825,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 466820367,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "rc9K295e",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 17.875,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 970183662,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "s1Dham24",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 7.975,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 897167466,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "sGqJ5p-B",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 0.825,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 728848371,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "sKcWrkoP",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 6.875,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 263495938,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "sLZerxNr",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 5.775,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 302754405,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "swY1e__L",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 2.475,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 903745712,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "tEWXm82I",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 17.325,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 295388899,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "ts-GA_Yp",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 7.975,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 781429522,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "uN_cLpwJ",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 0.825,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 69749209,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "uZnYphtR",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 13.475,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 726453869,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "v5i4er4J",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 16.225,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 753762094,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "vKbz4oUI",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 12.375,
+      "y": 2.475,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 222146962,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "vRj1PvBj",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 5.775,
+      "y": 4.125,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 560699619,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "w6RC9i0P",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 5.225,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 975623878,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "wLWLCHFs",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 9.625,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 841658238,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "w_t1RR38",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 4.675,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 295214583,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "xDSqDn5x",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 9.625,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 714628638,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "y60xmNJB",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 4.675,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 243442510,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "yQB2UDvZ",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 2.475,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 165749032,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "zAEhcH8e",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 18.975,
+      "y": 2.475,
+      "heading": [
+        180
+      ],
+      "lock": false,
+      "location": {
+        "mark": 72124856,
+        "tag": "chargerPort",
+        "facing": [
+          180.0
+        ],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": false,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "zLSRu7BL",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 11.275,
+      "y": 4.675,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 809522661,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "zRVn1Tdc",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 4.125,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 207008541,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "zcl5LFfl",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 0.275,
+      "y": 5.225,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 156396573,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "zfEdfJrv",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 16.225,
+      "y": 3.575,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 130578525,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    },
+    {
+      "code": "znY6w7Ty",
+      "type": "mr",
+      "bb": null,
+      "z": 0.0,
+      "x": 11.825,
+      "y": 3.025,
+      "heading": [],
+      "lock": false,
+      "location": {
+        "mark": 151645846,
+        "tag": null,
+        "facing": [],
+        "capacity": null
+      },
+      "trafficRule": null,
+      "attr": {
+        "dockable": true,
+        "rotatable": true,
+        "loadSpeed": null,
+        "unloadSpeed": null,
+        "loadAcceleration": null,
+        "unloadAcceleration": null
+      }
+    }
+  ],
+  "areas": [],
+  "paths": [
+    {
+      "lock": false,
+      "end": "vKbz4oUI",
+      "start": "-7EzK7Ci",
+      "code": "-7EzK7Ci-e"
+    },
+    {
+      "lock": false,
+      "end": "bevRCNHc",
+      "start": "-7_bmsj1",
+      "code": "-7_bmsj1-w"
+    },
+    {
+      "lock": false,
+      "end": "McKa58yh",
+      "start": "-7_bmsj1",
+      "code": "-7_bmsj1-n"
+    },
+    {
+      "lock": false,
+      "end": "2txzH4CG",
+      "start": "-cDGGB6b",
+      "code": "-cDGGB6b-w"
+    },
+    {
+      "lock": false,
+      "end": "-7_bmsj1",
+      "start": "-h9HgxaE",
+      "code": "-h9HgxaE-w"
+    },
+    {
+      "lock": false,
+      "end": "D3iQOKtg",
+      "start": "-h9HgxaE",
+      "code": "-h9HgxaE-n"
+    },
+    {
+      "lock": false,
+      "end": "Dmk7KAMc",
+      "start": "0Pa_-hkz",
+      "code": "0Pa_-hkz-w"
+    },
+    {
+      "lock": false,
+      "end": "VY46GtFQ",
+      "start": "0lasi9Ci",
+      "code": "0lasi9Ci-e"
+    },
+    {
+      "lock": false,
+      "end": "VDtZfLSB",
+      "start": "16bpqrLo",
+      "code": "16bpqrLo-s"
+    },
+    {
+      "lock": false,
+      "end": "0lasi9Ci",
+      "start": "1NSW84Yi",
+      "code": "1NSW84Yi-e"
+    },
+    {
+      "lock": false,
+      "end": "Eb1a0Zo3",
+      "start": "1PYdLoWm",
+      "code": "1PYdLoWm-e"
+    },
+    {
+      "lock": false,
+      "end": "rc9K295e",
+      "start": "1PYdLoWm",
+      "code": "1PYdLoWm-w"
+    },
+    {
+      "lock": false,
+      "end": "iB0HQEtY",
+      "start": "1PYdLoWm",
+      "code": "1PYdLoWm-s"
+    },
+    {
+      "lock": false,
+      "end": "Wd5DcV6t",
+      "start": "1nOzd0jL",
+      "code": "1nOzd0jL-n"
+    },
+    {
+      "lock": false,
+      "end": "iB0HQEtY",
+      "start": "25NyQGjr",
+      "code": "25NyQGjr-w"
+    },
+    {
+      "lock": false,
+      "end": "TYGtJNSk",
+      "start": "2BSBWVgA",
+      "code": "2BSBWVgA-e"
+    },
+    {
+      "lock": false,
+      "end": "s1Dham24",
+      "start": "2CE8tUtM",
+      "code": "2CE8tUtM-w"
+    },
+    {
+      "lock": false,
+      "end": "Fzk5YHgt",
+      "start": "2XUrxlKq",
+      "code": "2XUrxlKq-w"
+    },
+    {
+      "lock": false,
+      "end": "eMlH2coE",
+      "start": "2_xvsckQ",
+      "code": "2_xvsckQ-e"
+    },
+    {
+      "lock": false,
+      "end": "pHZUKJRc",
+      "start": "2_xvsckQ",
+      "code": "2_xvsckQ-n"
+    },
+    {
+      "lock": false,
+      "end": "pgYCsVjo",
+      "start": "2gyxZz3N",
+      "code": "2gyxZz3N-e"
+    },
+    {
+      "lock": false,
+      "end": "_TI6zZfc",
+      "start": "2tsNNOwn",
+      "code": "2tsNNOwn-s"
+    },
+    {
+      "lock": false,
+      "end": "8wTknecg",
+      "start": "2txzH4CG",
+      "code": "2txzH4CG-w"
+    },
+    {
+      "lock": false,
+      "end": "hzZfbYX-",
+      "start": "3-Ve6F89",
+      "code": "3-Ve6F89-e"
+    },
+    {
+      "lock": false,
+      "end": "_pgLzmZg",
+      "start": "3-pWhzBC",
+      "code": "3-pWhzBC-e"
+    },
+    {
+      "lock": false,
+      "end": "4uwZVZrY",
+      "start": "3RZZV4jl",
+      "code": "3RZZV4jl-s"
+    },
+    {
+      "lock": false,
+      "end": "BEk1Qpxb",
+      "start": "3WdE_nYe",
+      "code": "3WdE_nYe-e"
+    },
+    {
+      "lock": false,
+      "end": "U3jHPnLy",
+      "start": "3lgiMKE3",
+      "code": "3lgiMKE3-e"
+    },
+    {
+      "lock": false,
+      "end": "DmeY8fsj",
+      "start": "3qZHk9bZ",
+      "code": "3qZHk9bZ-n"
+    },
+    {
+      "lock": false,
+      "end": "Z_0cpOJJ",
+      "start": "3sgr2klJ",
+      "code": "3sgr2klJ-e"
+    },
+    {
+      "lock": false,
+      "end": "8ImHBnpb",
+      "start": "3te_E0I-",
+      "code": "3te_E0I--w"
+    },
+    {
+      "lock": false,
+      "end": "zRVn1Tdc",
+      "start": "3v9uOakl",
+      "code": "3v9uOakl-e"
+    },
+    {
+      "lock": false,
+      "end": "aEl2mC3a",
+      "start": "4495pgmf",
+      "code": "4495pgmf-w"
+    },
+    {
+      "lock": false,
+      "end": "WoTwuKbx",
+      "start": "47LPjrDR",
+      "code": "47LPjrDR-e"
+    },
+    {
+      "lock": false,
+      "end": "pWTPRiIp",
+      "start": "4943n2at",
+      "code": "4943n2at-n"
+    },
+    {
+      "lock": false,
+      "end": "Lef6kk1a",
+      "start": "4JWp04uA",
+      "code": "4JWp04uA-e"
+    },
+    {
+      "lock": false,
+      "end": "2txzH4CG",
+      "start": "4JWp04uA",
+      "code": "4JWp04uA-n"
+    },
+    {
+      "lock": false,
+      "end": "GUHxLpxd",
+      "start": "4UTqT-qu",
+      "code": "4UTqT-qu-e"
+    },
+    {
+      "lock": false,
+      "end": "LFnmjGIJ",
+      "start": "4uwZVZrY",
+      "code": "4uwZVZrY-s"
+    },
+    {
+      "lock": false,
+      "end": "6-t8gPYj",
+      "start": "4zbQCUhe",
+      "code": "4zbQCUhe-s"
+    },
+    {
+      "lock": false,
+      "end": "WnTglrfM",
+      "start": "5ekAKlmZ",
+      "code": "5ekAKlmZ-w"
+    },
+    {
+      "lock": false,
+      "end": "OFOfeyOa",
+      "start": "5xxz4BMG",
+      "code": "5xxz4BMG-w"
+    },
+    {
+      "lock": false,
+      "end": "EMTPIOd9",
+      "start": "6-t8gPYj",
+      "code": "6-t8gPYj-s"
+    },
+    {
+      "lock": false,
+      "end": "-h9HgxaE",
+      "start": "6CC5z8HZ",
+      "code": "6CC5z8HZ-w"
+    },
+    {
+      "lock": false,
+      "end": "TjOxcpW6",
+      "start": "6K75sND5",
+      "code": "6K75sND5-w"
+    },
+    {
+      "lock": false,
+      "end": "cD7Df-5m",
+      "start": "6j24et8J",
+      "code": "6j24et8J-n"
+    },
+    {
+      "lock": false,
+      "end": "NFEh61Mi",
+      "start": "7XptxyWP",
+      "code": "7XptxyWP-e"
+    },
+    {
+      "lock": false,
+      "end": "8ImHBnpb",
+      "start": "7XptxyWP",
+      "code": "7XptxyWP-s"
+    },
+    {
+      "lock": false,
+      "end": "o9aYDcWi",
+      "start": "7n1ODXRM",
+      "code": "7n1ODXRM-w"
+    },
+    {
+      "lock": false,
+      "end": "Rea0xRRC",
+      "start": "86JYCxCF",
+      "code": "86JYCxCF-e"
+    },
+    {
+      "lock": false,
+      "end": "GKVG6Cf6",
+      "start": "86JYCxCF",
+      "code": "86JYCxCF-s"
+    },
+    {
+      "lock": false,
+      "end": "oJlOcDmh",
+      "start": "8HCqB4RE",
+      "code": "8HCqB4RE-w"
+    },
+    {
+      "lock": false,
+      "end": "nRaaz9Dv",
+      "start": "8ImHBnpb",
+      "code": "8ImHBnpb-w"
+    },
+    {
+      "lock": false,
+      "end": "3v9uOakl",
+      "start": "8NX4xcDW",
+      "code": "8NX4xcDW-e"
+    },
+    {
+      "lock": false,
+      "end": "bevRCNHc",
+      "start": "8Z2BZtr_",
+      "code": "8Z2BZtr_-s"
+    },
+    {
+      "lock": false,
+      "end": "ccmxhmnp",
+      "start": "8wTknecg",
+      "code": "8wTknecg-w"
+    },
+    {
+      "lock": false,
+      "end": "4JWp04uA",
+      "start": "9QVH-cMO",
+      "code": "9QVH-cMO-e"
+    },
+    {
+      "lock": false,
+      "end": "M1ykdVlw",
+      "start": "9mTDCts2",
+      "code": "9mTDCts2-n"
+    },
+    {
+      "lock": false,
+      "end": "I_SCnQ3m",
+      "start": "9pYWsNPC",
+      "code": "9pYWsNPC-w"
+    },
+    {
+      "lock": false,
+      "end": "XUZYUdN0",
+      "start": "AVr7Xkrf",
+      "code": "AVr7Xkrf-w"
+    },
+    {
+      "lock": false,
+      "end": "luzWZDo5",
+      "start": "BEk1Qpxb",
+      "code": "BEk1Qpxb-e"
+    },
+    {
+      "lock": false,
+      "end": "86JYCxCF",
+      "start": "CDxn-2E0",
+      "code": "CDxn-2E0-e"
+    },
+    {
+      "lock": false,
+      "end": "4495pgmf",
+      "start": "CmDsViFL",
+      "code": "CmDsViFL-w"
+    },
+    {
+      "lock": false,
+      "end": "vRj1PvBj",
+      "start": "Cvd6Qiun",
+      "code": "Cvd6Qiun-e"
+    },
+    {
+      "lock": false,
+      "end": "L_2yoHUc",
+      "start": "D3iQOKtg",
+      "code": "D3iQOKtg-e"
+    },
+    {
+      "lock": false,
+      "end": "HCDe-QZI",
+      "start": "D3iQOKtg",
+      "code": "D3iQOKtg-n"
+    },
+    {
+      "lock": false,
+      "end": "Yn1fYPez",
+      "start": "DCg2JOTO",
+      "code": "DCg2JOTO-w"
+    },
+    {
+      "lock": false,
+      "end": "ZHWzpBtb",
+      "start": "DmeY8fsj",
+      "code": "DmeY8fsj-n"
+    },
+    {
+      "lock": false,
+      "end": "P8DhzWjr",
+      "start": "Dmk7KAMc",
+      "code": "Dmk7KAMc-w"
+    },
+    {
+      "lock": false,
+      "end": "PzVBCd7u",
+      "start": "Dmk7KAMc",
+      "code": "Dmk7KAMc-s"
+    },
+    {
+      "lock": false,
+      "end": "LFnmjGIJ",
+      "start": "EMTPIOd9",
+      "code": "EMTPIOd9-e"
+    },
+    {
+      "lock": false,
+      "end": "nB3iwsCE",
+      "start": "EMTPIOd9",
+      "code": "EMTPIOd9-s"
+    },
+    {
+      "lock": false,
+      "end": "i3jzS5AZ",
+      "start": "EPveXjDk",
+      "code": "EPveXjDk-e"
+    },
+    {
+      "lock": false,
+      "end": "1PYdLoWm",
+      "start": "Eb1a0Zo3",
+      "code": "Eb1a0Zo3-w"
+    },
+    {
+      "lock": false,
+      "end": "msiQtKB5",
+      "start": "Ebh1dn8n",
+      "code": "Ebh1dn8n-w"
+    },
+    {
+      "lock": false,
+      "end": "gZygWeN_",
+      "start": "EjUTZD-G",
+      "code": "EjUTZD-G-e"
+    },
+    {
+      "lock": false,
+      "end": "6K75sND5",
+      "start": "EyeTk1t5",
+      "code": "EyeTk1t5-w"
+    },
+    {
+      "lock": false,
+      "end": "g6_Bwijs",
+      "start": "EyeTk1t5",
+      "code": "EyeTk1t5-s"
+    },
+    {
+      "lock": false,
+      "end": "p1DX6yKU",
+      "start": "F161E4ns",
+      "code": "F161E4ns-w"
+    },
+    {
+      "lock": false,
+      "end": "oJlOcDmh",
+      "start": "FmVfrJoU",
+      "code": "FmVfrJoU-e"
+    },
+    {
+      "lock": false,
+      "end": "Qje5Uepg",
+      "start": "FmVfrJoU",
+      "code": "FmVfrJoU-w"
+    },
+    {
+      "lock": false,
+      "end": "gtnaIcyt",
+      "start": "FmVfrJoU",
+      "code": "FmVfrJoU-n"
+    },
+    {
+      "lock": false,
+      "end": "GrdwPUMk",
+      "start": "Fp2xWXEt",
+      "code": "Fp2xWXEt-s"
+    },
+    {
+      "lock": false,
+      "end": "QEYhWnxn",
+      "start": "FuIzqmWD",
+      "code": "FuIzqmWD-e"
+    },
+    {
+      "lock": false,
+      "end": "6CC5z8HZ",
+      "start": "Fzk5YHgt",
+      "code": "Fzk5YHgt-w"
+    },
+    {
+      "lock": false,
+      "end": "CmDsViFL",
+      "start": "GKVG6Cf6",
+      "code": "GKVG6Cf6-w"
+    },
+    {
+      "lock": false,
+      "end": "EjUTZD-G",
+      "start": "GUHxLpxd",
+      "code": "GUHxLpxd-e"
+    },
+    {
+      "lock": false,
+      "end": "Ebh1dn8n",
+      "start": "Gak8sa-Z",
+      "code": "Gak8sa-Z-w"
+    },
+    {
+      "lock": false,
+      "end": "PYN2vy-P",
+      "start": "GkdCPxm2",
+      "code": "GkdCPxm2-e"
+    },
+    {
+      "lock": false,
+      "end": "gIIQ-oqY",
+      "start": "GrdwPUMk",
+      "code": "GrdwPUMk-s"
+    },
+    {
+      "lock": false,
+      "end": "uN_cLpwJ",
+      "start": "HCDe-QZI",
+      "code": "HCDe-QZI-w"
+    },
+    {
+      "lock": false,
+      "end": "mTFFlJPT",
+      "start": "HCDe-QZI",
+      "code": "HCDe-QZI-n"
+    },
+    {
+      "lock": false,
+      "end": "pna52T8y",
+      "start": "Hnqjm6IV",
+      "code": "Hnqjm6IV-s"
+    },
+    {
+      "lock": false,
+      "end": "WIpXwAx0",
+      "start": "IH9ZtChN",
+      "code": "IH9ZtChN-e"
+    },
+    {
+      "lock": false,
+      "end": "9pYWsNPC",
+      "start": "IH9ZtChN",
+      "code": "IH9ZtChN-n"
+    },
+    {
+      "lock": false,
+      "end": "znY6w7Ty",
+      "start": "I_SCnQ3m",
+      "code": "I_SCnQ3m-w"
+    },
+    {
+      "lock": false,
+      "end": "fGTkpwrx",
+      "start": "Io8hAX87",
+      "code": "Io8hAX87-w"
+    },
+    {
+      "lock": false,
+      "end": "7XptxyWP",
+      "start": "J81djPco",
+      "code": "J81djPco-e"
+    },
+    {
+      "lock": false,
+      "end": "UYhPC532",
+      "start": "JVFiHv4F",
+      "code": "JVFiHv4F-w"
+    },
+    {
+      "lock": false,
+      "end": "p6I0dxBI",
+      "start": "KkUpoCOJ",
+      "code": "KkUpoCOJ-w"
+    },
+    {
+      "lock": false,
+      "end": "3-pWhzBC",
+      "start": "L-bV6jJj",
+      "code": "L-bV6jJj-e"
+    },
+    {
+      "lock": false,
+      "end": "F161E4ns",
+      "start": "L32RqyBh",
+      "code": "L32RqyBh-w"
+    },
+    {
+      "lock": false,
+      "end": "gtnaIcyt",
+      "start": "LFnmjGIJ",
+      "code": "LFnmjGIJ-e"
+    },
+    {
+      "lock": false,
+      "end": "Qje5Uepg",
+      "start": "LFnmjGIJ",
+      "code": "LFnmjGIJ-s"
+    },
+    {
+      "lock": false,
+      "end": "2gyxZz3N",
+      "start": "L_2yoHUc",
+      "code": "L_2yoHUc-e"
+    },
+    {
+      "lock": false,
+      "end": "-7EzK7Ci",
+      "start": "Lef6kk1a",
+      "code": "Lef6kk1a-e"
+    },
+    {
+      "lock": false,
+      "end": "qEC65sg3",
+      "start": "LwTYIFCh",
+      "code": "LwTYIFCh-w"
+    },
+    {
+      "lock": false,
+      "end": "sGqJ5p-B",
+      "start": "M1ykdVlw",
+      "code": "M1ykdVlw-n"
+    },
+    {
+      "lock": false,
+      "end": "D3iQOKtg",
+      "start": "McKa58yh",
+      "code": "McKa58yh-e"
+    },
+    {
+      "lock": false,
+      "end": "uN_cLpwJ",
+      "start": "McKa58yh",
+      "code": "McKa58yh-n"
+    },
+    {
+      "lock": false,
+      "end": "zfEdfJrv",
+      "start": "MidlA7PV",
+      "code": "MidlA7PV-w"
+    },
+    {
+      "lock": false,
+      "end": "EyeTk1t5",
+      "start": "MidlA7PV",
+      "code": "MidlA7PV-s"
+    },
+    {
+      "lock": false,
+      "end": "XnjlUPXM",
+      "start": "N2ZGjyjo",
+      "code": "N2ZGjyjo-w"
+    },
+    {
+      "lock": false,
+      "end": "b-A8_fNE",
+      "start": "NFEh61Mi",
+      "code": "NFEh61Mi-e"
+    },
+    {
+      "lock": false,
+      "end": "EPveXjDk",
+      "start": "NLhu1TUT",
+      "code": "NLhu1TUT-e"
+    },
+    {
+      "lock": false,
+      "end": "UAjdRBnO",
+      "start": "NQZ7Jkfq",
+      "code": "NQZ7Jkfq-e"
+    },
+    {
+      "lock": false,
+      "end": "iZbzytyw",
+      "start": "NQZ7Jkfq",
+      "code": "NQZ7Jkfq-n"
+    },
+    {
+      "lock": false,
+      "end": "w6RC9i0P",
+      "start": "OFOfeyOa",
+      "code": "OFOfeyOa-w"
+    },
+    {
+      "lock": false,
+      "end": "Rw0NyMb9",
+      "start": "OLyi7qkh",
+      "code": "OLyi7qkh-w"
+    },
+    {
+      "lock": false,
+      "end": "3sgr2klJ",
+      "start": "OcuWZvOg",
+      "code": "OcuWZvOg-e"
+    },
+    {
+      "lock": false,
+      "end": "CDxn-2E0",
+      "start": "P5kwCg9m",
+      "code": "P5kwCg9m-e"
+    },
+    {
+      "lock": false,
+      "end": "sGqJ5p-B",
+      "start": "P8DhzWjr",
+      "code": "P8DhzWjr-w"
+    },
+    {
+      "lock": false,
+      "end": "-h9HgxaE",
+      "start": "P8DhzWjr",
+      "code": "P8DhzWjr-n"
+    },
+    {
+      "lock": false,
+      "end": "EMTPIOd9",
+      "start": "PGDKmOUE",
+      "code": "PGDKmOUE-e"
+    },
+    {
+      "lock": false,
+      "end": "v5i4er4J",
+      "start": "PGDKmOUE",
+      "code": "PGDKmOUE-s"
+    },
+    {
+      "lock": false,
+      "end": "1nOzd0jL",
+      "start": "PGDKmOUE",
+      "code": "PGDKmOUE-n"
+    },
+    {
+      "lock": false,
+      "end": "b_W1zUZ1",
+      "start": "PYN2vy-P",
+      "code": "PYN2vy-P-e"
+    },
+    {
+      "lock": false,
+      "end": "pSKSBzbC",
+      "start": "PaLETI9l",
+      "code": "PaLETI9l-w"
+    },
+    {
+      "lock": false,
+      "end": "gEg_lik6",
+      "start": "Pjmnp131",
+      "code": "Pjmnp131-n"
+    },
+    {
+      "lock": false,
+      "end": "0Pa_-hkz",
+      "start": "PnOBCP57",
+      "code": "PnOBCP57-w"
+    },
+    {
+      "lock": false,
+      "end": "swY1e__L",
+      "start": "PzVBCd7u",
+      "code": "PzVBCd7u-e"
+    },
+    {
+      "lock": false,
+      "end": "16bpqrLo",
+      "start": "PzVBCd7u",
+      "code": "PzVBCd7u-s"
+    },
+    {
+      "lock": false,
+      "end": "qEw5sy10",
+      "start": "Q9VU3n0T",
+      "code": "Q9VU3n0T-w"
+    },
+    {
+      "lock": false,
+      "end": "ZovPHNnF",
+      "start": "QEYhWnxn",
+      "code": "QEYhWnxn-e"
+    },
+    {
+      "lock": false,
+      "end": "zfEdfJrv",
+      "start": "QEYhWnxn",
+      "code": "QEYhWnxn-s"
+    },
+    {
+      "lock": false,
+      "end": "3qZHk9bZ",
+      "start": "QIyBvH6c",
+      "code": "QIyBvH6c-w"
+    },
+    {
+      "lock": false,
+      "end": "Cvd6Qiun",
+      "start": "QYx62uNK",
+      "code": "QYx62uNK-e"
+    },
+    {
+      "lock": false,
+      "end": "1NSW84Yi",
+      "start": "QcEDfkay",
+      "code": "QcEDfkay-e"
+    },
+    {
+      "lock": false,
+      "end": "nB3iwsCE",
+      "start": "Qje5Uepg",
+      "code": "Qje5Uepg-w"
+    },
+    {
+      "lock": false,
+      "end": "tEWXm82I",
+      "start": "Qje5Uepg",
+      "code": "Qje5Uepg-s"
+    },
+    {
+      "lock": false,
+      "end": "EyeTk1t5",
+      "start": "RDXKJtVN",
+      "code": "RDXKJtVN-w"
+    },
+    {
+      "lock": false,
+      "end": "eQoZRHqU",
+      "start": "RDXKJtVN",
+      "code": "RDXKJtVN-s"
+    },
+    {
+      "lock": false,
+      "end": "lXGn95nW",
+      "start": "Rea0xRRC",
+      "code": "Rea0xRRC-e"
+    },
+    {
+      "lock": false,
+      "end": "47LPjrDR",
+      "start": "RqjHR93k",
+      "code": "RqjHR93k-e"
+    },
+    {
+      "lock": false,
+      "end": "s1Dham24",
+      "start": "RqjHR93k",
+      "code": "RqjHR93k-s"
+    },
+    {
+      "lock": false,
+      "end": "ZTX620F8",
+      "start": "Rw0NyMb9",
+      "code": "Rw0NyMb9-s"
+    },
+    {
+      "lock": false,
+      "end": "sKcWrkoP",
+      "start": "RwNP7TRm",
+      "code": "RwNP7TRm-w"
+    },
+    {
+      "lock": false,
+      "end": "2CE8tUtM",
+      "start": "S-FicQQF",
+      "code": "S-FicQQF-w"
+    },
+    {
+      "lock": false,
+      "end": "QYx62uNK",
+      "start": "ScSfxbsF",
+      "code": "ScSfxbsF-e"
+    },
+    {
+      "lock": false,
+      "end": "W0yE-odU",
+      "start": "TYGtJNSk",
+      "code": "TYGtJNSk-e"
+    },
+    {
+      "lock": false,
+      "end": "mpBKNkds",
+      "start": "TjOxcpW6",
+      "code": "TjOxcpW6-w"
+    },
+    {
+      "lock": false,
+      "end": "L-bV6jJj",
+      "start": "U3jHPnLy",
+      "code": "U3jHPnLy-e"
+    },
+    {
+      "lock": false,
+      "end": "zAEhcH8e",
+      "start": "UAjdRBnO",
+      "code": "UAjdRBnO-e"
+    },
+    {
+      "lock": false,
+      "end": "NQZ7Jkfq",
+      "start": "UAjdRBnO",
+      "code": "UAjdRBnO-w"
+    },
+    {
+      "lock": false,
+      "end": "L32RqyBh",
+      "start": "UYhPC532",
+      "code": "UYhPC532-w"
+    },
+    {
+      "lock": false,
+      "end": "ts-GA_Yp",
+      "start": "V9qZrf4a",
+      "code": "V9qZrf4a-e"
+    },
+    {
+      "lock": false,
+      "end": "N2ZGjyjo",
+      "start": "V9qZrf4a",
+      "code": "V9qZrf4a-n"
+    },
+    {
+      "lock": false,
+      "end": "rG6roCzU",
+      "start": "VDtZfLSB",
+      "code": "VDtZfLSB-s"
+    },
+    {
+      "lock": false,
+      "end": "g6_Bwijs",
+      "start": "VY46GtFQ",
+      "code": "VY46GtFQ-e"
+    },
+    {
+      "lock": false,
+      "end": "9mTDCts2",
+      "start": "VZEqlg5E",
+      "code": "VZEqlg5E-n"
+    },
+    {
+      "lock": false,
+      "end": "2_xvsckQ",
+      "start": "VmGUFKla",
+      "code": "VmGUFKla-e"
+    },
+    {
+      "lock": false,
+      "end": "PGDKmOUE",
+      "start": "W0yE-odU",
+      "code": "W0yE-odU-e"
+    },
+    {
+      "lock": false,
+      "end": "WOaMB3Ko",
+      "start": "WIpXwAx0",
+      "code": "WIpXwAx0-e"
+    },
+    {
+      "lock": false,
+      "end": "aHBpssUc",
+      "start": "WJmQD_80",
+      "code": "WJmQD_80-w"
+    },
+    {
+      "lock": false,
+      "end": "QcEDfkay",
+      "start": "WOaMB3Ko",
+      "code": "WOaMB3Ko-e"
+    },
+    {
+      "lock": false,
+      "end": "4943n2at",
+      "start": "Wd5DcV6t",
+      "code": "Wd5DcV6t-n"
+    },
+    {
+      "lock": false,
+      "end": "2XUrxlKq",
+      "start": "WgI_zWId",
+      "code": "WgI_zWId-w"
+    },
+    {
+      "lock": false,
+      "end": "JVFiHv4F",
+      "start": "WnTglrfM",
+      "code": "WnTglrfM-w"
+    },
+    {
+      "lock": false,
+      "end": "wLWLCHFs",
+      "start": "WoTwuKbx",
+      "code": "WoTwuKbx-e"
+    },
+    {
+      "lock": false,
+      "end": "llnVnNZ6",
+      "start": "XUZYUdN0",
+      "code": "XUZYUdN0-w"
+    },
+    {
+      "lock": false,
+      "end": "MidlA7PV",
+      "start": "XZbxDdUd",
+      "code": "XZbxDdUd-w"
+    },
+    {
+      "lock": false,
+      "end": "RDXKJtVN",
+      "start": "XZbxDdUd",
+      "code": "XZbxDdUd-s"
+    },
+    {
+      "lock": false,
+      "end": "5xxz4BMG",
+      "start": "XnjlUPXM",
+      "code": "XnjlUPXM-w"
+    },
+    {
+      "lock": false,
+      "end": "YScOf5Y8",
+      "start": "YOmpHoXu",
+      "code": "YOmpHoXu-n"
+    },
+    {
+      "lock": false,
+      "end": "VZEqlg5E",
+      "start": "YScOf5Y8",
+      "code": "YScOf5Y8-n"
+    },
+    {
+      "lock": false,
+      "end": "bGtzlJEG",
+      "start": "Yn1fYPez",
+      "code": "Yn1fYPez-w"
+    },
+    {
+      "lock": false,
+      "end": "6j24et8J",
+      "start": "ZHWzpBtb",
+      "code": "ZHWzpBtb-n"
+    },
+    {
+      "lock": false,
+      "end": "3RZZV4jl",
+      "start": "ZTX620F8",
+      "code": "ZTX620F8-s"
+    },
+    {
+      "lock": false,
+      "end": "GkdCPxm2",
+      "start": "Z_0cpOJJ",
+      "code": "Z_0cpOJJ-e"
+    },
+    {
+      "lock": false,
+      "end": "PaLETI9l",
+      "start": "Z_0cpOJJ",
+      "code": "Z_0cpOJJ-n"
+    },
+    {
+      "lock": false,
+      "end": "tEWXm82I",
+      "start": "ZovPHNnF",
+      "code": "ZovPHNnF-e"
+    },
+    {
+      "lock": false,
+      "end": "MidlA7PV",
+      "start": "ZovPHNnF",
+      "code": "ZovPHNnF-s"
+    },
+    {
+      "lock": false,
+      "end": "lQooXgy2",
+      "start": "_J3Mj6tc",
+      "code": "_J3Mj6tc-e"
+    },
+    {
+      "lock": false,
+      "end": "gtnaIcyt",
+      "start": "_J3Mj6tc",
+      "code": "_J3Mj6tc-w"
+    },
+    {
+      "lock": false,
+      "end": "oJlOcDmh",
+      "start": "_J3Mj6tc",
+      "code": "_J3Mj6tc-s"
+    },
+    {
+      "lock": false,
+      "end": "_kkW5NFV",
+      "start": "_Rr1XFT8",
+      "code": "_Rr1XFT8-w"
+    },
+    {
+      "lock": false,
+      "end": "ejsRZUPj",
+      "start": "_TI6zZfc",
+      "code": "_TI6zZfc-s"
+    },
+    {
+      "lock": false,
+      "end": "qu0o6D8T",
+      "start": "_kkW5NFV",
+      "code": "_kkW5NFV-w"
+    },
+    {
+      "lock": false,
+      "end": "dGbJDh_C",
+      "start": "_pgLzmZg",
+      "code": "_pgLzmZg-e"
+    },
+    {
+      "lock": false,
+      "end": "Gak8sa-Z",
+      "start": "aEl2mC3a",
+      "code": "aEl2mC3a-w"
+    },
+    {
+      "lock": false,
+      "end": "sLZerxNr",
+      "start": "aHBpssUc",
+      "code": "aHBpssUc-w"
+    },
+    {
+      "lock": false,
+      "end": "mTFFlJPT",
+      "start": "aROgw8Ts",
+      "code": "aROgw8Ts-e"
+    },
+    {
+      "lock": false,
+      "end": "iB0HQEtY",
+      "start": "ajkCp6C-",
+      "code": "ajkCp6C--e"
+    },
+    {
+      "lock": false,
+      "end": "XZbxDdUd",
+      "start": "ajkCp6C-",
+      "code": "ajkCp6C--w"
+    },
+    {
+      "lock": false,
+      "end": "rc9K295e",
+      "start": "ajkCp6C-",
+      "code": "ajkCp6C--n"
+    },
+    {
+      "lock": false,
+      "end": "2BSBWVgA",
+      "start": "b-A8_fNE",
+      "code": "b-A8_fNE-e"
+    },
+    {
+      "lock": false,
+      "end": "byMzaYWd",
+      "start": "b35JVGGg",
+      "code": "b35JVGGg-e"
+    },
+    {
+      "lock": false,
+      "end": "zLSRu7BL",
+      "start": "b35JVGGg",
+      "code": "b35JVGGg-s"
+    },
+    {
+      "lock": false,
+      "end": "V9qZrf4a",
+      "start": "b8_Stuuc",
+      "code": "b8_Stuuc-e"
+    },
+    {
+      "lock": false,
+      "end": "9pYWsNPC",
+      "start": "bGtzlJEG",
+      "code": "bGtzlJEG-w"
+    },
+    {
+      "lock": false,
+      "end": "dNrCk26J",
+      "start": "b_W1zUZ1",
+      "code": "b_W1zUZ1-e"
+    },
+    {
+      "lock": false,
+      "end": "OFOfeyOa",
+      "start": "b_W1zUZ1",
+      "code": "b_W1zUZ1-n"
+    },
+    {
+      "lock": false,
+      "end": "Fp2xWXEt",
+      "start": "bevRCNHc",
+      "code": "bevRCNHc-s"
+    },
+    {
+      "lock": false,
+      "end": "J81djPco",
+      "start": "byMzaYWd",
+      "code": "byMzaYWd-e"
+    },
+    {
+      "lock": false,
+      "end": "PzVBCd7u",
+      "start": "cD7Df-5m",
+      "code": "cD7Df-5m-e"
+    },
+    {
+      "lock": false,
+      "end": "P8DhzWjr",
+      "start": "cD7Df-5m",
+      "code": "cD7Df-5m-n"
+    },
+    {
+      "lock": false,
+      "end": "3te_E0I-",
+      "start": "cQGXQO2p",
+      "code": "cQGXQO2p-w"
+    },
+    {
+      "lock": false,
+      "end": "pHZUKJRc",
+      "start": "ccmxhmnp",
+      "code": "ccmxhmnp-w"
+    },
+    {
+      "lock": false,
+      "end": "fzO1UEei",
+      "start": "dGbJDh_C",
+      "code": "dGbJDh_C-e"
+    },
+    {
+      "lock": false,
+      "end": "b8_Stuuc",
+      "start": "dNrCk26J",
+      "code": "dNrCk26J-e"
+    },
+    {
+      "lock": false,
+      "end": "AVr7Xkrf",
+      "start": "dOz8J0dq",
+      "code": "dOz8J0dq-w"
+    },
+    {
+      "lock": false,
+      "end": "7n1ODXRM",
+      "start": "dikTHb0a",
+      "code": "dikTHb0a-w"
+    },
+    {
+      "lock": false,
+      "end": "OLyi7qkh",
+      "start": "eH9jO9dp",
+      "code": "eH9jO9dp-n"
+    },
+    {
+      "lock": false,
+      "end": "9QVH-cMO",
+      "start": "eMlH2coE",
+      "code": "eMlH2coE-e"
+    },
+    {
+      "lock": false,
+      "end": "NQZ7Jkfq",
+      "start": "eQoZRHqU",
+      "code": "eQoZRHqU-e"
+    },
+    {
+      "lock": false,
+      "end": "YOmpHoXu",
+      "start": "ejsRZUPj",
+      "code": "ejsRZUPj-e"
+    },
+    {
+      "lock": false,
+      "end": "KkUpoCOJ",
+      "start": "fGTkpwrx",
+      "code": "fGTkpwrx-w"
+    },
+    {
+      "lock": false,
+      "end": "4UTqT-qu",
+      "start": "fzO1UEei",
+      "code": "fzO1UEei-e"
+    },
+    {
+      "lock": false,
+      "end": "eQoZRHqU",
+      "start": "g6_Bwijs",
+      "code": "g6_Bwijs-e"
+    },
+    {
+      "lock": false,
+      "end": "eH9jO9dp",
+      "start": "gEg_lik6",
+      "code": "gEg_lik6-n"
+    },
+    {
+      "lock": false,
+      "end": "2tsNNOwn",
+      "start": "gIIQ-oqY",
+      "code": "gIIQ-oqY-s"
+    },
+    {
+      "lock": false,
+      "end": "FuIzqmWD",
+      "start": "gZygWeN_",
+      "code": "gZygWeN_-e"
+    },
+    {
+      "lock": false,
+      "end": "_J3Mj6tc",
+      "start": "gtnaIcyt",
+      "code": "gtnaIcyt-e"
+    },
+    {
+      "lock": false,
+      "end": "Pjmnp131",
+      "start": "gtnaIcyt",
+      "code": "gtnaIcyt-n"
+    },
+    {
+      "lock": false,
+      "end": "zLSRu7BL",
+      "start": "hTu4GKCX",
+      "code": "hTu4GKCX-w"
+    },
+    {
+      "lock": false,
+      "end": "HCDe-QZI",
+      "start": "hVwIIzRI",
+      "code": "hVwIIzRI-w"
+    },
+    {
+      "lock": false,
+      "end": "8NX4xcDW",
+      "start": "hzZfbYX-",
+      "code": "hzZfbYX--e"
+    },
+    {
+      "lock": false,
+      "end": "3lgiMKE3",
+      "start": "i3jzS5AZ",
+      "code": "i3jzS5AZ-e"
+    },
+    {
+      "lock": false,
+      "end": "25NyQGjr",
+      "start": "iB0HQEtY",
+      "code": "iB0HQEtY-e"
+    },
+    {
+      "lock": false,
+      "end": "ajkCp6C-",
+      "start": "iB0HQEtY",
+      "code": "iB0HQEtY-w"
+    },
+    {
+      "lock": false,
+      "end": "qEC65sg3",
+      "start": "iB0HQEtY",
+      "code": "iB0HQEtY-s"
+    },
+    {
+      "lock": false,
+      "end": "8Z2BZtr_",
+      "start": "iXcfVce4",
+      "code": "iXcfVce4-s"
+    },
+    {
+      "lock": false,
+      "end": "qEC65sg3",
+      "start": "iZbzytyw",
+      "code": "iZbzytyw-e"
+    },
+    {
+      "lock": false,
+      "end": "RDXKJtVN",
+      "start": "iZbzytyw",
+      "code": "iZbzytyw-w"
+    },
+    {
+      "lock": false,
+      "end": "ajkCp6C-",
+      "start": "iZbzytyw",
+      "code": "iZbzytyw-n"
+    },
+    {
+      "lock": false,
+      "end": "N2ZGjyjo",
+      "start": "jxCG99EN",
+      "code": "jxCG99EN-w"
+    },
+    {
+      "lock": false,
+      "end": "jxCG99EN",
+      "start": "jzO67zNH",
+      "code": "jzO67zNH-w"
+    },
+    {
+      "lock": false,
+      "end": "p7nL0e1h",
+      "start": "lQMErBkc",
+      "code": "lQMErBkc-e"
+    },
+    {
+      "lock": false,
+      "end": "_J3Mj6tc",
+      "start": "lQooXgy2",
+      "code": "lQooXgy2-w"
+    },
+    {
+      "lock": false,
+      "end": "RqjHR93k",
+      "start": "lXGn95nW",
+      "code": "lXGn95nW-e"
+    },
+    {
+      "lock": false,
+      "end": "5ekAKlmZ",
+      "start": "llnVnNZ6",
+      "code": "llnVnNZ6-w"
+    },
+    {
+      "lock": false,
+      "end": "NLhu1TUT",
+      "start": "luzWZDo5",
+      "code": "luzWZDo5-e"
+    },
+    {
+      "lock": false,
+      "end": "3-Ve6F89",
+      "start": "mTFFlJPT",
+      "code": "mTFFlJPT-e"
+    },
+    {
+      "lock": false,
+      "end": "DCg2JOTO",
+      "start": "mpBKNkds",
+      "code": "mpBKNkds-w"
+    },
+    {
+      "lock": false,
+      "end": "yQB2UDvZ",
+      "start": "msiQtKB5",
+      "code": "msiQtKB5-w"
+    },
+    {
+      "lock": false,
+      "end": "v5i4er4J",
+      "start": "nB3iwsCE",
+      "code": "nB3iwsCE-w"
+    },
+    {
+      "lock": false,
+      "end": "ZovPHNnF",
+      "start": "nB3iwsCE",
+      "code": "nB3iwsCE-s"
+    },
+    {
+      "lock": false,
+      "end": "hTu4GKCX",
+      "start": "nRaaz9Dv",
+      "code": "nRaaz9Dv-w"
+    },
+    {
+      "lock": false,
+      "end": "ScSfxbsF",
+      "start": "nsdazkDM",
+      "code": "nsdazkDM-e"
+    },
+    {
+      "lock": false,
+      "end": "WgI_zWId",
+      "start": "o9aYDcWi",
+      "code": "o9aYDcWi-w"
+    },
+    {
+      "lock": false,
+      "end": "8HCqB4RE",
+      "start": "oJlOcDmh",
+      "code": "oJlOcDmh-e"
+    },
+    {
+      "lock": false,
+      "end": "FmVfrJoU",
+      "start": "oJlOcDmh",
+      "code": "oJlOcDmh-w"
+    },
+    {
+      "lock": false,
+      "end": "1PYdLoWm",
+      "start": "oJlOcDmh",
+      "code": "oJlOcDmh-s"
+    },
+    {
+      "lock": false,
+      "end": "WJmQD_80",
+      "start": "p1DX6yKU",
+      "code": "p1DX6yKU-w"
+    },
+    {
+      "lock": false,
+      "end": "uZnYphtR",
+      "start": "p6I0dxBI",
+      "code": "p6I0dxBI-w"
+    },
+    {
+      "lock": false,
+      "end": "b35JVGGg",
+      "start": "p7nL0e1h",
+      "code": "p7nL0e1h-e"
+    },
+    {
+      "lock": false,
+      "end": "jzO67zNH",
+      "start": "pHZUKJRc",
+      "code": "pHZUKJRc-w"
+    },
+    {
+      "lock": false,
+      "end": "PnOBCP57",
+      "start": "pSKSBzbC",
+      "code": "pSKSBzbC-w"
+    },
+    {
+      "lock": false,
+      "end": "Hnqjm6IV",
+      "start": "pWTPRiIp",
+      "code": "pWTPRiIp-e"
+    },
+    {
+      "lock": false,
+      "end": "nsdazkDM",
+      "start": "pgYCsVjo",
+      "code": "pgYCsVjo-e"
+    },
+    {
+      "lock": false,
+      "end": "4zbQCUhe",
+      "start": "pna52T8y",
+      "code": "pna52T8y-s"
+    },
+    {
+      "lock": false,
+      "end": "LwTYIFCh",
+      "start": "qEC65sg3",
+      "code": "qEC65sg3-e"
+    },
+    {
+      "lock": false,
+      "end": "iZbzytyw",
+      "start": "qEC65sg3",
+      "code": "qEC65sg3-w"
+    },
+    {
+      "lock": false,
+      "end": "UAjdRBnO",
+      "start": "qEC65sg3",
+      "code": "qEC65sg3-s"
+    },
+    {
+      "lock": false,
+      "end": "xDSqDn5x",
+      "start": "qEw5sy10",
+      "code": "qEw5sy10-w"
+    },
+    {
+      "lock": false,
+      "end": "cQGXQO2p",
+      "start": "qu0o6D8T",
+      "code": "qu0o6D8T-w"
+    },
+    {
+      "lock": false,
+      "end": "QIyBvH6c",
+      "start": "rG6roCzU",
+      "code": "rG6roCzU-s"
+    },
+    {
+      "lock": false,
+      "end": "1PYdLoWm",
+      "start": "rc9K295e",
+      "code": "rc9K295e-e"
+    },
+    {
+      "lock": false,
+      "end": "FmVfrJoU",
+      "start": "rc9K295e",
+      "code": "rc9K295e-n"
+    },
+    {
+      "lock": false,
+      "end": "RwNP7TRm",
+      "start": "s1Dham24",
+      "code": "s1Dham24-w"
+    },
+    {
+      "lock": false,
+      "end": "Fp2xWXEt",
+      "start": "sGqJ5p-B",
+      "code": "sGqJ5p-B-w"
+    },
+    {
+      "lock": false,
+      "end": "-7_bmsj1",
+      "start": "sGqJ5p-B",
+      "code": "sGqJ5p-B-n"
+    },
+    {
+      "lock": false,
+      "end": "GKVG6Cf6",
+      "start": "sKcWrkoP",
+      "code": "sKcWrkoP-w"
+    },
+    {
+      "lock": false,
+      "end": "dikTHb0a",
+      "start": "sLZerxNr",
+      "code": "sLZerxNr-w"
+    },
+    {
+      "lock": false,
+      "end": "OcuWZvOg",
+      "start": "swY1e__L",
+      "code": "swY1e__L-e"
+    },
+    {
+      "lock": false,
+      "end": "rc9K295e",
+      "start": "tEWXm82I",
+      "code": "tEWXm82I-e"
+    },
+    {
+      "lock": false,
+      "end": "XZbxDdUd",
+      "start": "tEWXm82I",
+      "code": "tEWXm82I-s"
+    },
+    {
+      "lock": false,
+      "end": "VmGUFKla",
+      "start": "ts-GA_Yp",
+      "code": "ts-GA_Yp-e"
+    },
+    {
+      "lock": false,
+      "end": "iXcfVce4",
+      "start": "uN_cLpwJ",
+      "code": "uN_cLpwJ-w"
+    },
+    {
+      "lock": false,
+      "end": "aROgw8Ts",
+      "start": "uN_cLpwJ",
+      "code": "uN_cLpwJ-n"
+    },
+    {
+      "lock": false,
+      "end": "dOz8J0dq",
+      "start": "uZnYphtR",
+      "code": "uZnYphtR-w"
+    },
+    {
+      "lock": false,
+      "end": "_Rr1XFT8",
+      "start": "v5i4er4J",
+      "code": "v5i4er4J-w"
+    },
+    {
+      "lock": false,
+      "end": "QEYhWnxn",
+      "start": "v5i4er4J",
+      "code": "v5i4er4J-s"
+    },
+    {
+      "lock": false,
+      "end": "IH9ZtChN",
+      "start": "vKbz4oUI",
+      "code": "vKbz4oUI-e"
+    },
+    {
+      "lock": false,
+      "end": "3WdE_nYe",
+      "start": "vRj1PvBj",
+      "code": "vRj1PvBj-e"
+    },
+    {
+      "lock": false,
+      "end": "w_t1RR38",
+      "start": "w6RC9i0P",
+      "code": "w6RC9i0P-w"
+    },
+    {
+      "lock": false,
+      "end": "lQMErBkc",
+      "start": "wLWLCHFs",
+      "code": "wLWLCHFs-e"
+    },
+    {
+      "lock": false,
+      "end": "xDSqDn5x",
+      "start": "wLWLCHFs",
+      "code": "wLWLCHFs-s"
+    },
+    {
+      "lock": false,
+      "end": "PaLETI9l",
+      "start": "w_t1RR38",
+      "code": "w_t1RR38-w"
+    },
+    {
+      "lock": false,
+      "end": "S-FicQQF",
+      "start": "xDSqDn5x",
+      "code": "xDSqDn5x-w"
+    },
+    {
+      "lock": false,
+      "end": "P5kwCg9m",
+      "start": "y60xmNJB",
+      "code": "y60xmNJB-e"
+    },
+    {
+      "lock": false,
+      "end": "hVwIIzRI",
+      "start": "yQB2UDvZ",
+      "code": "yQB2UDvZ-w"
+    },
+    {
+      "lock": false,
+      "end": "UAjdRBnO",
+      "start": "zAEhcH8e",
+      "code": "zAEhcH8e-w"
+    },
+    {
+      "lock": false,
+      "end": "Q9VU3n0T",
+      "start": "zLSRu7BL",
+      "code": "zLSRu7BL-w"
+    },
+    {
+      "lock": false,
+      "end": "y60xmNJB",
+      "start": "zRVn1Tdc",
+      "code": "zRVn1Tdc-e"
+    },
+    {
+      "lock": false,
+      "end": "Gak8sa-Z",
+      "start": "zRVn1Tdc",
+      "code": "zRVn1Tdc-s"
+    },
+    {
+      "lock": false,
+      "end": "Io8hAX87",
+      "start": "zfEdfJrv",
+      "code": "zfEdfJrv-w"
+    },
+    {
+      "lock": false,
+      "end": "6K75sND5",
+      "start": "zfEdfJrv",
+      "code": "zfEdfJrv-s"
+    },
+    {
+      "lock": false,
+      "end": "-cDGGB6b",
+      "start": "znY6w7Ty",
+      "code": "znY6w7Ty-w"
+    }
+  ],
+  "arcs": [],
+  "traffic": [],
+  "devices": [],
+  "infos": [],
+  "loadEquipments": [
+    {
+      "id": "Ky6_3ITh",
+      "x": 51260.0,
+      "y": 49420.0,
+      "name": "Ky6_3ITh",
+      "aboutBlock": "Rw0NyMb9",
+      "direction": "N"
+    },
+    {
+      "id": "LuCutHjP",
+      "x": 51220.0,
+      "y": 49420.0,
+      "name": "LuCutHjP",
+      "aboutBlock": "Hnqjm6IV",
+      "direction": "N"
+    },
+    {
+      "id": "OBsuWCtr",
+      "x": 50060.0,
+      "y": 50020.0,
+      "name": "OBsuWCtr",
+      "aboutBlock": "YOmpHoXu",
+      "direction": "S"
+    },
+    {
+      "id": "W-YpTjLZ",
+      "x": 50100.0,
+      "y": 50020.0,
+      "name": "W-YpTjLZ",
+      "aboutBlock": "3qZHk9bZ",
+      "direction": "S"
+    }
+  ],
+  "autoEquipments": [],
+  "hoistEquipments": [],
+  "unloadEquipments": [],
+  "sorterEquipments": [
+    {
+      "id": "6x2eueSu",
+      "x": 50740.0,
+      "y": 49860.0,
+      "name": "6x2eueSu",
+      "aboutBlock": "9QVH-cMO",
+      "direction": "S",
+      "left": true,
+      "right": true
+    },
+    {
+      "id": "7kKdI3jD",
+      "x": 50260.0,
+      "y": 49580.0,
+      "name": "7kKdI3jD",
+      "aboutBlock": "3v9uOakl",
+      "direction": "N",
+      "left": true,
+      "right": true
+    },
+    {
+      "id": "BMjCnb_5",
+      "x": 50500.0,
+      "y": 49860.0,
+      "name": "BMjCnb_5",
+      "aboutBlock": "b8_Stuuc",
+      "direction": "S",
+      "left": true,
+      "right": true
+    },
+    {
+      "id": "D0oq8Nbc",
+      "x": 50260.0,
+      "y": 49860.0,
+      "name": "D0oq8Nbc",
+      "aboutBlock": "3sgr2klJ",
+      "direction": "S",
+      "left": true,
+      "right": true
+    },
+    {
+      "id": "U47bzyp8",
+      "x": 50740.0,
+      "y": 49580.0,
+      "name": "U47bzyp8",
+      "aboutBlock": "lQMErBkc",
+      "direction": "N",
+      "left": true,
+      "right": true
+    },
+    {
+      "id": "W5YTMyh6",
+      "x": 50500.0,
+      "y": 49580.0,
+      "name": "W5YTMyh6",
+      "aboutBlock": "Rea0xRRC",
+      "direction": "N",
+      "left": true,
+      "right": true
+    },
+    {
+      "id": "dqE1DfvF",
+      "x": 50980.0,
+      "y": 49860.0,
+      "name": "dqE1DfvF",
+      "aboutBlock": "WIpXwAx0",
+      "direction": "S",
+      "left": true,
+      "right": true
+    },
+    {
+      "id": "e6iNKD0E",
+      "x": 50980.0,
+      "y": 49580.0,
+      "name": "e6iNKD0E",
+      "aboutBlock": "NFEh61Mi",
+      "direction": "N",
+      "left": true,
+      "right": true
+    }
+  ],
+  "chargerEquipments": [
+    {
+      "id": "4xj23Gd6",
+      "x": 51420.0,
+      "y": 49820.0,
+      "name": "4xj23Gd6",
+      "aboutBlock": "zAEhcH8e",
+      "direction": "E"
+    },
+    {
+      "id": "BAjW62EA",
+      "x": 51420.0,
+      "y": 49780.0,
+      "name": "BAjW62EA",
+      "aboutBlock": "LwTYIFCh",
+      "direction": "E"
+    },
+    {
+      "id": "Bc7D2VD-",
+      "x": 51420.0,
+      "y": 49660.0,
+      "name": "Bc7D2VD-",
+      "aboutBlock": "8HCqB4RE",
+      "direction": "E"
+    },
+    {
+      "id": "P2PCYe5y",
+      "x": 51420.0,
+      "y": 49620.0,
+      "name": "P2PCYe5y",
+      "aboutBlock": "lQooXgy2",
+      "direction": "E"
+    },
+    {
+      "id": "hzqh2cRs",
+      "x": 51420.0,
+      "y": 49700.0,
+      "name": "hzqh2cRs",
+      "aboutBlock": "Eb1a0Zo3",
+      "direction": "E"
+    },
+    {
+      "id": "lsBgwphL",
+      "x": 51420.0,
+      "y": 49740.0,
+      "name": "lsBgwphL",
+      "aboutBlock": "25NyQGjr",
+      "direction": "E"
+    }
+  ]
+}

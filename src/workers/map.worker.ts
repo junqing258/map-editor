@@ -1,6 +1,7 @@
 import { buildPlatformPanelLayout } from "@/lib/platformPanelLayout";
 import type { ExportFormat, ExportPayload, MapOverviewStats, MapProject } from "@/types/map";
 import type { PlatformPanel } from "@/types/map";
+import { projectToStandardMap } from "@/utils/standardMapIO";
 
 interface WorkerRequest {
   requestId: number;
@@ -80,25 +81,9 @@ const exportRosLike = (project: MapProject): ExportPayload => {
 
 const exportCustom = (project: MapProject): ExportPayload => {
   const timestamp = formatExportTimestamp(new Date());
-  const payload = {
-    format: "hyperleap-map-v2",
-    id: project.meta.id,
-    name: project.meta.name,
-    scene: project.meta.scene,
-    tags: project.meta.tags,
-    meterPerCell: project.grid.cellSizeMeter,
-    grid: {
-      width: project.grid.width,
-      height: project.grid.height,
-      chunkSize: project.grid.chunkSize,
-      nodes: project.layers.base,
-    },
-    paths: project.overlays.robotPaths,
-    platformPanels: project.overlays.platformPanels,
-    devices: project.devices,
-  };
+  const payload = projectToStandardMap(project);
   return {
-    filename: `${project.meta.name}-map-v2-${timestamp}.json`,
+    filename: `${project.meta.name}-map-${timestamp}.json`,
     mimeType: "application/json",
     content: JSON.stringify(payload, null, 2),
   };

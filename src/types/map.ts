@@ -85,6 +85,9 @@ export interface DeviceConfig {
   directionDeg: number;
   supplyMode?: SupplyMode;
   unloadMode?: UnloadMode;
+  boundCells?: CellCoord[];
+  left?: boolean;
+  right?: boolean;
 }
 
 export interface MapDevice {
@@ -121,6 +124,206 @@ export interface MapProjectMeta {
   tags: string[];
 }
 
+/**
+ * 标准地图协议：与 sorting_app_2.0/src/types/map.d.ts 对齐。
+ */
+export interface MapInterface {
+  id: string;
+  meta: Meta;
+  info: Info;
+  basic: unknown[];
+  advanced: unknown[];
+  marks: Mark[];
+  areas: Area[];
+  paths: Path[];
+  arcs: unknown[];
+  traffic: unknown[];
+  devices: unknown[];
+  infos: unknown[];
+  loadEquipments: LoadEquipment[];
+  autoEquipments: AutoEquipment[];
+  hoistEquipments: HoistEquipment[];
+  unloadEquipments: UnloadEquipment[];
+  sorterEquipments: SorterEquipment[];
+  chargerEquipments: ChargerEquipment[];
+}
+
+export interface Equipment {
+  id: string;
+  x: number;
+  y: number;
+  name: string;
+  aboutBlock: string;
+  direction: Direction;
+  left?: boolean;
+  right?: boolean;
+}
+
+export interface LoadEquipment extends Equipment {}
+
+export interface HoistEquipment extends Equipment {}
+
+export interface UnloadEquipment extends Equipment {}
+
+export interface SorterEquipment extends Equipment {}
+
+export interface ChargerEquipment extends Equipment {}
+
+export interface AutoEquipment extends Omit<Equipment, "aboutBlock"> {
+  aboutBlock: string[];
+}
+
+export enum Direction {
+  E = "E",
+  N = "N",
+  S = "S",
+  W = "W",
+}
+
+export type ISODateString = string;
+
+export interface Info {
+  name: string;
+  key: string;
+  layer: number;
+  width: number;
+  height: number;
+  blocks: number;
+  max_value: number;
+  resolution: number;
+  simulation: boolean;
+  interval: number;
+  original: Original;
+  create_date: ISODateString;
+  modify_date: ISODateString;
+  last_modify_user: string;
+  groups: string[];
+}
+
+export interface Original {
+  x: number;
+  y: number;
+}
+
+export interface Mark {
+  code: string;
+  type: Type;
+  bb: null;
+  z: number;
+  x: number;
+  y: number;
+  heading: number[];
+  lock: boolean;
+  location: Location;
+  trafficRule: null;
+  attr: Attr;
+}
+
+export interface Attr {
+  dockable: boolean;
+  rotatable: boolean;
+  loadSpeed: null;
+  unloadSpeed: null;
+  loadAcceleration: null;
+  unloadAcceleration: null;
+}
+
+export interface Location {
+  label?: string;
+  mark: number | null;
+  tag: Tag | null;
+  facing: number[];
+  capacity: number | null;
+}
+
+export enum Tag {
+  ChargerPort = "chargerPort",
+  LoadPort = "loadPort",
+  UnloadPort = "unloadPort",
+  SorterPort = "sorterPort",
+  AutoPort = "autoPort",
+  LiftPort = "liftPort",
+  WaitPort = "waitPort",
+  QueuePort = "queuePort",
+}
+
+export enum Type {
+  Mr = "mr",
+}
+
+export interface Meta {}
+
+export interface AreaBounds {
+  minX: number;
+  minY: number;
+  maxX: number;
+  maxY: number;
+}
+
+export type AreaDirectionLimit = "NoEntry" | "NoExit" | "NoConstraint";
+
+export interface Area {
+  id: string;
+  areaType: number;
+  directionLimit: AreaDirectionLimit;
+  bounds: AreaBounds;
+  label: string;
+  capacity: number | null;
+}
+
+export interface Path {
+  lock: boolean;
+  end: string;
+  start: string;
+  code: string;
+}
+
+export interface CellMarkMetadata {
+  code: string;
+  type: Type;
+  bb: null;
+  z: number;
+  heading: number[];
+  lock: boolean;
+  location: Location;
+  trafficRule: null;
+  attr: Attr;
+}
+
+export interface PathEdgeMetadata {
+  code: string;
+  lock: boolean;
+}
+
+export interface MapProjectProtocolCollections {
+  basic: unknown[];
+  advanced: unknown[];
+  areas: Area[];
+  arcs: unknown[];
+  traffic: unknown[];
+  devices: unknown[];
+  infos: unknown[];
+}
+
+export interface MapProjectProtocolInfo {
+  key: string;
+  layer: number;
+  maxValue: number;
+  lastModifyUser: string;
+  original: Original;
+  resolution: number;
+  interval: number;
+  blockSize: number;
+}
+
+export interface MapProjectProtocol {
+  meta: Meta;
+  info: MapProjectProtocolInfo;
+  collections: MapProjectProtocolCollections;
+  marks: Record<string, CellMarkMetadata>;
+  pathEdges: Record<string, PathEdgeMetadata>;
+}
+
 export interface MapProject {
   version: "2.0.0";
   meta: MapProjectMeta;
@@ -133,6 +336,7 @@ export interface MapProject {
     platformPanels: PlatformPanel[];
   };
   devices: MapDevice[];
+  protocol: MapProjectProtocol;
 }
 
 export interface MapLibraryItem {
@@ -201,6 +405,62 @@ const createDeviceCounts = (): Record<DeviceType, number> => ({
   charger: 0,
 });
 
+const createDefaultAttr = (): Attr => ({
+  dockable: true,
+  rotatable: true,
+  loadSpeed: null,
+  unloadSpeed: null,
+  loadAcceleration: null,
+  unloadAcceleration: null,
+});
+
+const createDefaultLocation = (): Location => ({
+  mark: null,
+  tag: null,
+  facing: [],
+  capacity: null,
+});
+
+const createEmptyProtocol = (mapId: string, cellSizeMeter = 0.55): MapProjectProtocol => ({
+  meta: {},
+  info: {
+    key: mapId,
+    layer: 0,
+    maxValue: 1,
+    lastModifyUser: "",
+    original: {
+      x: 0,
+      y: 0,
+    },
+    resolution: cellSizeMeter / 40,
+    interval: Math.round(cellSizeMeter * 1000),
+    blockSize: 40,
+  },
+  collections: {
+    basic: [],
+    advanced: [],
+    areas: [],
+    arcs: [],
+    traffic: [],
+    devices: [],
+    infos: [],
+  },
+  marks: {},
+  pathEdges: {},
+});
+
+export const createDefaultCellMarkMetadata = (code: string): CellMarkMetadata => ({
+  code,
+  type: Type.Mr,
+  bb: null,
+  z: 0,
+  heading: [],
+  lock: false,
+  location: createDefaultLocation(),
+  trafficRule: null,
+  attr: createDefaultAttr(),
+});
+
 export const emptyDeviceCounts = createDeviceCounts;
 
 export const createEmptyProject = (
@@ -243,5 +503,6 @@ export const createEmptyProject = (
       platformPanels: [],
     },
     devices: [],
+    protocol: createEmptyProtocol(id, 0.55),
   };
 };

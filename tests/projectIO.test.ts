@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { parseProjectJson } from "@/utils/projectIO";
+import sampleModelRaw from "./data/model_20260226075225.json?raw";
 
 describe("parseProjectJson", () => {
   it("parses legacy and exported fields into the current project shape", () => {
@@ -135,5 +136,78 @@ describe("parseProjectJson", () => {
         }),
       ),
     ).toThrow("base 图层长度与网格尺寸不一致");
+  });
+
+  it("parses the real MapInterface sample from tests/data/model_20260226075225.json", () => {
+    const project = parseProjectJson(sampleModelRaw);
+
+    expect(project.meta).toMatchObject({
+      id: "sfyabhc4",
+      name: "分拣机二层",
+      scene: "simulation",
+      tags: ["分组一"],
+    });
+    expect(project.grid).toMatchObject({
+      width: 36,
+      height: 15,
+      cellSizeMeter: 0.55,
+    });
+    expect(project.layers.base.filter((cell) => cell > 0)).toHaveLength(242);
+    expect(project.devices).toHaveLength(18);
+    expect(project.devices.filter((device) => device.type === "supply")).toHaveLength(4);
+    expect(project.devices.filter((device) => device.type === "unload")).toHaveLength(8);
+    expect(project.devices.filter((device) => device.type === "charger")).toHaveLength(6);
+    expect(project.protocol.info).toMatchObject({
+      key: "bfaf94b3c5c3ee3f6ca1b1a8af75f07768faa00b",
+      layer: 1,
+      maxValue: 1,
+      lastModifyUser: "admin",
+      original: { x: 50000, y: 50000 },
+      resolution: 0.013750000000000002,
+      interval: 550,
+      blockSize: 40,
+    });
+    expect(Object.keys(project.protocol.pathEdges)).toHaveLength(299);
+    expect(project.protocol.marks["31,0"]).toMatchObject({
+      code: "Rw0NyMb9",
+      location: {
+        tag: "loadPort",
+      },
+    });
+    expect(project.protocol.marks["34,9"]).toMatchObject({
+      code: "zAEhcH8e",
+      location: {
+        tag: "chargerPort",
+      },
+    });
+    expect(project.devices).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: "Ky6_3ITh",
+          type: "supply",
+          config: expect.objectContaining({
+            supplyMode: "manual",
+            boundCells: [{ x: 31, y: 0 }],
+          }),
+        }),
+        expect.objectContaining({
+          id: "6x2eueSu",
+          type: "unload",
+          config: expect.objectContaining({
+            unloadMode: "multi-sort",
+            left: true,
+            right: true,
+            boundCells: [{ x: 18, y: 9 }],
+          }),
+        }),
+        expect.objectContaining({
+          id: "4xj23Gd6",
+          type: "charger",
+          config: expect.objectContaining({
+            boundCells: [{ x: 34, y: 9 }],
+          }),
+        }),
+      ]),
+    );
   });
 });

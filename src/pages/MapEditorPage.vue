@@ -548,8 +548,8 @@ import { useMapWorker } from "@/composables/useMapWorker";
 import { normalizeMapId } from "@/lib/mapIdentity";
 import {
   loadCachedLibraryItems,
-  loadLatestCachedMapProject,
   loadCachedMapProject,
+  loadLatestCachedMapProject,
   saveCachedLibraryItems,
   saveCachedMapProject,
 } from "@/lib/mapPersistence";

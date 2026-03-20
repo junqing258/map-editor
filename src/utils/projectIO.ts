@@ -1,5 +1,5 @@
-import { PATH_COLOR_PALETTE } from "@/lib/mapPalette";
 import { resolveMapId } from "@/lib/mapIdentity";
+import { PATH_COLOR_PALETTE } from "@/lib/mapPalette";
 import {
   createEmptyProject,
   type GridConfig,
@@ -10,6 +10,7 @@ import {
   type SupplyMode,
   type UnloadMode,
 } from "@/types/map";
+import { isStandardMapInterface, projectFromStandardMap } from "@/utils/standardMapIO";
 
 const normalizeScene = (value: unknown): SceneType => (value === "simulation" ? "simulation" : "production");
 const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === "object" && value !== null;
@@ -41,6 +42,13 @@ export const parseProjectJson = (raw: string): MapProject => {
   const data = JSON.parse(raw) as LegacyProjectJson & ExportedProjectJson;
   if (!isRecord(data)) {
     throw new Error("工程 JSON 无效");
+  }
+
+  const protocolInfo = data.protocol?.info;
+  const protocolCollections = data.protocol?.collections;
+
+  if (isStandardMapInterface(data)) {
+    return projectFromStandardMap(data);
   }
 
   const width = Number(data.grid?.width ?? 0);
@@ -154,6 +162,16 @@ export const parseProjectJson = (raw: string): MapProject => {
           ? device.config.supplyMode
           : "auto") as SupplyMode,
         unloadMode: (device.config?.unloadMode === "multi-sort" ? "multi-sort" : "normal") as UnloadMode,
+        boundCells: Array.isArray(device.config?.boundCells)
+          ? device.config.boundCells
+            .map((item: { x?: unknown; y?: unknown }) => ({
+              x: Number(item.x ?? 0),
+              y: Number(item.y ?? 0),
+            }))
+            .filter((item) => Number.isFinite(item.x) && Number.isFinite(item.y))
+          : [],
+        left: typeof device.config?.left === "boolean" ? device.config.left : undefined,
+        right: typeof device.config?.right === "boolean" ? device.config.right : undefined,
       },
     });
   });
@@ -190,5 +208,55 @@ export const parseProjectJson = (raw: string): MapProject => {
       platformPanels: normalizedPanels,
     },
     devices: normalizedDevices,
+    protocol: {
+      ...fallback.protocol,
+      meta: isRecord(data.protocol?.meta) ? data.protocol.meta : fallback.protocol.meta,
+      info: {
+        ...fallback.protocol.info,
+        key:
+          typeof protocolInfo?.key === "string" && protocolInfo.key.length > 0
+            ? protocolInfo.key
+            : fallback.protocol.info.key,
+        layer: Number.isFinite(Number(protocolInfo?.layer))
+          ? Math.max(0, Number(protocolInfo?.layer))
+          : fallback.protocol.info.layer,
+        maxValue: Number.isFinite(Number(protocolInfo?.maxValue))
+          ? Number(protocolInfo?.maxValue)
+          : fallback.protocol.info.maxValue,
+        lastModifyUser:
+          typeof protocolInfo?.lastModifyUser === "string"
+            ? protocolInfo.lastModifyUser
+            : fallback.protocol.info.lastModifyUser,
+        original:
+          isRecord(protocolInfo?.original) &&
+            Number.isFinite(Number(protocolInfo.original.x)) &&
+            Number.isFinite(Number(protocolInfo.original.y))
+            ? {
+              x: Number(protocolInfo.original.x),
+              y: Number(protocolInfo.original.y),
+            }
+            : fallback.protocol.info.original,
+        resolution: Number.isFinite(Number(protocolInfo?.resolution))
+          ? Number(protocolInfo?.resolution)
+          : fallback.protocol.info.resolution,
+        interval: Number.isFinite(Number(protocolInfo?.interval))
+          ? Number(protocolInfo?.interval)
+          : fallback.protocol.info.interval,
+        blockSize: Number.isFinite(Number(protocolInfo?.blockSize))
+          ? Number(protocolInfo?.blockSize)
+          : fallback.protocol.info.blockSize,
+      },
+      collections: {
+        basic: Array.isArray(protocolCollections?.basic) ? protocolCollections.basic : [],
+        advanced: Array.isArray(protocolCollections?.advanced) ? protocolCollections.advanced : [],
+        areas: Array.isArray(protocolCollections?.areas) ? protocolCollections.areas : [],
+        arcs: Array.isArray(protocolCollections?.arcs) ? protocolCollections.arcs : [],
+        traffic: Array.isArray(protocolCollections?.traffic) ? protocolCollections.traffic : [],
+        devices: Array.isArray(protocolCollections?.devices) ? protocolCollections.devices : [],
+        infos: Array.isArray(protocolCollections?.infos) ? protocolCollections.infos : [],
+      },
+      marks: isRecord(data.protocol?.marks) ? data.protocol.marks : {},
+      pathEdges: isRecord(data.protocol?.pathEdges) ? data.protocol.pathEdges : {},
+    },
   };
 };
