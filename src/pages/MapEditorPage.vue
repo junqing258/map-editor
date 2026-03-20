@@ -4,7 +4,7 @@
       class="flex flex-wrap items-center gap-2 rounded-xl border border-slate-300 bg-white/90 px-3 py-2 shadow-sm backdrop-blur"
     >
       <div class="flex items-center gap-2 border-r border-dashed border-slate-200 pr-3 last:border-r-0">
-        <span class="rounded-full bg-slate-200 px-2 py-1 text-xs font-bold text-slate-700">地图</span>
+        <span class="ui-pill ui-pill-muted text-xs font-bold">地图</span>
         <Button size="sm" variant="outline" @click="showNewMap = true">新建</Button>
         <Button size="sm" variant="outline" @click="openLibrary">地图库</Button>
         <Button size="sm" variant="outline" @click="triggerImport">导入</Button>
@@ -14,13 +14,13 @@
       </div>
 
       <div class="flex items-center gap-2 border-r border-dashed border-slate-200 pr-3 last:border-r-0">
-        <span class="rounded-full bg-slate-200 px-2 py-1 text-xs font-bold text-slate-700">编辑</span>
+        <span class="ui-pill ui-pill-muted text-xs font-bold">编辑</span>
         <Button size="sm" variant="outline" @click="store.resetMapData()">重置地图</Button>
         <Button size="sm" variant="outline" @click="exportDevicesCsv">导出外设</Button>
       </div>
 
       <div class="flex items-center gap-2 pr-3">
-        <span class="rounded-full bg-slate-200 px-2 py-1 text-xs font-bold text-slate-700">视图</span>
+        <span class="ui-pill ui-pill-muted text-xs font-bold">视图</span>
         <Button
           size="sm"
           :variant="store.viewFlags.showGrid ? 'default' : 'outline'"

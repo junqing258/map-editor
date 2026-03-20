@@ -9,11 +9,11 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         default: "btn-brand shadow-sm",
-        destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
-        outline: "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        destructive: "btn-danger shadow-sm",
+        outline: "btn-outline shadow-sm",
+        secondary: "btn-muted shadow-sm",
+        ghost: "btn-ghost",
+        link: "text-[#2ec6d6] underline-offset-4 hover:underline",
       },
       size: {
         default: "h-9 px-4 py-2",

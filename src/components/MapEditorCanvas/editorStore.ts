@@ -1,5 +1,6 @@
 import { computed, type ComputedRef, reactive, type Ref, ref, toRaw } from "vue";
 
+import { PATH_COLOR_PALETTE } from "@/lib/mapPalette";
 import { arePanelsEqual } from "@/lib/platformPanelLayout";
 import {
   type BatchSelectionFilter,
@@ -24,7 +25,6 @@ import {
 } from "@/types/map";
 
 const MAX_HISTORY = 100;
-const PATH_COLOR_PALETTE = ["#2563eb", "#f97316", "#16a34a", "#dc2626", "#7c3aed", "#0f766e"];
 const cellIndex = (x: number, y: number, width: number) => y * width + x;
 const createEmptyBatchSelectionFilter = (): BatchSelectionFilter => ({
   devices: false,

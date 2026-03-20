@@ -4,6 +4,7 @@ import batteryChargingSvgRaw from "@/assets/icons/battery-charging.svg?raw";
 import packageMinusSvgRaw from "@/assets/icons/package-minus.svg?raw";
 import packageMinusMultiSortSvgRaw from "@/assets/icons/package-minus-multi-sort.svg?raw";
 import packagePlusSvgRaw from "@/assets/icons/package-plus.svg?raw";
+import { CELL_FILL_COLOR_MAP, CELL_STROKE_COLOR_MAP, DEVICE_COLOR_MAP, mapPalette, PANEL_COLOR_MAP } from "@/lib/mapPalette";
 import type { MapDevice, MapProject, RobotPath, SelectedElement, ViewFlags } from "@/types/map";
 
 interface ChunkEntry {
@@ -13,11 +14,7 @@ interface ChunkEntry {
 }
 
 // 设备主色：用于边框、图标着色和状态一致性展示。
-const deviceColorMap: Record<MapDevice["type"], string> = {
-  supply: "#10b981",
-  unload: "#f59e0b",
-  charger: "#38bdf8",
-};
+const deviceColorMap: Record<MapDevice["type"], string> = DEVICE_COLOR_MAP;
 
 type DeviceIconKey = MapDevice["type"] | "unload-multi-sort";
 
@@ -112,7 +109,7 @@ export class GridRenderer {
     const app = new Application();
     await app.init({
       antialias: true,
-      background: new Color("#f8fafc"),
+      background: new Color(mapPalette.canvas.background),
       resizeTo: host,
       autoDensity: true,
       resolution: window.devicePixelRatio || 1,
@@ -318,7 +315,7 @@ export class GridRenderer {
         // 禁用态叠加红色叉号，保持底色与图标仍可识别设备类型。
         this.deviceGraphics.setStrokeStyle({
           width: 2,
-          color: "#b91c1c",
+          color: mapPalette.danger.hover,
         });
         this.deviceGraphics.moveTo(centerX - half + 1, centerY - half + 1);
         this.deviceGraphics.lineTo(centerX + half - 1, centerY + half - 1);
@@ -342,23 +339,22 @@ export class GridRenderer {
       const width = panel.width * this.cellPixel - 8;
       const height = panel.height * this.cellPixel - 8;
       const isLarge = panel.spec === "2x4";
-      const fillColor = isLarge ? "#f59e0b" : "#10b981";
-      const strokeColor = isLarge ? "#b45309" : "#059669";
+      const palette = PANEL_COLOR_MAP[panel.spec];
       const inset = isLarge ? 16 : 12;
 
       // 先画外框，再补一条中轴线提示朝向/规格，避免平台块视觉过于实心。
       this.panelGraphics.roundRect(x, y, width, height, 12);
-      this.panelGraphics.fill({ color: fillColor, alpha: isLarge ? 0.1 : 0.08 });
+      this.panelGraphics.fill({ color: palette.fill, alpha: isLarge ? 0.52 : 0.38 });
       this.panelGraphics.setStrokeStyle({
         width: strokeWidth,
-        color: strokeColor,
+        color: palette.stroke,
         alpha: 0.9,
       });
       this.panelGraphics.stroke();
 
       this.panelGraphics.setStrokeStyle({
         width: Math.max(1, strokeWidth * 0.65),
-        color: strokeColor,
+        color: palette.stroke,
         alpha: 0.45,
       });
       if (panel.rotated) {
@@ -453,8 +449,8 @@ export class GridRenderer {
   private highlightCell(x: number, y: number) {
     // 选中格子保留原底图可见性，因此只叠加半透明填充和描边。
     this.selectionGraphics.rect(x * this.cellPixel, y * this.cellPixel, this.cellPixel, this.cellPixel);
-    this.selectionGraphics.fill({ color: "#2ec6d6", alpha: 0.2 });
-    this.selectionGraphics.setStrokeStyle({ width: 2, color: "#2ec6d6" });
+    this.selectionGraphics.fill({ color: mapPalette.brand.solid, alpha: 0.2 });
+    this.selectionGraphics.setStrokeStyle({ width: 2, color: mapPalette.brand.solid });
     this.selectionGraphics.stroke();
   }
 
@@ -465,7 +461,7 @@ export class GridRenderer {
       y * this.cellPixel + this.cellPixel / 2,
       Math.max(5, this.cellPixel * 0.45),
     );
-    this.selectionGraphics.setStrokeStyle({ width: 2, color: "#b91c1c" });
+    this.selectionGraphics.setStrokeStyle({ width: 2, color: mapPalette.danger.hover });
     this.selectionGraphics.stroke();
   }
 
@@ -496,7 +492,7 @@ export class GridRenderer {
 
     this.gridGraphics.setStrokeStyle({
       width: lineWidth,
-      color: "#cad4e2",
+      color: mapPalette.canvas.grid,
     });
 
     for (let x = 0; x <= width; x += 1) {
@@ -553,18 +549,7 @@ export class GridRenderer {
       return Texture.WHITE;
     }
 
-    const baseColor = "#f8fafc";
-    // 1: 普通钢平台，2: 排队区，3: 等待区
-    const nodeColorMap: Record<number, string> = {
-      1: "#e2e8f0",
-      2: "#ede9fe",
-      3: "#d7f5f8",
-    };
-    const nodeBorderMap: Record<number, string> = {
-      1: "#cbd5e1",
-      2: "#8b5cf6",
-      3: "#2ec6d6",
-    };
+    const baseColor = mapPalette.canvas.background;
     const mapWidth = this.project.grid.width;
     const { base } = this.project.layers;
 
@@ -582,9 +567,9 @@ export class GridRenderer {
             continue;
           }
           // 单元格留出 1px 内边距，让网格线和节点填充层次更清楚。
-          ctx.fillStyle = nodeColorMap[value] ?? nodeColorMap[1];
+          ctx.fillStyle = CELL_FILL_COLOR_MAP[value as 1 | 2 | 3] ?? CELL_FILL_COLOR_MAP[1];
           ctx.fillRect(x * this.cellPixel + 1, y * this.cellPixel + 1, this.cellPixel - 2, this.cellPixel - 2);
-          ctx.strokeStyle = nodeBorderMap[value] ?? nodeBorderMap[1];
+          ctx.strokeStyle = CELL_STROKE_COLOR_MAP[value as 1 | 2 | 3] ?? CELL_STROKE_COLOR_MAP[1];
           ctx.lineWidth = 1;
           ctx.strokeRect(x * this.cellPixel + 1.5, y * this.cellPixel + 1.5, this.cellPixel - 3, this.cellPixel - 3);
         }

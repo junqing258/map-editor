@@ -13,15 +13,9 @@
               </DialogDescription>
             </div>
             <div class="flex flex-wrap gap-2 text-xs font-medium">
-              <span class="rounded-full border border-slate-200 bg-white px-3 py-1 text-slate-600">
-                共 {{ librarySummary.total }} 张地图
-              </span>
-              <span class="rounded-full border border-cyan-200 bg-cyan-50 px-3 py-1 text-cyan-700">
-                已发布 {{ librarySummary.published }}
-              </span>
-              <span class="rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-amber-700">
-                草稿 {{ librarySummary.draft }}
-              </span>
+              <span class="ui-pill ui-pill-muted">共 {{ librarySummary.total }} 张地图</span>
+              <span class="ui-pill ui-pill-info">已发布 {{ librarySummary.published }}</span>
+              <span class="ui-pill ui-pill-warning">草稿 {{ librarySummary.draft }}</span>
             </div>
           </div>
         </DialogHeader>
@@ -115,36 +109,34 @@
                     <div class="flex flex-wrap items-center gap-2">
                       <h4 class="truncate text-base font-semibold text-slate-900">{{ item.name }}</h4>
                       <span
-                        class="rounded-full px-2.5 py-1 text-xs font-medium"
+                        class="ui-pill"
                         :class="
                           item.draft
-                            ? 'border border-amber-200 bg-amber-50 text-amber-700'
-                            : 'border border-cyan-200 bg-cyan-50 text-cyan-700'
+                            ? 'ui-pill-warning'
+                            : 'ui-pill-info'
                         "
                       >
                         {{ item.draft ? "草稿" : "已发布" }}
                       </span>
-                      <span
-                        class="rounded-full border border-slate-200 bg-slate-100 px-2.5 py-1 text-xs text-slate-600"
-                      >
+                      <span class="ui-pill ui-pill-muted">
                         {{ item.scene === "production" ? "生产" : "仿真" }}
                       </span>
                     </div>
 
                     <div class="flex flex-wrap gap-2 text-xs text-slate-500">
-                      <span class="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1">
+                      <span class="ui-pill ui-pill-muted">
                         {{ item.project.grid.width }} x {{ item.project.grid.height }}
                       </span>
-                      <span class="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1">
+                      <span class="ui-pill ui-pill-muted">
                         设备 {{ item.project.devices.length }}
                       </span>
-                      <span class="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1">
+                      <span class="ui-pill ui-pill-muted">
                         路径 {{ item.project.overlays.robotPaths.length }}
                       </span>
-                      <span class="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1">
+                      <span class="ui-pill ui-pill-muted">
                         面板 {{ item.project.overlays.platformPanels.length }}
                       </span>
-                      <span class="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1">
+                      <span class="ui-pill ui-pill-muted">
                         更新于 {{ item.updatedAt }}
                       </span>
                     </div>
@@ -153,7 +145,7 @@
                       <span
                         v-for="tag in item.tags"
                         :key="tag"
-                        class="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs text-slate-600"
+                        class="ui-pill ui-pill-info"
                       >
                         #{{ tag }}
                       </span>
@@ -176,8 +168,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
 import { Search, Trash2 } from "lucide-vue-next";
+import { computed, ref, watch } from "vue";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";

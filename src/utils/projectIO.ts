@@ -1,3 +1,4 @@
+import { PATH_COLOR_PALETTE } from "@/lib/mapPalette";
 import { resolveMapId } from "@/lib/mapIdentity";
 import {
   createEmptyProject,
@@ -82,7 +83,7 @@ export const parseProjectJson = (raw: string): MapProject => {
   const normalizedPaths: MapProject["overlays"]["robotPaths"] = rawPaths.map((path, index) => ({
     id: path.id || `path-${index + 1}`,
     name: path.name || `Path-${index + 1}`,
-    color: path.color || "#2563eb",
+    color: path.color || PATH_COLOR_PALETTE[index % PATH_COLOR_PALETTE.length],
     direction: (path.direction === "bidirectional" ? "bidirectional" : "oneway") as PathDirection,
     points: (path.points ?? []).map((point: { x?: unknown; y?: unknown }) => ({
       x: Number(point.x ?? 0),

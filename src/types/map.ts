@@ -1,3 +1,4 @@
+import { PATH_COLOR_PALETTE } from "@/lib/mapPalette";
 import { createMapId } from "@/lib/mapIdentity";
 
 export type CellValue = 0 | 1 | 2 | 3;
@@ -234,7 +235,7 @@ export const createEmptyProject = (
         {
           id: "path-main",
           name: "Main Route",
-          color: "#2563eb",
+          color: PATH_COLOR_PALETTE[0],
           direction: "oneway",
           points: [],
         },
