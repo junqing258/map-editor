@@ -7,7 +7,6 @@
         <span class="ui-pill ui-pill-muted text-xs font-bold">地图</span>
         <Button size="sm" variant="outline" @click="showNewMap = true">新建</Button>
         <Button size="sm" variant="outline" @click="openLibrary">地图库</Button>
-        <Button size="sm" variant="outline" @click="triggerImport">导入</Button>
         <Button size="sm" variant="outline" @click="saveToLibrary(false)">保存地图</Button>
         <Button size="sm" variant="outline" @click="saveToLibrary(true)">存为草稿</Button>
         <Button size="sm" variant="default" :disabled="busy" @click="exportMap">导出地图</Button>
@@ -157,10 +156,7 @@
       :class="editorLayoutClass"
     >
       <aside class="min-h-0 overflow-hidden rounded-xl border border-slate-300 bg-white max-[1180px]:max-h-55">
-        <div
-          v-if="leftPanelCollapsed"
-          class="flex h-full flex-col items-center gap-3 px-1.5 py-3"
-        >
+        <div v-if="leftPanelCollapsed" class="flex h-full flex-col items-center gap-3 px-1.5 py-3">
           <button
             type="button"
             class="inline-flex size-8 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800"
@@ -170,7 +166,9 @@
           >
             <ChevronRight :size="16" />
           </button>
-          <span class="[writing-mode:vertical-rl] text-[12px] font-medium tracking-[0.2px] text-slate-500">快捷工具</span>
+          <span class="[writing-mode:vertical-rl] text-[12px] font-medium tracking-[0.2px] text-slate-500"
+            >快捷工具</span
+          >
         </div>
 
         <div v-else class="flex h-full flex-col gap-2.5 overflow-auto p-3">
@@ -279,10 +277,7 @@
       </main>
 
       <aside class="min-h-0 overflow-hidden rounded-xl border border-slate-300 bg-white">
-        <div
-          v-if="rightPanelCollapsed"
-          class="flex h-full flex-col items-center gap-3 px-1.5 py-3"
-        >
+        <div v-if="rightPanelCollapsed" class="flex h-full flex-col items-center gap-3 px-1.5 py-3">
           <button
             type="button"
             class="inline-flex size-8 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800"
@@ -292,7 +287,9 @@
           >
             <ChevronLeft :size="16" />
           </button>
-          <span class="[writing-mode:vertical-rl] text-[12px] font-medium tracking-[0.2px] text-slate-500">右侧面板</span>
+          <span class="[writing-mode:vertical-rl] text-[12px] font-medium tracking-[0.2px] text-slate-500"
+            >右侧面板</span
+          >
         </div>
 
         <div v-else class="flex h-full flex-col gap-2.5 overflow-auto p-3">
@@ -342,7 +339,10 @@
 
           <h2 class="m-0 text-[17px] font-semibold tracking-[0.2px] text-slate-800">对象属性</h2>
           <section class="rounded-xl border border-slate-200 bg-slate-50 p-3">
-            <div v-if="store.batchSelectionState" class="mb-3 rounded-xl border border-slate-200 bg-white p-3 shadow-xs">
+            <div
+              v-if="store.batchSelectionState"
+              class="mb-3 rounded-xl border border-slate-200 bg-white p-3 shadow-xs"
+            >
               <div class="flex items-center justify-between gap-2">
                 <p class="m-0 text-[13px] font-medium text-slate-800">框选类型</p>
                 <div class="flex flex-wrap gap-1.5">
@@ -542,7 +542,13 @@
       </aside>
     </div>
 
-    <input ref="fileRef" type="file" accept="application/json,.json" class="hidden" @change="importProjectJson" />
+    <input
+      ref="fileRef"
+      type="file"
+      accept="application/json,.json,application/jsonl,.jsonl"
+      class="hidden"
+      @change="importProjectJson"
+    />
 
     <div
       v-if="showNewMap"
@@ -586,8 +592,10 @@
     <MapLibraryDialog
       v-model:open="showLibrary"
       :items="libraryItems"
+      @import="triggerImport"
       @delete-selected="deleteLibraryItems"
       @export-item="exportLibraryItem"
+      @export-selected="exportSelectedLibraryItems"
       @open-item="openLibraryItem"
     />
   </div>
@@ -607,6 +615,7 @@ import {
 } from "lucide-vue-next";
 import { computed, onBeforeUnmount, onMounted, reactive, ref, toRaw, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { toast } from "vue-sonner";
 
 import { createEditorStore } from "@/components/MapEditorCanvas/editorStore";
 import MapEditorCanvas from "@/components/MapEditorCanvas/index.vue";
@@ -624,7 +633,7 @@ import {
 import type { BatchSelectionFilter, MapLibraryItem, MapOverviewStats, PathCheckResult, SceneType } from "@/types/map";
 import { createEmptyProject, DEFAULT_MAP_HEIGHT, DEFAULT_MAP_WIDTH } from "@/types/map";
 import { downloadTextFile } from "@/utils/download";
-import { parseProjectJson } from "@/utils/projectIO";
+import { importProjectsFromText, serializeProjectsToJsonl } from "@/utils/projectJsonl";
 import { safeStructuredClone } from "@/utils/safeClone";
 
 const LIB_KEY = "hyperleap-map-library-v1";
@@ -748,7 +757,10 @@ const editorLayoutClass = computed(() => {
 });
 
 const layoutSignal = computed(() =>
-  [leftPanelCollapsed.value ? "left-closed" : "left-open", rightPanelCollapsed.value ? "right-closed" : "right-open"].join(":"),
+  [
+    leftPanelCollapsed.value ? "left-closed" : "left-open",
+    rightPanelCollapsed.value ? "right-closed" : "right-open",
+  ].join(":"),
 );
 
 let statsTimer: number | null = null;
@@ -930,9 +942,36 @@ const importProjectJson = async (event: Event) => {
   }
   try {
     const text = await file.text();
-    const project = parseProjectJson(text);
-    store.resetProject(project, { clearHistory: true });
-    store.requestCenterView();
+    const importResult = importProjectsFromText(text);
+    const importedProjects = importResult.projects;
+    if (importResult.successCount > 0) {
+      toast.success("导入成功", {
+        description: `成功 ${importResult.successCount} 张，失败 ${importResult.failureCount} 张`,
+      });
+    }
+    if (importResult.failureCount > 0) {
+      toast.error("导入失败", {
+        description:
+          importResult.failureCount === 1 && importResult.errors[0]
+            ? `成功 ${importResult.successCount} 张，失败 1 张。${importResult.errors[0]}`
+            : `成功 ${importResult.successCount} 张，失败 ${importResult.failureCount} 张`,
+      });
+    }
+    if (importedProjects.length === 0) {
+      errorText.value = importResult.errors[0] ?? "导入失败";
+      return;
+    }
+    if (importedProjects.length === 1) {
+      const importedProject = importedProjects[0];
+      await mergeLibraryItems([createLibraryItemFromProject(importedProject, false)]);
+      store.resetProject(importedProject, { clearHistory: true });
+      store.requestCenterView();
+      showLibrary.value = false;
+    } else {
+      const importedItems = importedProjects.map((project) => createLibraryItemFromProject(project, false));
+      await mergeLibraryItems(importedItems);
+      showLibrary.value = true;
+    }
     syncEditorUiState();
     errorText.value = "";
   } catch (error) {
@@ -979,18 +1018,19 @@ const saveLibrary = async () => {
   }
 };
 
+const createLibraryItemFromProject = (project: MapLibraryItem["project"], draft: boolean): MapLibraryItem => ({
+  id: `${project.meta.id}-${draft ? "draft" : "published"}`,
+  name: project.meta.name,
+  draft,
+  scene: project.meta.scene,
+  tags: [...project.meta.tags],
+  updatedAt: formatLibraryUpdatedAt(project.meta.updatedAt),
+  project: safeStructuredClone(project),
+});
+
 const saveToLibrary = async (draft: boolean) => {
-  const id = `${store.project.meta.id}-${draft ? "draft" : "published"}`;
-  const now = new Date().toISOString().slice(0, 19).replace("T", " ");
-  const entry: MapLibraryItem = {
-    id,
-    name: store.project.meta.name,
-    draft,
-    scene: store.project.meta.scene,
-    tags: [...store.project.meta.tags],
-    updatedAt: now,
-    project: safeStructuredClone(toRaw(store.project)),
-  };
+  const entry = createLibraryItemFromProject(safeStructuredClone(toRaw(store.project)), draft);
+  const id = entry.id;
   libraryItems.value = [entry, ...libraryItems.value.filter((item) => item.id !== id)];
   await saveLibrary();
 };
@@ -1000,12 +1040,29 @@ const openLibrary = async () => {
   showLibrary.value = true;
 };
 
+const formatLibraryUpdatedAt = (isoText: string) => isoText.slice(0, 19).replace("T", " ");
+
+const mergeLibraryItems = async (items: MapLibraryItem[]) => {
+  if (items.length === 0) {
+    return;
+  }
+
+  const nextById = new Map(libraryItems.value.map((item) => [item.id, item]));
+  items.forEach((item) => {
+    nextById.set(item.id, item);
+  });
+  libraryItems.value = Array.from(nextById.values()).sort((left, right) =>
+    right.updatedAt.localeCompare(left.updatedAt),
+  );
+  await saveLibrary();
+};
+
 const openLibraryItem = (id: string) => {
   const item = libraryItems.value.find((entry) => entry.id === id);
   if (!item) {
     return;
   }
-  store.resetProject(parseProjectJson(JSON.stringify(item.project)), { clearHistory: true });
+  store.resetProject(item.project, { clearHistory: true });
   store.requestCenterView();
   syncEditorUiState();
   showLibrary.value = false;
@@ -1017,6 +1074,20 @@ const exportLibraryItem = (id: string) => {
     return;
   }
   downloadTextFile(`${item.name}.project.json`, JSON.stringify(item.project, null, 2));
+};
+
+const exportSelectedLibraryItems = (ids: string[]) => {
+  const items = libraryItems.value.filter((item) => ids.includes(item.id));
+  if (items.length === 0) {
+    return;
+  }
+
+  const jsonl = serializeProjectsToJsonl(items.map((item) => item.project));
+  downloadTextFile(
+    `map-library-${new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-")}.jsonl`,
+    jsonl,
+    "application/jsonl",
+  );
 };
 
 const deleteLibraryItems = async (ids: string[]) => {

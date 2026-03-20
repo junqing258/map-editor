@@ -51,7 +51,11 @@
         </div>
 
         <div class="flex flex-wrap items-center gap-2 lg:self-end lg:justify-end">
+          <Button size="sm" variant="outline" class="h-10" @click="emit('import')">导入</Button>
           <Button size="sm" variant="outline" class="h-10" @click="emit('update:open', false)">关闭</Button>
+          <Button size="sm" variant="outline" class="h-10" :disabled="selectedCount === 0" @click="exportSelected">
+            导出 JSONL<span v-if="selectedCount > 0">（{{ selectedCount }}）</span>
+          </Button>
           <Button size="sm" variant="destructive" class="h-10" :disabled="selectedCount === 0" @click="deleteSelected">
             <Trash2 class="size-4" />
             删除选中<span v-if="selectedCount > 0">（{{ selectedCount }}）</span>
@@ -187,8 +191,10 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   "update:open": [value: boolean];
+  import: [];
   "open-item": [id: string];
   "export-item": [id: string];
+  "export-selected": [ids: string[]];
   "delete-selected": [ids: string[]];
 }>();
 
@@ -254,6 +260,14 @@ const deleteSelected = () => {
 
   emit("delete-selected", selectedIds.value);
   selectedIds.value = [];
+};
+
+const exportSelected = () => {
+  if (selectedIds.value.length === 0) {
+    return;
+  }
+
+  emit("export-selected", selectedIds.value);
 };
 
 watch(

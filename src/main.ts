@@ -1,4 +1,5 @@
 import "./styles.css";
+import "vue-sonner/style.css";
 
 import { createApp } from "vue";
 
