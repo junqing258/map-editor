@@ -548,6 +548,7 @@ import { useMapWorker } from "@/composables/useMapWorker";
 import { normalizeMapId } from "@/lib/mapIdentity";
 import {
   loadCachedLibraryItems,
+  loadLatestCachedMapProject,
   loadCachedMapProject,
   saveCachedLibraryItems,
   saveCachedMapProject,
@@ -715,8 +716,16 @@ const restoreProjectFromRoute = async (routeMapId: string | null) => {
 
   try {
     if (!routeMapId) {
+      const latestProject = await loadLatestCachedMapProject();
+      if (currentToken !== routeHydrationToken) {
+        return;
+      }
+      if (latestProject) {
+        store.resetProject(latestProject, { clearHistory: true, skipHistory: true });
+      }
       await replaceRouteMapId(store.project.meta.id);
       syncEditorUiState();
+      errorText.value = "";
       return;
     }
 

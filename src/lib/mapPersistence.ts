@@ -6,6 +6,7 @@ import { safeStructuredClone } from "@/utils/safeClone";
 
 const CACHE_PREFIX = "map-project:";
 const LIBRARY_PREFIX = "map-library:";
+const LAST_MAP_ID_KEY = "map-project:last-id";
 
 const projectCache = localforage.createInstance({
   name: "industrial-grid-map-editor",
@@ -21,7 +22,9 @@ const buildCacheKey = (mapId: string) => `${CACHE_PREFIX}${mapId}`;
 const buildLibraryKey = (libraryId: string) => `${LIBRARY_PREFIX}${libraryId}`;
 
 export const saveCachedMapProject = async (project: MapProject) => {
-  await projectCache.setItem(buildCacheKey(project.meta.id), JSON.stringify(project));
+  const serializedProject = JSON.stringify(project);
+  await projectCache.setItem(buildCacheKey(project.meta.id), serializedProject);
+  await projectCache.setItem(LAST_MAP_ID_KEY, project.meta.id);
 };
 
 export const loadCachedMapProject = async (mapId: string): Promise<MapProject | null> => {
@@ -37,6 +40,21 @@ export const loadCachedMapProject = async (mapId: string): Promise<MapProject | 
     await projectCache.removeItem(buildCacheKey(mapId));
     return null;
   }
+};
+
+export const loadLatestCachedMapProject = async (): Promise<MapProject | null> => {
+  const latestMapId = await projectCache.getItem<string>(LAST_MAP_ID_KEY);
+  if (!latestMapId) {
+    return null;
+  }
+
+  const project = await loadCachedMapProject(latestMapId);
+  if (!project) {
+    await projectCache.removeItem(LAST_MAP_ID_KEY);
+    return null;
+  }
+
+  return project;
 };
 
 export const loadCachedLibraryItems = async <T>(libraryId: string): Promise<T[]> => {
