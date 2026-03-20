@@ -151,11 +151,11 @@
       </div>
     </section>
 
-    <div
-      class="grid min-h-0 gap-2.5 transition-[grid-template-columns] duration-200 max-[1180px]:grid-cols-1 max-[1180px]:grid-rows-[auto_minmax(420px,1fr)_auto]"
-      :class="editorLayoutClass"
-    >
-      <aside class="min-h-0 overflow-hidden rounded-xl border border-slate-300 bg-white max-[1180px]:max-h-55">
+    <div class="relative h-full min-h-0 max-[1180px]:grid max-[1180px]:grid-cols-1 max-[1180px]:grid-rows-[auto_minmax(420px,1fr)_auto] max-[1180px]:gap-2.5">
+      <aside
+        class="absolute inset-y-0 left-0 z-20 min-h-0 overflow-hidden rounded-l-xl rounded-r-none border border-slate-300 bg-white/96 shadow-lg shadow-slate-900/5 backdrop-blur-sm transition-[width] duration-200 max-[1180px]:static max-[1180px]:w-auto max-[1180px]:max-h-55 max-[1180px]:rounded-xl max-[1180px]:bg-white max-[1180px]:shadow-none max-[1180px]:backdrop-blur-none"
+        :class="leftPanelCollapsed ? 'w-11' : 'w-[170px]'"
+      >
         <div v-if="leftPanelCollapsed" class="flex h-full flex-col items-center gap-3 px-1.5 py-3">
           <button
             type="button"
@@ -271,12 +271,15 @@
       </aside>
 
       <main
-        class="min-h-0 overflow-hidden rounded-xl border border-slate-300 bg-linear-to-br from-slate-50 to-slate-100 shadow-md"
+        class="min-h-0 h-full overflow-hidden rounded-xl border border-slate-300 bg-linear-to-br from-slate-50 to-slate-100 shadow-md max-[1180px]:min-h-[420px]"
       >
-        <MapEditorCanvas :store="store" :layout-signal="layoutSignal" />
+        <MapEditorCanvas :store="store" />
       </main>
 
-      <aside class="min-h-0 overflow-hidden rounded-xl border border-slate-300 bg-white">
+      <aside
+        class="absolute inset-y-0 right-0 z-20 min-h-0 overflow-hidden rounded-l-none rounded-r-xl border border-slate-300 bg-white/96 shadow-lg shadow-slate-900/5 backdrop-blur-sm transition-[width] duration-200 max-[1180px]:static max-[1180px]:w-auto max-[1180px]:rounded-xl max-[1180px]:bg-white max-[1180px]:shadow-none max-[1180px]:backdrop-blur-none"
+        :class="rightPanelCollapsed ? 'w-11' : 'w-[340px]'"
+      >
         <div v-if="rightPanelCollapsed" class="flex h-full flex-col items-center gap-3 px-1.5 py-3">
           <button
             type="button"
@@ -742,26 +745,6 @@ const panelLayoutStats = computed(() => {
     uncoveredCellCount: Math.max(0, platformCellCount - coveredCellCount),
   };
 });
-
-const editorLayoutClass = computed(() => {
-  if (leftPanelCollapsed.value && rightPanelCollapsed.value) {
-    return "grid-cols-[44px_minmax(0,1fr)_44px]";
-  }
-  if (leftPanelCollapsed.value) {
-    return "grid-cols-[44px_minmax(0,1fr)_340px]";
-  }
-  if (rightPanelCollapsed.value) {
-    return "grid-cols-[170px_minmax(0,1fr)_44px]";
-  }
-  return "grid-cols-[170px_minmax(0,1fr)_340px]";
-});
-
-const layoutSignal = computed(() =>
-  [
-    leftPanelCollapsed.value ? "left-closed" : "left-open",
-    rightPanelCollapsed.value ? "right-closed" : "right-open",
-  ].join(":"),
-);
 
 let statsTimer: number | null = null;
 let persistTimer: number | null = null;

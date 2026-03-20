@@ -169,13 +169,10 @@ export class GridRenderer {
     this.applyView();
   }
 
-  refreshLayout(options?: { syncCanvasSize?: boolean }) {
+  refreshLayout() {
     const rect = this.host.getBoundingClientRect();
     if (rect.width <= 0 || rect.height <= 0) {
       return;
-    }
-    if (options?.syncCanvasSize) {
-      this.app.renderer.resize(Math.round(rect.width), Math.round(rect.height));
     }
     if (this.viewportSize.width <= 0 || this.viewportSize.height <= 0) {
       this.viewportSize.width = rect.width;
