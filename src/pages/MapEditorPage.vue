@@ -9,6 +9,7 @@
         <Button size="sm" variant="outline" @click="openLibrary">地图库</Button>
         <Button size="sm" variant="outline" @click="saveToLibrary(false)">保存地图</Button>
         <Button size="sm" variant="outline" @click="saveToLibrary(true)">存为草稿</Button>
+        <Button size="sm" variant="outline" :disabled="busy" @click="exportCanvasImage">导出图片</Button>
         <Button size="sm" variant="default" :disabled="busy" @click="exportMap">导出地图</Button>
       </div>
 
@@ -275,7 +276,7 @@
       <main
         class="min-h-0 h-full overflow-hidden border border-slate-300 bg-linear-to-br from-slate-50 to-slate-100 shadow-md max-[1180px]:min-h-[420px]"
       >
-        <MapEditorCanvas :store="store" />
+        <MapEditorCanvas ref="canvasRef" :store="store" />
       </main>
 
       <aside
@@ -637,7 +638,7 @@ import {
 } from "@/lib/mapPersistence";
 import type { BatchSelectionFilter, MapLibraryItem, MapOverviewStats, PathCheckResult, SceneType } from "@/types/map";
 import { createEmptyProject, DEFAULT_MAP_HEIGHT, DEFAULT_MAP_WIDTH } from "@/types/map";
-import { downloadTextFile } from "@/utils/download";
+import { downloadBlob, downloadTextFile } from "@/utils/download";
 import { importProjectsFromText, serializeProjectsToJsonl } from "@/utils/projectJsonl";
 import { safeStructuredClone } from "@/utils/safeClone";
 
@@ -649,6 +650,7 @@ const router = useRouter();
 const store = createEditorStore();
 const worker = useMapWorker();
 
+const canvasRef = ref<{ exportMapImage: () => Promise<Blob> } | null>(null);
 const fileRef = ref<HTMLInputElement | null>(null);
 const stats = ref<MapOverviewStats | null>(null);
 const busy = ref(false);
@@ -898,6 +900,31 @@ const planPlatformPanels = async () => {
     errorText.value = error instanceof Error ? error.message : "规划面板失败";
   } finally {
     planningPanels.value = false;
+  }
+};
+
+const sanitizeFilename = (value: string) => value.trim().replace(/[\\/:*?"<>|]/g, "-") || "factory-map";
+
+const createCanvasExportFilename = () => {
+  const stamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-");
+  return `${sanitizeFilename(store.project.meta.name)}-canvas-${stamp}.png`;
+};
+
+const exportCanvasImage = async () => {
+  if (!canvasRef.value) {
+    errorText.value = "画布尚未准备完成";
+    return;
+  }
+
+  busy.value = true;
+  try {
+    const blob = await canvasRef.value.exportMapImage();
+    downloadBlob(createCanvasExportFilename(), blob);
+    errorText.value = "";
+  } catch (error) {
+    errorText.value = error instanceof Error ? error.message : "导出图片失败";
+  } finally {
+    busy.value = false;
   }
 };
 

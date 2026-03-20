@@ -313,6 +313,17 @@ const onPointerUp = (event: PointerEvent) => {
   stopGesture(event);
 };
 
+const exportMapImage = async () => {
+  if (!renderer) {
+    throw new Error("画布尚未准备完成");
+  }
+  return renderer.exportMapImage();
+};
+
+defineExpose({
+  exportMapImage,
+});
+
 onMounted(async () => {
   if (!hostRef.value) {
     return;

@@ -1,10 +1,16 @@
-import { Application, Assets, Color, Container, Graphics, Sprite, Texture } from "pixi.js";
+import { Application, Assets, Color, Container, Graphics, Rectangle, Sprite, Texture } from "pixi.js";
 
 import batteryChargingSvgRaw from "@/assets/icons/battery-charging.svg?raw";
 import packageMinusSvgRaw from "@/assets/icons/package-minus.svg?raw";
 import packageMinusMultiSortSvgRaw from "@/assets/icons/package-minus-multi-sort.svg?raw";
 import packagePlusSvgRaw from "@/assets/icons/package-plus.svg?raw";
-import { CELL_FILL_COLOR_MAP, CELL_STROKE_COLOR_MAP, DEVICE_COLOR_MAP, mapPalette, PANEL_COLOR_MAP } from "@/lib/mapPalette";
+import {
+  CELL_FILL_COLOR_MAP,
+  CELL_STROKE_COLOR_MAP,
+  DEVICE_COLOR_MAP,
+  mapPalette,
+  PANEL_COLOR_MAP,
+} from "@/lib/mapPalette";
 import type { MapDevice, MapProject, RobotPath, SelectedElement, ViewFlags } from "@/types/map";
 
 interface ChunkEntry {
@@ -461,6 +467,43 @@ export class GridRenderer {
     this.applyView();
   }
 
+  async exportMapImage() {
+    const mapWidth = Math.max(1, this.project.grid.width * this.cellPixel);
+    const mapHeight = Math.max(1, this.project.grid.height * this.cellPixel);
+    const previousView = { ...this.view };
+    const previousSelectionVisible = this.selectionGraphics.visible;
+
+    try {
+      // 导出整张地图时固定到世界坐标系原点，避免受当前缩放/平移影响。
+      this.selectionGraphics.visible = false;
+      this.view.zoom = 1;
+      this.view.offsetX = 0;
+      this.view.offsetY = 0;
+      this.applyView();
+      this.app.renderer.render({ container: this.app.stage });
+
+      const texture = this.app.renderer.textureGenerator.generateTexture({
+        target: this.app.stage,
+        frame: new Rectangle(0, 0, mapWidth, mapHeight),
+        resolution: 1,
+        clearColor: mapPalette.canvas.background,
+        antialias: true,
+      });
+      const canvas = this.app.renderer.texture.generateCanvas(texture) as HTMLCanvasElement;
+
+      try {
+        return await this.canvasToBlob(canvas);
+      } finally {
+        texture.destroy(true);
+      }
+    } finally {
+      this.selectionGraphics.visible = previousSelectionVisible;
+      this.view = previousView;
+      this.applyView();
+      this.app.renderer.render({ container: this.app.stage });
+    }
+  }
+
   screenToCell(clientX: number, clientY: number) {
     const rect = this.host.getBoundingClientRect();
     const x = clientX - rect.left;
@@ -608,6 +651,23 @@ export class GridRenderer {
     // 平台块纹理不需要线性采样，避免缩放后颜色发糊。
     texture.source.scaleMode = "nearest";
     return texture;
+  }
+
+  private canvasToBlob(canvas: HTMLCanvasElement) {
+    return new Promise<Blob>((resolve, reject) => {
+      if (typeof canvas.toBlob === "function") {
+        canvas.toBlob((blob) => {
+          if (blob) {
+            resolve(blob);
+            return;
+          }
+          reject(new Error("导出图片失败"));
+        }, "image/png");
+        return;
+      }
+
+      reject(new Error("当前浏览器不支持导出图片"));
+    });
   }
 
   private static async loadDeviceIconTextures() {

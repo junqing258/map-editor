@@ -72,7 +72,7 @@
       <div class="px-6 py-5">
         <div
           v-if="filteredItems.length === 0"
-          class="grid min-h-[260px] place-items-center rounded-2xl border border-dashed border-slate-300 bg-white/85 p-8 text-center"
+          class="grid min-h-65 place-items-center rounded-2xl border border-dashed border-slate-300 bg-white/85 p-8 text-center"
         >
           <div class="max-w-sm space-y-3">
             <div class="mx-auto grid size-12 place-items-center rounded-full bg-slate-100 text-slate-500">
