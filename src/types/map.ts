@@ -2,10 +2,14 @@
 import { createMapId } from "@/lib/mapIdentity";
 import { PATH_COLOR_PALETTE } from "@/lib/mapPalette";
 
+/** 画布底图单元状态：0 空白，1 平台，2 排队区，3 等待区。 */
 export type CellValue = 0 | 1 | 2 | 3;
+/** 仅表示“已占用平台”的单元状态。 */
 export type PlatformCellValue = 1 | 2 | 3;
 
+/** 地图场景类型。 */
 export type SceneType = "production" | "simulation";
+/** 编辑器当前激活的工具。 */
 export type ToolType =
   | "select"
   | "path-draw"
@@ -17,11 +21,16 @@ export type ToolType =
   | "queue"
   | "waiting";
 
+/** 路径方向：单向或双向。 */
 export type PathDirection = "oneway" | "bidirectional";
+/** 编辑器当前支持的设备类型。 */
 export type DeviceType = "supply" | "unload" | "charger";
+/** 供包设备模式：自动、人工、提升机。 */
 export type SupplyMode = "auto" | "manual" | "elevator";
+/** 卸包设备模式：普通口、多维分拣口。 */
 export type UnloadMode = "normal" | "multi-sort";
 
+/** 编辑器网格配置。 */
 export interface GridConfig {
   width: number;
   height: number;
@@ -29,18 +38,22 @@ export interface GridConfig {
   cellSizeMeter: number;
 }
 
+/** 路径上的单个格子点。 */
 export interface PathPoint {
   x: number;
   y: number;
 }
 
+/** 铺板规格。 */
 export type PlatformPanelSpec = "1x2" | "2x4";
 
+/** 通用格子坐标。 */
 export interface CellCoord {
   x: number;
   y: number;
 }
 
+/** 平台铺板布局结果。 */
 export interface PlatformPanel {
   id: string;
   x: number;
@@ -51,6 +64,7 @@ export interface PlatformPanel {
   rotated: boolean;
 }
 
+/** 框选状态下引用的路径点。 */
 export interface SelectedPathPointRef {
   pathId: string;
   index: number;
@@ -58,18 +72,21 @@ export interface SelectedPathPointRef {
   y: number;
 }
 
+/** 一次批量选择里包含的对象集合。 */
 export interface BatchSelectionSource {
   deviceIds: string[];
   cells: CellCoord[];
   pathPoints: SelectedPathPointRef[];
 }
 
+/** 批量选择过滤器。 */
 export interface BatchSelectionFilter {
   devices: boolean;
   cells: boolean;
   pathPoints: boolean;
 }
 
+/** 编辑器内部的路径对象。 */
 export interface RobotPath {
   id: string;
   name: string;
@@ -78,6 +95,7 @@ export interface RobotPath {
   points: PathPoint[];
 }
 
+/** 编辑器内部的设备配置。 */
 export interface DeviceConfig {
   enabled: boolean;
   hardwareId: string;
@@ -91,6 +109,7 @@ export interface DeviceConfig {
   right?: boolean;
 }
 
+/** 编辑器内部的设备对象。 */
 export interface MapDevice {
   id: string;
   type: DeviceType;
@@ -100,6 +119,7 @@ export interface MapDevice {
   config: DeviceConfig;
 }
 
+/** 画布显示开关。 */
 export interface ViewFlags {
   showGrid: boolean;
   showPath: boolean;
@@ -107,6 +127,7 @@ export interface ViewFlags {
   showPanelLayout: boolean;
 }
 
+/** 工具面板的可调参数。 */
 export interface ToolOptions {
   platformMode: "drag" | "batch";
   batchRows: number;
@@ -116,6 +137,7 @@ export interface ToolOptions {
   unloadMode: UnloadMode;
 }
 
+/** 编辑器地图元数据。 */
 export interface MapProjectMeta {
   id: string;
   name: string;
@@ -149,6 +171,7 @@ export interface MapInterface {
   chargerEquipments: ChargerEquipment[];
 }
 
+/** 标准地图协议中的通用设备结构。 */
 export interface Equipment {
   id: string;
   x: number;
@@ -160,20 +183,27 @@ export interface Equipment {
   right?: boolean;
 }
 
+/** 人工供包口。 */
 export interface LoadEquipment extends Equipment { }
 
+/** 提升机供包口。 */
 export interface HoistEquipment extends Equipment { }
 
+/** 普通卸包口。 */
 export interface UnloadEquipment extends Equipment { }
 
+/** 多维分拣口。 */
 export interface SorterEquipment extends Equipment { }
 
+/** 充电桩。 */
 export interface ChargerEquipment extends Equipment { }
 
+/** 自动供包口，可绑定多个连续导航点。 */
 export interface AutoEquipment extends Omit<Equipment, "aboutBlock"> {
   aboutBlock: string[];
 }
 
+/** 设备朝向。 */
 export enum Direction {
   E = "E",
   N = "N",
@@ -183,6 +213,7 @@ export enum Direction {
 
 export type ISODateString = string;
 
+/** 标准地图协议中的基础信息。 */
 export interface Info {
   name: string;
   key: string;
@@ -201,11 +232,13 @@ export interface Info {
   groups: string[];
 }
 
+/** 地图原点。 */
 export interface Original {
   x: number;
   y: number;
 }
 
+/** 标准地图协议中的导航点。 */
 export interface Mark {
   code: string;
   type: Type;
@@ -220,6 +253,7 @@ export interface Mark {
   attr: Attr;
 }
 
+/** 导航点运行属性。 */
 export interface Attr {
   dockable: boolean;
   rotatable: boolean;
@@ -229,6 +263,7 @@ export interface Attr {
   unloadAcceleration: null;
 }
 
+/** 导航点业务属性。 */
 export interface Location {
   label?: string;
   mark: number | null;
@@ -237,6 +272,7 @@ export interface Location {
   capacity: number | null;
 }
 
+/** 标准地图里常见的点位标签。 */
 export enum Tag {
   ChargerPort = "chargerPort",
   LoadPort = "loadPort",
@@ -248,12 +284,15 @@ export enum Tag {
   QueuePort = "queuePort",
 }
 
+/** 当前标准地图中使用的导航点类型。 */
 export enum Type {
   Mr = "mr",
 }
 
+/** 预留扩展元信息。 */
 export interface Meta { }
 
+/** 区域边界。 */
 export interface AreaBounds {
   minX: number;
   minY: number;
@@ -261,8 +300,10 @@ export interface AreaBounds {
   maxY: number;
 }
 
+/** 区域方向限制。 */
 export type AreaDirectionLimit = "NoEntry" | "NoExit" | "NoConstraint";
 
+/** 标准地图里的区域。 */
 export interface Area {
   id: string;
   areaType: number;
@@ -272,6 +313,7 @@ export interface Area {
   capacity: number | null;
 }
 
+/** 标准地图里的路径边。 */
 export interface Path {
   lock: boolean;
   end: string;
@@ -279,6 +321,7 @@ export interface Path {
   code: string;
 }
 
+/** 编辑器内部缓存的单元格导航点协议元数据。 */
 export interface CellMarkMetadata {
   code: string;
   type: Type;
@@ -291,11 +334,13 @@ export interface CellMarkMetadata {
   attr: Attr;
 }
 
+/** 编辑器内部缓存的路径边协议元数据。 */
 export interface PathEdgeMetadata {
   code: string;
   lock: boolean;
 }
 
+/** 标准地图协议中需要原样保留的集合字段。 */
 export interface MapProjectProtocolCollections {
   basic: unknown[];
   advanced: unknown[];
@@ -306,6 +351,7 @@ export interface MapProjectProtocolCollections {
   infos: unknown[];
 }
 
+/** 编辑器为标准地图协议额外保留的信息。 */
 export interface MapProjectProtocolInfo {
   key: string;
   layer: number;
@@ -317,6 +363,7 @@ export interface MapProjectProtocolInfo {
   blockSize: number;
 }
 
+/** 编辑器内部维护的协议保真层。 */
 export interface MapProjectProtocol {
   meta: Meta;
   info: MapProjectProtocolInfo;
@@ -325,6 +372,7 @@ export interface MapProjectProtocol {
   pathEdges: Record<string, PathEdgeMetadata>;
 }
 
+/** 编辑器运行时使用的完整地图对象。 */
 export interface MapProject {
   version: "2.0.0";
   meta: MapProjectMeta;
@@ -340,6 +388,7 @@ export interface MapProject {
   protocol: MapProjectProtocol;
 }
 
+/** 地图库中的单条记录。 */
 export interface MapLibraryItem {
   id: string;
   name: string;
@@ -350,6 +399,7 @@ export interface MapLibraryItem {
   project: MapProject;
 }
 
+/** 当前选中对象的联合类型。 */
 export type SelectedElement =
   | { kind: "none" }
   | { kind: "cell"; x: number; y: number; active: boolean }
@@ -371,14 +421,17 @@ export type SelectedElement =
     pathPoints: SelectedPathPointRef[];
   };
 
+/** 导出格式：ROS 风格占据栅格或业务自定义协议。 */
 export type ExportFormat = "ros" | "custom";
 
+/** Worker 导出的文件载荷。 */
 export interface ExportPayload {
   filename: string;
   mimeType: string;
   content: string;
 }
 
+/** 地图概览统计信息。 */
 export interface MapOverviewStats {
   width: number;
   height: number;
@@ -392,12 +445,15 @@ export interface MapOverviewStats {
   deviceCounts: Record<DeviceType, number>;
 }
 
+/** 路径检查结果。 */
 export interface PathCheckResult {
   ok: boolean;
   issues: string[];
 }
 
+/** 默认空地图宽度。 */
 export const DEFAULT_MAP_WIDTH = 96;
+/** 默认空地图高度。 */
 export const DEFAULT_MAP_HEIGHT = 64;
 
 const createDeviceCounts = (): Record<DeviceType, number> => ({
@@ -450,6 +506,7 @@ const createEmptyProtocol = (mapId: string, cellSizeMeter = 0.55): MapProjectPro
   pathEdges: {},
 });
 
+/** 创建一个默认的导航点协议元数据。 */
 export const createDefaultCellMarkMetadata = (code: string): CellMarkMetadata => ({
   code,
   type: Type.Mr,
@@ -464,6 +521,7 @@ export const createDefaultCellMarkMetadata = (code: string): CellMarkMetadata =>
 
 export const emptyDeviceCounts = createDeviceCounts;
 
+/** 创建一个可直接用于编辑器的新空地图。 */
 export const createEmptyProject = (
   width = DEFAULT_MAP_WIDTH,
   height = DEFAULT_MAP_HEIGHT,
