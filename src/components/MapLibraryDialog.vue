@@ -29,7 +29,6 @@
             搜索地图
           </Label>
           <div class="relative mt-2">
-            <Search class="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-slate-400" />
             <input
               id="library-search"
               v-model="search"
@@ -112,14 +111,7 @@
                   <div class="min-w-0 space-y-3">
                     <div class="flex flex-wrap items-center gap-2">
                       <h4 class="truncate text-base font-semibold text-slate-900">{{ item.name }}</h4>
-                      <span
-                        class="ui-pill"
-                        :class="
-                          item.draft
-                            ? 'ui-pill-warning'
-                            : 'ui-pill-info'
-                        "
-                      >
+                      <span class="ui-pill" :class="item.draft ? 'ui-pill-warning' : 'ui-pill-info'">
                         {{ item.draft ? "草稿" : "已发布" }}
                       </span>
                       <span class="ui-pill ui-pill-muted">
@@ -131,28 +123,16 @@
                       <span class="ui-pill ui-pill-muted">
                         {{ item.project.grid.width }} x {{ item.project.grid.height }}
                       </span>
-                      <span class="ui-pill ui-pill-muted">
-                        设备 {{ item.project.devices.length }}
-                      </span>
-                      <span class="ui-pill ui-pill-muted">
-                        路径 {{ item.project.overlays.robotPaths.length }}
-                      </span>
+                      <span class="ui-pill ui-pill-muted"> 设备 {{ item.project.devices.length }} </span>
+                      <span class="ui-pill ui-pill-muted"> 路径 {{ item.project.overlays.robotPaths.length }} </span>
                       <span class="ui-pill ui-pill-muted">
                         面板 {{ item.project.overlays.platformPanels.length }}
                       </span>
-                      <span class="ui-pill ui-pill-muted">
-                        更新于 {{ item.updatedAt }}
-                      </span>
+                      <span class="ui-pill ui-pill-muted"> 更新于 {{ item.updatedAt }} </span>
                     </div>
 
                     <div class="flex flex-wrap gap-2">
-                      <span
-                        v-for="tag in item.tags"
-                        :key="tag"
-                        class="ui-pill ui-pill-info"
-                      >
-                        #{{ tag }}
-                      </span>
+                      <span v-for="tag in item.tags" :key="tag" class="ui-pill ui-pill-info"> #{{ tag }} </span>
                       <span v-if="item.tags.length === 0" class="py-1 text-xs text-slate-400">暂无标签</span>
                     </div>
                   </div>
