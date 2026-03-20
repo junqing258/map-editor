@@ -1,5 +1,6 @@
-import { PATH_COLOR_PALETTE } from "@/lib/mapPalette";
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 import { createMapId } from "@/lib/mapIdentity";
+import { PATH_COLOR_PALETTE } from "@/lib/mapPalette";
 
 export type CellValue = 0 | 1 | 2 | 3;
 export type PlatformCellValue = 1 | 2 | 3;
@@ -159,15 +160,15 @@ export interface Equipment {
   right?: boolean;
 }
 
-export interface LoadEquipment extends Equipment {}
+export interface LoadEquipment extends Equipment { }
 
-export interface HoistEquipment extends Equipment {}
+export interface HoistEquipment extends Equipment { }
 
-export interface UnloadEquipment extends Equipment {}
+export interface UnloadEquipment extends Equipment { }
 
-export interface SorterEquipment extends Equipment {}
+export interface SorterEquipment extends Equipment { }
 
-export interface ChargerEquipment extends Equipment {}
+export interface ChargerEquipment extends Equipment { }
 
 export interface AutoEquipment extends Omit<Equipment, "aboutBlock"> {
   aboutBlock: string[];
@@ -251,7 +252,7 @@ export enum Type {
   Mr = "mr",
 }
 
-export interface Meta {}
+export interface Meta { }
 
 export interface AreaBounds {
   minX: number;
@@ -353,22 +354,22 @@ export type SelectedElement =
   | { kind: "none" }
   | { kind: "cell"; x: number; y: number; active: boolean }
   | {
-      kind: "path-point";
-      pathId: string;
-      pathName: string;
-      index: number;
-      x: number;
-      y: number;
-      direction: PathDirection;
-    }
+    kind: "path-point";
+    pathId: string;
+    pathName: string;
+    index: number;
+    x: number;
+    y: number;
+    direction: PathDirection;
+  }
   | { kind: "device"; deviceId: string }
   | { kind: "device-batch"; deviceIds: string[] }
   | {
-      kind: "mixed-batch";
-      deviceIds: string[];
-      cells: CellCoord[];
-      pathPoints: SelectedPathPointRef[];
-    };
+    kind: "mixed-batch";
+    deviceIds: string[];
+    cells: CellCoord[];
+    pathPoints: SelectedPathPointRef[];
+  };
 
 export type ExportFormat = "ros" | "custom";
 

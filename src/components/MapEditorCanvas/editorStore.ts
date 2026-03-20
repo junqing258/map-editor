@@ -1,6 +1,7 @@
 import { computed, type ComputedRef, reactive, type Ref, ref, toRaw } from "vue";
 
 import { PATH_COLOR_PALETTE } from "@/lib/mapPalette";
+import { normalizeRobotPathColors } from "@/lib/pathColoring";
 import { arePanelsEqual } from "@/lib/platformPanelLayout";
 import {
   type BatchSelectionFilter,
@@ -355,6 +356,10 @@ const createEditorStoreCore = () => {
     };
   };
 
+  const syncRobotPathColors = () => {
+    normalizeRobotPathColors(project.value.overlays.robotPaths);
+  };
+
   // 拖拽绘制期间只保留一次快照，避免一个手势产生大量撤销节点。
   const rememberSnapshot = () => {
     if (actionInProgress.value) {
@@ -597,6 +602,7 @@ const createEditorStoreCore = () => {
         project.value.overlays.robotPaths.push(path);
         activePathId.value = path.id;
         path.points.push({ x, y });
+        syncRobotPathColors();
         selectPathPoint(path.id, 0);
         markChanged();
         return 0;
@@ -616,6 +622,7 @@ const createEditorStoreCore = () => {
       rememberSnapshot();
     }
     path.points.push({ x, y });
+    syncRobotPathColors();
     const index = path.points.length - 1;
     selectPathPoint(path.id, index);
     markChanged();
@@ -636,6 +643,7 @@ const createEditorStoreCore = () => {
     } else {
       hit.path.points = next;
     }
+    syncRobotPathColors();
     if (selectedElement.value.kind === "path-point" && selectedElement.value.x === x && selectedElement.value.y === y) {
       selectNone();
     }
@@ -655,6 +663,7 @@ const createEditorStoreCore = () => {
     } else {
       path.points = [];
     }
+    syncRobotPathColors();
     selectNone();
     markChanged();
     return true;
@@ -922,6 +931,7 @@ const createEditorStoreCore = () => {
       }
       rememberSnapshot();
       path.points.splice(index, 1);
+      syncRobotPathColors();
       selectNone();
       markChanged();
       return true;
@@ -993,6 +1003,9 @@ const createEditorStoreCore = () => {
         });
       }
 
+      if (changed && pathPoints.length > 0) {
+        syncRobotPathColors();
+      }
       selectNone();
       if (changed) {
         markChanged();
@@ -1085,6 +1098,7 @@ const createEditorStoreCore = () => {
       rememberSnapshot();
     }
     project.value = next ?? createEmptyProject();
+    syncRobotPathColors();
     selectNone();
     if (options?.clearHistory) {
       clearHistoryState();

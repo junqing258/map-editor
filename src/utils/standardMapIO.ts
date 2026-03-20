@@ -1,5 +1,6 @@
 import { resolveMapId } from "@/lib/mapIdentity";
 import { PATH_COLOR_PALETTE } from "@/lib/mapPalette";
+import { normalizeRobotPathColors } from "@/lib/pathColoring";
 import {
   type Attr,
   type AutoEquipment,
@@ -480,7 +481,7 @@ export const projectFromStandardMap = (input: MapInterface): MapProject => {
     });
   });
 
-  project.overlays.robotPaths = robotPaths.length > 0 ? robotPaths : project.overlays.robotPaths;
+  project.overlays.robotPaths = robotPaths.length > 0 ? normalizeRobotPathColors(robotPaths) : project.overlays.robotPaths;
   project.protocol.pathEdges = edgeMetadata;
 
   project.devices = [

@@ -1,5 +1,6 @@
 import { resolveMapId } from "@/lib/mapIdentity";
 import { PATH_COLOR_PALETTE } from "@/lib/mapPalette";
+import { normalizeRobotPathColors } from "@/lib/pathColoring";
 import {
   createEmptyProject,
   type GridConfig,
@@ -88,16 +89,18 @@ export const parseProjectJson = (raw: string): MapProject => {
     : Array.isArray(data.paths)
       ? data.paths
       : [];
-  const normalizedPaths: MapProject["overlays"]["robotPaths"] = rawPaths.map((path, index) => ({
-    id: path.id || `path-${index + 1}`,
-    name: path.name || `Path-${index + 1}`,
-    color: path.color || PATH_COLOR_PALETTE[index % PATH_COLOR_PALETTE.length],
-    direction: (path.direction === "bidirectional" ? "bidirectional" : "oneway") as PathDirection,
-    points: (path.points ?? []).map((point: { x?: unknown; y?: unknown }) => ({
-      x: Number(point.x ?? 0),
-      y: Number(point.y ?? 0),
+  const normalizedPaths: MapProject["overlays"]["robotPaths"] = normalizeRobotPathColors(
+    rawPaths.map((path, index) => ({
+      id: path.id || `path-${index + 1}`,
+      name: path.name || `Path-${index + 1}`,
+      color: path.color || PATH_COLOR_PALETTE[index % PATH_COLOR_PALETTE.length],
+      direction: (path.direction === "bidirectional" ? "bidirectional" : "oneway") as PathDirection,
+      points: (path.points ?? []).map((point: { x?: unknown; y?: unknown }) => ({
+        x: Number(point.x ?? 0),
+        y: Number(point.y ?? 0),
+      })),
     })),
-  }));
+  );
 
   const rawPanels = Array.isArray(data.overlays?.platformPanels)
     ? data.overlays.platformPanels

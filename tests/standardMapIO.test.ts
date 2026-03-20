@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { PATH_COLOR_PALETTE } from "@/lib/mapPalette";
 import { parseProjectJson } from "@/utils/projectIO";
 import { projectToStandardMap } from "@/utils/standardMapIO";
 
@@ -336,6 +337,63 @@ describe("standardMapIO", () => {
         aboutBlock: "charger-node",
         direction: "E",
       }),
+    ]);
+  });
+
+  it("groups imported standard-map paths by tail-to-head connectivity", () => {
+    const raw = JSON.stringify({
+      id: "scene-chain",
+      meta: {},
+      info: {
+        name: "Chain Scene",
+        key: "scene-chain-key",
+        layer: 1,
+        width: 4,
+        height: 1,
+        blocks: 4,
+        max_value: 1,
+        resolution: 1,
+        simulation: false,
+        interval: 1000,
+        original: { x: 0, y: 1 },
+        create_date: "2026-03-18T08:00:00.000Z",
+        modify_date: "2026-03-19T08:00:00.000Z",
+        last_modify_user: "tester",
+        groups: [],
+      },
+      basic: [],
+      advanced: [],
+      marks: [
+        createMark("node-a", 0, 0, null),
+        createMark("node-b", 1, 0, null),
+        createMark("node-c", 2, 0, null),
+        createMark("node-d", 3, 0, null),
+      ],
+      areas: [{ id: "area-1", areaType: 1, directionLimit: "NoConstraint", bounds: { minX: 0, minY: 0, maxX: 3, maxY: 0 }, label: "A", capacity: null }],
+      paths: [
+        { code: "ab", start: "node-a", end: "node-b", lock: false },
+        { code: "bc", start: "node-b", end: "node-c", lock: false },
+        { code: "cd", start: "node-c", end: "node-d", lock: false },
+      ],
+      arcs: [],
+      traffic: [],
+      devices: [],
+      infos: [],
+      loadEquipments: [],
+      autoEquipments: [],
+      hoistEquipments: [],
+      unloadEquipments: [],
+      sorterEquipments: [],
+      chargerEquipments: [],
+    });
+
+    const project = parseProjectJson(raw);
+
+    expect(project.overlays.robotPaths).toHaveLength(3);
+    expect(project.overlays.robotPaths.map((path) => path.color)).toEqual([
+      PATH_COLOR_PALETTE[0],
+      PATH_COLOR_PALETTE[0],
+      PATH_COLOR_PALETTE[0],
     ]);
   });
 });

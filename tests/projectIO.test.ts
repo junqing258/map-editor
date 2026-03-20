@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 
+import { PATH_COLOR_PALETTE } from "@/lib/mapPalette";
 import { parseProjectJson } from "@/utils/projectIO";
+
 import sampleModelRaw from "./data/model_20260226075225.json?raw";
 
 describe("parseProjectJson", () => {
@@ -68,7 +70,7 @@ describe("parseProjectJson", () => {
       {
         id: "route-1",
         name: "Inbound",
-        color: "#ff0000",
+        color: PATH_COLOR_PALETTE[0],
         direction: "bidirectional",
         points: [{ x: 1, y: 1 }],
       },
@@ -136,6 +138,53 @@ describe("parseProjectJson", () => {
         }),
       ),
     ).toThrow("base 图层长度与网格尺寸不一致");
+  });
+
+  it("recomputes imported path colors by tail-to-head connectivity", () => {
+    const project = parseProjectJson(
+      JSON.stringify({
+        grid: {
+          width: 4,
+          height: 1,
+          nodes: [1, 1, 1, 1],
+        },
+        paths: [
+          {
+            id: "route-1",
+            name: "Route 1",
+            color: "#ff0000",
+            points: [
+              { x: 0, y: 0 },
+              { x: 1, y: 0 },
+            ],
+          },
+          {
+            id: "route-2",
+            name: "Route 2",
+            color: "#00ff00",
+            points: [
+              { x: 1, y: 0 },
+              { x: 2, y: 0 },
+            ],
+          },
+          {
+            id: "route-3",
+            name: "Route 3",
+            color: "#0000ff",
+            points: [
+              { x: 3, y: 0 },
+              { x: 3, y: 0 },
+            ],
+          },
+        ],
+      }),
+    );
+
+    expect(project.overlays.robotPaths.map((path) => path.color)).toEqual([
+      PATH_COLOR_PALETTE[0],
+      PATH_COLOR_PALETTE[0],
+      PATH_COLOR_PALETTE[1],
+    ]);
   });
 
   it("parses the real MapInterface sample from tests/data/model_20260226075225.json", () => {
