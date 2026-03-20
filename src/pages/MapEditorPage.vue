@@ -153,334 +153,392 @@
     </section>
 
     <div
-      class="grid min-h-0 grid-cols-[170px_minmax(0,1fr)_340px] gap-2.5 max-[1180px]:grid-cols-1 max-[1180px]:grid-rows-[auto_minmax(420px,1fr)_auto]"
+      class="grid min-h-0 gap-2.5 transition-[grid-template-columns] duration-200 max-[1180px]:grid-cols-1 max-[1180px]:grid-rows-[auto_minmax(420px,1fr)_auto]"
+      :class="editorLayoutClass"
     >
-      <aside
-        class="flex h-hull flex-col gap-2.5 overflow-auto rounded-xl border border-slate-300 bg-white p-3 max-[1180px]:max-h-55"
-      >
-        <h1 class="m-0 text-[17px] font-semibold tracking-[0.2px] text-slate-800">快捷工具</h1>
-        <div class="grid grid-cols-1 gap-2 max-[1180px]:grid-cols-3">
-          <Button
-            size="sm"
-            :variant="store.activeTool === 'select' ? 'default' : 'secondary'"
-            class="tool-action-btn w-full justify-start gap-2 border-slate-300/80"
-            @click="store.setTool('select')"
+      <aside class="min-h-0 overflow-hidden rounded-xl border border-slate-300 bg-white max-[1180px]:max-h-55">
+        <div
+          v-if="leftPanelCollapsed"
+          class="flex h-full flex-col items-center gap-3 px-1.5 py-3"
+        >
+          <button
+            type="button"
+            class="inline-flex size-8 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800"
+            :aria-expanded="!leftPanelCollapsed"
+            aria-label="展开左侧面板"
+            @click="leftPanelCollapsed = false"
           >
-            <MousePointer2 :size="16" />
-            <span>选框工具</span>
-          </Button>
-          <Button
-            size="sm"
-            :variant="store.activeTool === 'path-draw' ? 'default' : 'secondary'"
-            class="tool-action-btn w-full justify-start gap-2 border-slate-300/80"
-            @click="store.setTool('path-draw')"
-          >
-            <Route :size="16" />
-            <span>路径绘制</span>
-          </Button>
-          <Button
-            size="sm"
-            :variant="store.activeTool === 'path-erase' ? 'default' : 'secondary'"
-            class="tool-action-btn w-full justify-start gap-2 border-slate-300/80"
-            @click="store.setTool('path-erase')"
-          >
-            <Eraser :size="16" />
-            <span>路径擦除</span>
-          </Button>
-          <Button
-            size="sm"
-            :variant="store.activeTool === 'platform' ? 'default' : 'secondary'"
-            class="tool-action-btn w-full justify-start gap-2 border-slate-300/80"
-            @click="store.setTool('platform')"
-          >
-            <Square :size="16" />
-            <span>钢平台</span>
-          </Button>
-          <Button
-            size="sm"
-            :variant="store.activeTool === 'supply' ? 'default' : 'secondary'"
-            class="tool-action-btn w-full justify-start gap-2 border-slate-300/80"
-            @click="store.setTool('supply')"
-          >
-            <PackagePlus :size="16" class="tool-device-icon supply" />
-            <span>供货点</span>
-          </Button>
-          <Button
-            size="sm"
-            :variant="store.activeTool === 'unload' ? 'default' : 'secondary'"
-            class="tool-action-btn w-full justify-start gap-2 border-slate-300/80"
-            @click="store.setTool('unload')"
-          >
-            <PackageMinus :size="16" class="tool-device-icon unload" />
-            <span>卸货点</span>
-          </Button>
-          <Button
-            size="sm"
-            :variant="store.activeTool === 'charger' ? 'default' : 'secondary'"
-            class="tool-action-btn w-full justify-start gap-2 border-slate-300/80"
-            @click="store.setTool('charger')"
-          >
-            <BatteryCharging :size="16" class="tool-device-icon charger" />
-            <span>充电桩</span>
-          </Button>
-          <Button
-            size="sm"
-            :variant="store.activeTool === 'queue' ? 'default' : 'secondary'"
-            class="tool-action-btn w-full justify-start gap-2 border-slate-300/80"
-            @click="store.setTool('queue')"
-          >
-            <span class="tool-dot queue" />
-            <span>排队区</span>
-          </Button>
-          <Button
-            size="sm"
-            :variant="store.activeTool === 'waiting' ? 'default' : 'secondary'"
-            class="tool-action-btn w-full justify-start gap-2 border-slate-300/80"
-            @click="store.setTool('waiting')"
-          >
-            <span class="tool-dot waiting" />
-            <span>等待区</span>
-          </Button>
+            <ChevronRight :size="16" />
+          </button>
+          <span class="[writing-mode:vertical-rl] text-[12px] font-medium tracking-[0.2px] text-slate-500">快捷工具</span>
+        </div>
+
+        <div v-else class="flex h-full flex-col gap-2.5 overflow-auto p-3">
+          <div class="flex items-center justify-between gap-2">
+            <h1 class="m-0 text-[17px] font-semibold tracking-[0.2px] text-slate-800">快捷工具</h1>
+            <button
+              type="button"
+              class="inline-flex size-8 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800"
+              :aria-expanded="!leftPanelCollapsed"
+              aria-label="收起左侧面板"
+              @click="leftPanelCollapsed = true"
+            >
+              <ChevronLeft :size="16" />
+            </button>
+          </div>
+          <div class="grid grid-cols-1 gap-2 max-[1180px]:grid-cols-3">
+            <Button
+              size="sm"
+              :variant="store.activeTool === 'select' ? 'default' : 'secondary'"
+              class="tool-action-btn w-full justify-start gap-2 border-slate-300/80"
+              @click="store.setTool('select')"
+            >
+              <MousePointer2 :size="16" />
+              <span>选框工具</span>
+            </Button>
+            <Button
+              size="sm"
+              :variant="store.activeTool === 'path-draw' ? 'default' : 'secondary'"
+              class="tool-action-btn w-full justify-start gap-2 border-slate-300/80"
+              @click="store.setTool('path-draw')"
+            >
+              <Route :size="16" />
+              <span>路径绘制</span>
+            </Button>
+            <Button
+              size="sm"
+              :variant="store.activeTool === 'path-erase' ? 'default' : 'secondary'"
+              class="tool-action-btn w-full justify-start gap-2 border-slate-300/80"
+              @click="store.setTool('path-erase')"
+            >
+              <Eraser :size="16" />
+              <span>路径擦除</span>
+            </Button>
+            <Button
+              size="sm"
+              :variant="store.activeTool === 'platform' ? 'default' : 'secondary'"
+              class="tool-action-btn w-full justify-start gap-2 border-slate-300/80"
+              @click="store.setTool('platform')"
+            >
+              <Square :size="16" />
+              <span>钢平台</span>
+            </Button>
+            <Button
+              size="sm"
+              :variant="store.activeTool === 'supply' ? 'default' : 'secondary'"
+              class="tool-action-btn w-full justify-start gap-2 border-slate-300/80"
+              @click="store.setTool('supply')"
+            >
+              <PackagePlus :size="16" class="tool-device-icon supply" />
+              <span>供货点</span>
+            </Button>
+            <Button
+              size="sm"
+              :variant="store.activeTool === 'unload' ? 'default' : 'secondary'"
+              class="tool-action-btn w-full justify-start gap-2 border-slate-300/80"
+              @click="store.setTool('unload')"
+            >
+              <PackageMinus :size="16" class="tool-device-icon unload" />
+              <span>卸货点</span>
+            </Button>
+            <Button
+              size="sm"
+              :variant="store.activeTool === 'charger' ? 'default' : 'secondary'"
+              class="tool-action-btn w-full justify-start gap-2 border-slate-300/80"
+              @click="store.setTool('charger')"
+            >
+              <BatteryCharging :size="16" class="tool-device-icon charger" />
+              <span>充电桩</span>
+            </Button>
+            <Button
+              size="sm"
+              :variant="store.activeTool === 'queue' ? 'default' : 'secondary'"
+              class="tool-action-btn w-full justify-start gap-2 border-slate-300/80"
+              @click="store.setTool('queue')"
+            >
+              <span class="tool-dot queue" />
+              <span>排队区</span>
+            </Button>
+            <Button
+              size="sm"
+              :variant="store.activeTool === 'waiting' ? 'default' : 'secondary'"
+              class="tool-action-btn w-full justify-start gap-2 border-slate-300/80"
+              @click="store.setTool('waiting')"
+            >
+              <span class="tool-dot waiting" />
+              <span>等待区</span>
+            </Button>
+          </div>
         </div>
       </aside>
 
       <main
         class="min-h-0 overflow-hidden rounded-xl border border-slate-300 bg-linear-to-br from-slate-50 to-slate-100 shadow-md"
       >
-        <MapEditorCanvas :store="store" />
+        <MapEditorCanvas :store="store" :layout-signal="layoutSignal" />
       </main>
 
-      <aside class="flex flex-col gap-2.5 overflow-auto rounded-xl border border-slate-300 bg-white p-3">
-        <h2 class="m-0 text-[17px] font-semibold tracking-[0.2px] text-slate-800">地图概况</h2>
-        <section class="rounded-xl border border-slate-200 bg-slate-50 p-3">
-          <p class="my-1 text-[13px] text-slate-700">名称: {{ store.project.meta.name }}</p>
-          <p class="my-1 text-[13px] text-slate-700">
-            场景: {{ store.project.meta.scene === "production" ? "生产" : "仿真" }}
-          </p>
-          <p class="my-1 text-[13px] text-slate-700">
-            网格: {{ stats?.width ?? "-" }} x {{ stats?.height ?? "-" }} ({{ store.project.grid.cellSizeMeter }}m)
-          </p>
-          <p class="my-1 text-[13px] text-slate-700">钢平台节点: {{ stats?.nodeCount ?? "-" }}</p>
-          <p class="my-1 text-[13px] text-slate-700">空白节点: {{ stats?.freeCount ?? "-" }}</p>
-          <p class="my-1 text-[13px] text-slate-700">
-            场地面积: {{ stats ? `${stats.siteAreaSqm.toFixed(2)} m²` : "-" }}
-          </p>
-          <p class="my-1 text-[13px] text-slate-700">
-            路径: {{ stats?.pathCount ?? "-" }} / 点位 {{ stats?.pathPointCount ?? "-" }}
-          </p>
-          <p class="my-1 text-[13px] text-slate-700">
-            设备统计: 供{{ stats?.deviceCounts.supply ?? 0 }} 卸{{ stats?.deviceCounts.unload ?? 0 }} 充{{
-              stats?.deviceCounts.charger ?? 0
-            }}
-          </p>
-          <p class="my-1 text-[13px] text-slate-700">
-            平台状态: 排队区 {{ stats?.queueCellCount ?? 0 }} / 等待区
-            {{ stats?.waitingCellCount ?? 0 }}
-          </p>
-          <p class="my-1 text-[13px] text-slate-700">
-            实际面板: 2x4 {{ panelLayoutStats.largeCount }} / 1x2 {{ panelLayoutStats.smallCount }} / 未覆盖
-            {{ panelLayoutStats.uncoveredCellCount }}
-          </p>
-        </section>
+      <aside class="min-h-0 overflow-hidden rounded-xl border border-slate-300 bg-white">
+        <div
+          v-if="rightPanelCollapsed"
+          class="flex h-full flex-col items-center gap-3 px-1.5 py-3"
+        >
+          <button
+            type="button"
+            class="inline-flex size-8 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800"
+            :aria-expanded="!rightPanelCollapsed"
+            aria-label="展开右侧面板"
+            @click="rightPanelCollapsed = false"
+          >
+            <ChevronLeft :size="16" />
+          </button>
+          <span class="[writing-mode:vertical-rl] text-[12px] font-medium tracking-[0.2px] text-slate-500">右侧面板</span>
+        </div>
 
-        <h2 class="m-0 text-[17px] font-semibold tracking-[0.2px] text-slate-800">对象属性</h2>
-        <section class="rounded-xl border border-slate-200 bg-slate-50 p-3">
-          <div v-if="store.batchSelectionState" class="mb-3 rounded-xl border border-slate-200 bg-white p-3 shadow-xs">
-            <div class="flex items-center justify-between gap-2">
-              <p class="m-0 text-[13px] font-medium text-slate-800">框选类型</p>
-              <div class="flex flex-wrap gap-1.5">
-                <Button size="sm" variant="outline" @click="store.selectAllBatchSelectionTypes()">全选</Button>
-                <Button size="sm" variant="outline" @click="store.clearBatchSelectionTypes()">清空</Button>
-              </div>
-            </div>
-            <p class="mt-1 text-[12px] text-slate-500">勾选后保留当前类型，取消勾选后从本次框选结果中移除。</p>
-            <div class="mt-2 grid gap-2">
-              <label
-                v-if="store.batchSelectionState.availableCounts.devices > 0"
-                class="flex items-center justify-between gap-2 rounded-lg border border-slate-200 px-2.5 py-2 text-[13px] text-slate-700"
-              >
-                <span class="inline-flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    class="size-4 rounded border-slate-300 text-slate-700 focus-visible:ring-2 focus-visible:ring-slate-400"
-                    :checked="store.batchSelectionState.filter.devices"
-                    @change="toggleBatchSelectionType('devices', $event)"
-                  />
-                  <span>设备</span>
-                </span>
-                <span class="text-[12px] text-slate-500">
-                  {{ store.batchSelectionState.selectedCounts.devices }}/{{
-                    store.batchSelectionState.availableCounts.devices
-                  }}
-                </span>
-              </label>
-              <label
-                v-if="store.batchSelectionState.availableCounts.cells > 0"
-                class="flex items-center justify-between gap-2 rounded-lg border border-slate-200 px-2.5 py-2 text-[13px] text-slate-700"
-              >
-                <span class="inline-flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    class="size-4 rounded border-slate-300 text-slate-700 focus-visible:ring-2 focus-visible:ring-slate-400"
-                    :checked="store.batchSelectionState.filter.cells"
-                    @change="toggleBatchSelectionType('cells', $event)"
-                  />
-                  <span>钢平台</span>
-                </span>
-                <span class="text-[12px] text-slate-500">
-                  {{ store.batchSelectionState.selectedCounts.cells }}/{{
-                    store.batchSelectionState.availableCounts.cells
-                  }}
-                </span>
-              </label>
-              <label
-                v-if="store.batchSelectionState.availableCounts.pathPoints > 0"
-                class="flex items-center justify-between gap-2 rounded-lg border border-slate-200 px-2.5 py-2 text-[13px] text-slate-700"
-              >
-                <span class="inline-flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    class="size-4 rounded border-slate-300 text-slate-700 focus-visible:ring-2 focus-visible:ring-slate-400"
-                    :checked="store.batchSelectionState.filter.pathPoints"
-                    @change="toggleBatchSelectionType('pathPoints', $event)"
-                  />
-                  <span>路径点</span>
-                </span>
-                <span class="text-[12px] text-slate-500">
-                  {{ store.batchSelectionState.selectedCounts.pathPoints }}/{{
-                    store.batchSelectionState.availableCounts.pathPoints
-                  }}
-                </span>
-              </label>
-            </div>
+        <div v-else class="flex h-full flex-col gap-2.5 overflow-auto p-3">
+          <div class="flex items-center justify-end">
+            <button
+              type="button"
+              class="inline-flex size-8 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800"
+              :aria-expanded="!rightPanelCollapsed"
+              aria-label="收起右侧面板"
+              @click="rightPanelCollapsed = true"
+            >
+              <ChevronRight :size="16" />
+            </button>
           </div>
 
-          <template v-if="store.selectedElement.kind === 'none'">
-            <p class="mt-1.5 text-[13px] text-slate-500">
-              {{ store.batchSelectionState ? "当前未勾选任何框选类型" : "未选中对象" }}
-            </p>
-          </template>
-
-          <template v-else-if="store.selectedElement.kind === 'cell'">
-            <p class="my-1 text-[13px] text-slate-700">类型: 网格节点</p>
+          <h2 class="m-0 text-[17px] font-semibold tracking-[0.2px] text-slate-800">地图概况</h2>
+          <section class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+            <p class="my-1 text-[13px] text-slate-700">名称: {{ store.project.meta.name }}</p>
             <p class="my-1 text-[13px] text-slate-700">
-              坐标: ({{ store.selectedElement.x }}, {{ store.selectedElement.y }})
-            </p>
-            <p class="my-1 text-[13px] text-slate-700">状态: {{ selectedCellStatus }}</p>
-          </template>
-
-          <template v-else-if="store.selectedElement.kind === 'path-point'">
-            <p class="my-1 text-[13px] text-slate-700">类型: 路径点</p>
-            <p class="my-1 text-[13px] text-slate-700">路径: {{ store.selectedElement.pathName }}</p>
-            <p class="my-1 text-[13px] text-slate-700">序号: {{ store.selectedElement.index + 1 }}</p>
-            <p class="my-1 text-[13px] text-slate-700">
-              坐标: ({{ store.selectedElement.x }}, {{ store.selectedElement.y }})
+              场景: {{ store.project.meta.scene === "production" ? "生产" : "仿真" }}
             </p>
             <p class="my-1 text-[13px] text-slate-700">
-              方向: {{ store.selectedElement.direction === "oneway" ? "单向" : "全向" }}
+              网格: {{ stats?.width ?? "-" }} x {{ stats?.height ?? "-" }} ({{ store.project.grid.cellSizeMeter }}m)
             </p>
-          </template>
+            <p class="my-1 text-[13px] text-slate-700">钢平台节点: {{ stats?.nodeCount ?? "-" }}</p>
+            <p class="my-1 text-[13px] text-slate-700">空白节点: {{ stats?.freeCount ?? "-" }}</p>
+            <p class="my-1 text-[13px] text-slate-700">
+              场地面积: {{ stats ? `${stats.siteAreaSqm.toFixed(2)} m²` : "-" }}
+            </p>
+            <p class="my-1 text-[13px] text-slate-700">
+              路径: {{ stats?.pathCount ?? "-" }} / 点位 {{ stats?.pathPointCount ?? "-" }}
+            </p>
+            <p class="my-1 text-[13px] text-slate-700">
+              设备统计: 供{{ stats?.deviceCounts.supply ?? 0 }} 卸{{ stats?.deviceCounts.unload ?? 0 }} 充{{
+                stats?.deviceCounts.charger ?? 0
+              }}
+            </p>
+            <p class="my-1 text-[13px] text-slate-700">
+              平台状态: 排队区 {{ stats?.queueCellCount ?? 0 }} / 等待区
+              {{ stats?.waitingCellCount ?? 0 }}
+            </p>
+            <p class="my-1 text-[13px] text-slate-700">
+              实际面板: 2x4 {{ panelLayoutStats.largeCount }} / 1x2 {{ panelLayoutStats.smallCount }} / 未覆盖
+              {{ panelLayoutStats.uncoveredCellCount }}
+            </p>
+          </section>
 
-          <template v-else-if="store.selectedElement.kind === 'device' && store.singleSelectedDevice">
-            <label class="mt-2 block text-[13px] text-slate-600 first:mt-0">
-              名称
-              <input v-model="singleForm.name" class="input" />
-            </label>
-            <label class="mt-2 block text-[13px] text-slate-600 first:mt-0">
-              硬件ID
-              <input v-model="singleForm.hardwareId" class="input" />
-            </label>
-            <div class="grid grid-cols-2 gap-2">
-              <label>
-                速度
-                <input v-model.number="singleForm.speedLimit" class="input" type="number" step="0.1" />
+          <h2 class="m-0 text-[17px] font-semibold tracking-[0.2px] text-slate-800">对象属性</h2>
+          <section class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+            <div v-if="store.batchSelectionState" class="mb-3 rounded-xl border border-slate-200 bg-white p-3 shadow-xs">
+              <div class="flex items-center justify-between gap-2">
+                <p class="m-0 text-[13px] font-medium text-slate-800">框选类型</p>
+                <div class="flex flex-wrap gap-1.5">
+                  <Button size="sm" variant="outline" @click="store.selectAllBatchSelectionTypes()">全选</Button>
+                  <Button size="sm" variant="outline" @click="store.clearBatchSelectionTypes()">清空</Button>
+                </div>
+              </div>
+              <p class="mt-1 text-[12px] text-slate-500">勾选后保留当前类型，取消勾选后从本次框选结果中移除。</p>
+              <div class="mt-2 grid gap-2">
+                <label
+                  v-if="store.batchSelectionState.availableCounts.devices > 0"
+                  class="flex items-center justify-between gap-2 rounded-lg border border-slate-200 px-2.5 py-2 text-[13px] text-slate-700"
+                >
+                  <span class="inline-flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      class="size-4 rounded border-slate-300 text-slate-700 focus-visible:ring-2 focus-visible:ring-slate-400"
+                      :checked="store.batchSelectionState.filter.devices"
+                      @change="toggleBatchSelectionType('devices', $event)"
+                    />
+                    <span>设备</span>
+                  </span>
+                  <span class="text-[12px] text-slate-500">
+                    {{ store.batchSelectionState.selectedCounts.devices }}/{{
+                      store.batchSelectionState.availableCounts.devices
+                    }}
+                  </span>
+                </label>
+                <label
+                  v-if="store.batchSelectionState.availableCounts.cells > 0"
+                  class="flex items-center justify-between gap-2 rounded-lg border border-slate-200 px-2.5 py-2 text-[13px] text-slate-700"
+                >
+                  <span class="inline-flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      class="size-4 rounded border-slate-300 text-slate-700 focus-visible:ring-2 focus-visible:ring-slate-400"
+                      :checked="store.batchSelectionState.filter.cells"
+                      @change="toggleBatchSelectionType('cells', $event)"
+                    />
+                    <span>钢平台</span>
+                  </span>
+                  <span class="text-[12px] text-slate-500">
+                    {{ store.batchSelectionState.selectedCounts.cells }}/{{
+                      store.batchSelectionState.availableCounts.cells
+                    }}
+                  </span>
+                </label>
+                <label
+                  v-if="store.batchSelectionState.availableCounts.pathPoints > 0"
+                  class="flex items-center justify-between gap-2 rounded-lg border border-slate-200 px-2.5 py-2 text-[13px] text-slate-700"
+                >
+                  <span class="inline-flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      class="size-4 rounded border-slate-300 text-slate-700 focus-visible:ring-2 focus-visible:ring-slate-400"
+                      :checked="store.batchSelectionState.filter.pathPoints"
+                      @change="toggleBatchSelectionType('pathPoints', $event)"
+                    />
+                    <span>路径点</span>
+                  </span>
+                  <span class="text-[12px] text-slate-500">
+                    {{ store.batchSelectionState.selectedCounts.pathPoints }}/{{
+                      store.batchSelectionState.availableCounts.pathPoints
+                    }}
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <template v-if="store.selectedElement.kind === 'none'">
+              <p class="mt-1.5 text-[13px] text-slate-500">
+                {{ store.batchSelectionState ? "当前未勾选任何框选类型" : "未选中对象" }}
+              </p>
+            </template>
+
+            <template v-else-if="store.selectedElement.kind === 'cell'">
+              <p class="my-1 text-[13px] text-slate-700">类型: 网格节点</p>
+              <p class="my-1 text-[13px] text-slate-700">
+                坐标: ({{ store.selectedElement.x }}, {{ store.selectedElement.y }})
+              </p>
+              <p class="my-1 text-[13px] text-slate-700">状态: {{ selectedCellStatus }}</p>
+            </template>
+
+            <template v-else-if="store.selectedElement.kind === 'path-point'">
+              <p class="my-1 text-[13px] text-slate-700">类型: 路径点</p>
+              <p class="my-1 text-[13px] text-slate-700">路径: {{ store.selectedElement.pathName }}</p>
+              <p class="my-1 text-[13px] text-slate-700">序号: {{ store.selectedElement.index + 1 }}</p>
+              <p class="my-1 text-[13px] text-slate-700">
+                坐标: ({{ store.selectedElement.x }}, {{ store.selectedElement.y }})
+              </p>
+              <p class="my-1 text-[13px] text-slate-700">
+                方向: {{ store.selectedElement.direction === "oneway" ? "单向" : "全向" }}
+              </p>
+            </template>
+
+            <template v-else-if="store.selectedElement.kind === 'device' && store.singleSelectedDevice">
+              <label class="mt-2 block text-[13px] text-slate-600 first:mt-0">
+                名称
+                <input v-model="singleForm.name" class="input" />
               </label>
-              <label>
-                最大等待
-                <input v-model.number="singleForm.maxQueue" class="input" type="number" min="0" />
+              <label class="mt-2 block text-[13px] text-slate-600 first:mt-0">
+                硬件ID
+                <input v-model="singleForm.hardwareId" class="input" />
               </label>
-              <label>
-                朝向角度
-                <input v-model.number="singleForm.directionDeg" class="input" type="number" />
-              </label>
-              <label>
-                可用状态
-                <select v-model="singleForm.enabledText" class="input">
-                  <option value="true">启用</option>
-                  <option value="false">禁用</option>
+              <div class="grid grid-cols-2 gap-2">
+                <label>
+                  速度
+                  <input v-model.number="singleForm.speedLimit" class="input" type="number" step="0.1" />
+                </label>
+                <label>
+                  最大等待
+                  <input v-model.number="singleForm.maxQueue" class="input" type="number" min="0" />
+                </label>
+                <label>
+                  朝向角度
+                  <input v-model.number="singleForm.directionDeg" class="input" type="number" />
+                </label>
+                <label>
+                  可用状态
+                  <select v-model="singleForm.enabledText" class="input">
+                    <option value="true">启用</option>
+                    <option value="false">禁用</option>
+                  </select>
+                </label>
+              </div>
+              <label v-if="store.singleSelectedDevice.type === 'supply'" class="mt-2 block text-[13px] text-slate-600">
+                供货模式
+                <select v-model="singleForm.supplyMode" class="input">
+                  <option value="auto">自动</option>
+                  <option value="manual">人工</option>
+                  <option value="elevator">提升机</option>
                 </select>
               </label>
-            </div>
-            <label v-if="store.singleSelectedDevice.type === 'supply'" class="mt-2 block text-[13px] text-slate-600">
-              供货模式
-              <select v-model="singleForm.supplyMode" class="input">
-                <option value="auto">自动</option>
-                <option value="manual">人工</option>
-                <option value="elevator">提升机</option>
-              </select>
-            </label>
-            <label v-if="store.singleSelectedDevice.type === 'unload'" class="mt-2 block text-[13px] text-slate-600">
-              卸货类型
-              <select v-model="singleForm.unloadMode" class="input">
-                <option value="normal">普通</option>
-                <option value="multi-sort">多维分拣</option>
-              </select>
-            </label>
-            <Button class="w-full mt-2" size="sm" @click="applySingleProps">应用属性</Button>
-          </template>
+              <label v-if="store.singleSelectedDevice.type === 'unload'" class="mt-2 block text-[13px] text-slate-600">
+                卸货类型
+                <select v-model="singleForm.unloadMode" class="input">
+                  <option value="normal">普通</option>
+                  <option value="multi-sort">多维分拣</option>
+                </select>
+              </label>
+              <Button class="w-full mt-2" size="sm" @click="applySingleProps">应用属性</Button>
+            </template>
 
-          <template v-else-if="store.selectedElement.kind === 'device-batch'">
-            <p class="my-1 text-[13px] text-slate-700">已选择 {{ store.selectedElement.deviceIds.length }} 个设备</p>
+            <template v-else-if="store.selectedElement.kind === 'device-batch'">
+              <p class="my-1 text-[13px] text-slate-700">已选择 {{ store.selectedElement.deviceIds.length }} 个设备</p>
+              <label class="mt-2 block text-[13px] text-slate-600 first:mt-0">
+                名称前缀
+                <input v-model="batchForm.prefix" class="input" placeholder="如 batch-dev" />
+              </label>
+              <label class="mt-2 block text-[13px] text-slate-600">
+                启用状态
+                <select v-model="batchForm.enabledMode" class="input">
+                  <option value="keep">保持不变</option>
+                  <option value="true">全部启用</option>
+                  <option value="false">全部禁用</option>
+                </select>
+              </label>
+              <label class="mt-2 block text-[13px] text-slate-600">
+                速度覆盖
+                <input v-model="batchForm.speedLimitText" class="input" placeholder="留空为不修改" />
+              </label>
+              <Button class="w-full mt-2" size="sm" @click="applyBatchProps">批量应用</Button>
+            </template>
+
+            <template v-else-if="store.selectedElement.kind === 'mixed-batch'">
+              <p class="my-1 text-[13px] text-slate-700">批量选择:</p>
+              <p class="my-1 text-[13px] text-slate-700">设备 {{ store.selectedElement.deviceIds.length }} 个</p>
+              <p class="my-1 text-[13px] text-slate-700">钢平台 {{ store.selectedElement.cells.length }} 个</p>
+              <p class="my-1 text-[13px] text-slate-700">路径点 {{ store.selectedElement.pathPoints.length }} 个</p>
+            </template>
+
+            <Button
+              v-if="canDeleteSelectedElement"
+              class="mt-2 w-full"
+              size="sm"
+              variant="destructive"
+              @click="store.deleteSelectedElement()"
+            >
+              删除所选元素
+            </Button>
+          </section>
+
+          <h2 class="m-0 text-[17px] font-semibold tracking-[0.2px] text-slate-800">地图元数据</h2>
+          <section class="rounded-xl border border-slate-200 bg-slate-50 p-3">
             <label class="mt-2 block text-[13px] text-slate-600 first:mt-0">
-              名称前缀
-              <input v-model="batchForm.prefix" class="input" placeholder="如 batch-dev" />
+              地图名称
+              <input v-model="store.project.meta.name" class="input" @change="store.touch()" />
             </label>
             <label class="mt-2 block text-[13px] text-slate-600">
-              启用状态
-              <select v-model="batchForm.enabledMode" class="input">
-                <option value="keep">保持不变</option>
-                <option value="true">全部启用</option>
-                <option value="false">全部禁用</option>
-              </select>
+              标签（逗号分隔）
+              <input v-model="tagsText" class="input" @change="applyTags" />
             </label>
-            <label class="mt-2 block text-[13px] text-slate-600">
-              速度覆盖
-              <input v-model="batchForm.speedLimitText" class="input" placeholder="留空为不修改" />
-            </label>
-            <Button class="w-full mt-2" size="sm" @click="applyBatchProps">批量应用</Button>
-          </template>
-
-          <template v-else-if="store.selectedElement.kind === 'mixed-batch'">
-            <p class="my-1 text-[13px] text-slate-700">批量选择:</p>
-            <p class="my-1 text-[13px] text-slate-700">设备 {{ store.selectedElement.deviceIds.length }} 个</p>
-            <p class="my-1 text-[13px] text-slate-700">钢平台 {{ store.selectedElement.cells.length }} 个</p>
-            <p class="my-1 text-[13px] text-slate-700">路径点 {{ store.selectedElement.pathPoints.length }} 个</p>
-          </template>
-
-          <Button
-            v-if="canDeleteSelectedElement"
-            class="mt-2 w-full"
-            size="sm"
-            variant="destructive"
-            @click="store.deleteSelectedElement()"
-          >
-            删除所选元素
-          </Button>
-        </section>
-
-        <h2 class="m-0 text-[17px] font-semibold tracking-[0.2px] text-slate-800">地图元数据</h2>
-        <section class="rounded-xl border border-slate-200 bg-slate-50 p-3">
-          <label class="mt-2 block text-[13px] text-slate-600 first:mt-0">
-            地图名称
-            <input v-model="store.project.meta.name" class="input" @change="store.touch()" />
-          </label>
-          <label class="mt-2 block text-[13px] text-slate-600">
-            标签（逗号分隔）
-            <input v-model="tagsText" class="input" @change="applyTags" />
-          </label>
-          <p class="mt-1.5 text-[13px] text-slate-600">当前检查：{{ checkStatus }}</p>
-          <p v-if="errorText" class="mt-2 text-[13px] text-red-700" role="alert">{{ errorText }}</p>
-        </section>
+            <p class="mt-1.5 text-[13px] text-slate-600">当前检查：{{ checkStatus }}</p>
+            <p v-if="errorText" class="mt-2 text-[13px] text-red-700" role="alert">{{ errorText }}</p>
+          </section>
+        </div>
       </aside>
     </div>
 
@@ -536,7 +594,17 @@
 </template>
 
 <script setup lang="ts">
-import { BatteryCharging, Eraser, MousePointer2, PackageMinus, PackagePlus, Route, Square } from "lucide-vue-next";
+import {
+  BatteryCharging,
+  ChevronLeft,
+  ChevronRight,
+  Eraser,
+  MousePointer2,
+  PackageMinus,
+  PackagePlus,
+  Route,
+  Square,
+} from "lucide-vue-next";
 import { computed, onBeforeUnmount, onMounted, reactive, ref, toRaw, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
@@ -572,6 +640,8 @@ const stats = ref<MapOverviewStats | null>(null);
 const busy = ref(false);
 const planningPanels = ref(false);
 const errorText = ref("");
+const leftPanelCollapsed = ref(false);
+const rightPanelCollapsed = ref(false);
 
 const showNewMap = ref(false);
 const showLibrary = ref(false);
@@ -663,6 +733,23 @@ const panelLayoutStats = computed(() => {
     uncoveredCellCount: Math.max(0, platformCellCount - coveredCellCount),
   };
 });
+
+const editorLayoutClass = computed(() => {
+  if (leftPanelCollapsed.value && rightPanelCollapsed.value) {
+    return "grid-cols-[44px_minmax(0,1fr)_44px]";
+  }
+  if (leftPanelCollapsed.value) {
+    return "grid-cols-[44px_minmax(0,1fr)_340px]";
+  }
+  if (rightPanelCollapsed.value) {
+    return "grid-cols-[170px_minmax(0,1fr)_44px]";
+  }
+  return "grid-cols-[170px_minmax(0,1fr)_340px]";
+});
+
+const layoutSignal = computed(() =>
+  [leftPanelCollapsed.value ? "left-closed" : "left-open", rightPanelCollapsed.value ? "right-closed" : "right-open"].join(":"),
+);
 
 let statsTimer: number | null = null;
 let persistTimer: number | null = null;
@@ -845,6 +932,7 @@ const importProjectJson = async (event: Event) => {
     const text = await file.text();
     const project = parseProjectJson(text);
     store.resetProject(project, { clearHistory: true });
+    store.requestCenterView();
     syncEditorUiState();
     errorText.value = "";
   } catch (error) {
@@ -918,6 +1006,7 @@ const openLibraryItem = (id: string) => {
     return;
   }
   store.resetProject(parseProjectJson(JSON.stringify(item.project)), { clearHistory: true });
+  store.requestCenterView();
   syncEditorUiState();
   showLibrary.value = false;
 };

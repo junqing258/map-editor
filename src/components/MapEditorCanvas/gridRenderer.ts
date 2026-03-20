@@ -80,6 +80,10 @@ export class GridRenderer {
     offsetX: 40,
     offsetY: 40,
   };
+  private viewportSize = {
+    width: 0,
+    height: 0,
+  };
 
   private constructor(
     host: HTMLElement,
@@ -160,6 +164,33 @@ export class GridRenderer {
     this.view.zoom = zoom;
     this.view.offsetX = (rect.width - mapWidth * zoom) / 2;
     this.view.offsetY = (rect.height - mapHeight * zoom) / 2;
+    this.viewportSize.width = rect.width;
+    this.viewportSize.height = rect.height;
+    this.applyView();
+  }
+
+  refreshLayout(options?: { syncCanvasSize?: boolean }) {
+    const rect = this.host.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) {
+      return;
+    }
+    if (options?.syncCanvasSize) {
+      this.app.renderer.resize(Math.round(rect.width), Math.round(rect.height));
+    }
+    if (this.viewportSize.width <= 0 || this.viewportSize.height <= 0) {
+      this.viewportSize.width = rect.width;
+      this.viewportSize.height = rect.height;
+      this.applyView();
+      return;
+    }
+
+    // 容器尺寸变化时保持当前视口中心点不跳动，只重算偏移。
+    const centerWorldX = (this.viewportSize.width / 2 - this.view.offsetX) / this.view.zoom;
+    const centerWorldY = (this.viewportSize.height / 2 - this.view.offsetY) / this.view.zoom;
+    this.view.offsetX = rect.width / 2 - centerWorldX * this.view.zoom;
+    this.view.offsetY = rect.height / 2 - centerWorldY * this.view.zoom;
+    this.viewportSize.width = rect.width;
+    this.viewportSize.height = rect.height;
     this.applyView();
   }
 

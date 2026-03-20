@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, watch } from "vue";
 
 import type { MapProject, SelectedElement, ToolType, ViewFlags } from "@/types/map";
 
@@ -31,12 +31,16 @@ import { GridRenderer } from "./gridRenderer";
  */
 const props = defineProps<{
   store: EditorStore;
+  layoutSignal?: string;
 }>();
 
 const store = props.store;
 const hostRef = ref<HTMLElement | null>(null);
 
 let renderer: GridRenderer | null = null;
+let resizeObserver: ResizeObserver | null = null;
+let layoutRefreshTimer: number | null = null;
+let layoutRefreshFrame: number | null = null;
 // 手势状态：同一时刻只允许一种主交互（绘制/平移/框选）。
 let painting = false;
 let panning = false;
@@ -312,6 +316,38 @@ const onPointerUp = (event: PointerEvent) => {
   stopGesture(event);
 };
 
+const clearScheduledLayoutRefresh = () => {
+  if (layoutRefreshFrame !== null) {
+    window.cancelAnimationFrame(layoutRefreshFrame);
+    layoutRefreshFrame = null;
+  }
+  if (layoutRefreshTimer !== null) {
+    window.clearTimeout(layoutRefreshTimer);
+    layoutRefreshTimer = null;
+  }
+};
+
+const scheduleLayoutRefresh = () => {
+  clearScheduledLayoutRefresh();
+  renderer?.refreshLayout();
+
+  let frames = 0;
+  const tick = () => {
+    renderer?.refreshLayout();
+    frames += 1;
+    if (frames < 12) {
+      layoutRefreshFrame = window.requestAnimationFrame(tick);
+      return;
+    }
+    layoutRefreshFrame = null;
+  };
+  layoutRefreshFrame = window.requestAnimationFrame(tick);
+  layoutRefreshTimer = window.setTimeout(() => {
+    renderer?.refreshLayout({ syncCanvasSize: true });
+    layoutRefreshTimer = null;
+  }, 260 / 2);
+};
+
 onMounted(async () => {
   if (!hostRef.value) {
     return;
@@ -322,6 +358,11 @@ onMounted(async () => {
   renderer.centerView();
   renderer.highlightSelection(store.selectedElement, store.project);
   syncCanvasCursor();
+
+  resizeObserver = new ResizeObserver(() => {
+    renderer?.refreshLayout();
+  });
+  resizeObserver.observe(hostRef.value);
 
   // move/up 监听挂在 window 上，保证指针移出画布仍能正确收敛手势。
   hostRef.value.addEventListener("pointerdown", onPointerDown);
@@ -392,7 +433,18 @@ watch(
   },
 );
 
+watch(
+  () => props.layoutSignal,
+  async () => {
+    await nextTick();
+    scheduleLayoutRefresh();
+  },
+);
+
 onBeforeUnmount(() => {
+  clearScheduledLayoutRefresh();
+  resizeObserver?.disconnect();
+  resizeObserver = null;
   if (hostRef.value) {
     hostRef.value.removeEventListener("pointerdown", onPointerDown);
     hostRef.value.removeEventListener("wheel", onWheel);
