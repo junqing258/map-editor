@@ -1,12 +1,46 @@
 <template>
   <div ref="hostRef" class="map-canvas" :style="{ cursor: canvasCursor }" @contextmenu.prevent>
     <div v-if="selectionBox.visible" class="map-select-rect" :style="selectionBoxStyle" />
+    <div class="pointer-events-none absolute right-4 bottom-4 z-10 flex flex-col items-end gap-2">
+      <div
+        class="pointer-events-auto flex items-center gap-1 rounded-xl border border-slate-300/90 bg-white/92 p-1 shadow-lg shadow-slate-900/10 backdrop-blur-sm"
+        @pointerdown.stop
+        @click.stop
+        @wheel.stop.prevent
+      >
+        <Button size="icon-sm" variant="outline" aria-label="缩小地图" title="缩小地图" @click="zoomOut">
+          <Minus />
+        </Button>
+        <div
+          class="min-w-[60px] rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-center text-[12px] font-semibold tracking-[0.2px] text-slate-700"
+          :title="`当前缩放 ${zoomLabel}`"
+        >
+          {{ zoomLabel }}
+        </div>
+        <Button size="icon-sm" variant="outline" aria-label="放大地图" title="放大地图" @click="zoomIn">
+          <Plus />
+        </Button>
+      </div>
+      <Button
+        size="sm"
+        variant="outline"
+        class="pointer-events-auto rounded-xl border-slate-300/90 bg-white/92 shadow-lg shadow-slate-900/10 backdrop-blur-sm"
+        @pointerdown.stop
+        @click.stop="centerCurrentView"
+        @wheel.stop.prevent
+      >
+        <LocateFixed />
+        <span>居中视图</span>
+      </Button>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { LocateFixed, Minus, Plus } from "lucide-vue-next";
 import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from "vue";
 
+import { Button } from "@/components/ui/button";
 import type { MapProject, SelectedElement, ToolType, ViewFlags } from "@/types/map";
 
 import { EditorStore } from "./editorStore";
@@ -67,6 +101,8 @@ const selectionBoxStyle = computed(() => ({
   width: `${selectionBox.width}px`,
   height: `${selectionBox.height}px`,
 }));
+const zoomLevel = ref(1);
+const zoomLabel = computed(() => `${Math.round(zoomLevel.value * 100)}%`);
 
 const isDeviceTool = () =>
   store.activeTool === "supply" || store.activeTool === "unload" || store.activeTool === "charger";
@@ -307,6 +343,18 @@ const onWheel = (event: WheelEvent) => {
   renderer.zoomAt(event.offsetX, event.offsetY, ratio);
 };
 
+const zoomIn = () => {
+  renderer?.zoomBy(1.1);
+};
+
+const zoomOut = () => {
+  renderer?.zoomBy(0.9);
+};
+
+const centerCurrentView = () => {
+  renderer?.centerView();
+};
+
 const onPointerUp = (event: PointerEvent) => {
   setHoverCellByClient(event.clientX, event.clientY);
   lastPointer = { x: event.clientX, y: event.clientY };
@@ -329,6 +377,9 @@ onMounted(async () => {
     return;
   }
   renderer = await GridRenderer.create(hostRef.value, store.project);
+  renderer.setViewChangeListener((zoom) => {
+    zoomLevel.value = zoom;
+  });
   renderer.setViewFlags(store.viewFlags);
   renderer.setProject(store.project);
   renderer.centerView();
@@ -418,6 +469,7 @@ onBeforeUnmount(() => {
   }
   window.removeEventListener("pointermove", onPointerMove);
   window.removeEventListener("pointerup", onPointerUp);
+  renderer?.setViewChangeListener(null);
   renderer?.destroy();
 });
 </script>

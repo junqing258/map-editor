@@ -47,6 +47,10 @@ const getDeviceIconColor = (key: DeviceIconKey) => {
   return deviceColorMap[key];
 };
 
+const MIN_VIEW_ZOOM = 0.25;
+const MAX_FIT_VIEW_ZOOM = 2.8;
+const MAX_INTERACTIVE_ZOOM = 4.5;
+
 // 将原始 SVG 按设备类型着色并放大，避免缩放后图标过糊。
 const buildColoredSvgDataUrl = (svgRaw: string, color: string) => {
   const svg = svgRaw
@@ -90,6 +94,7 @@ export class GridRenderer {
     width: 0,
     height: 0,
   };
+  private onViewChange: ((zoom: number) => void) | null = null;
 
   private constructor(
     host: HTMLElement,
@@ -165,7 +170,10 @@ export class GridRenderer {
     if (mapWidth <= 0 || mapHeight <= 0) {
       return;
     }
-    const zoom = Math.max(0.35, Math.min(2.8, Math.min((rect.width - 80) / mapWidth, (rect.height - 80) / mapHeight)));
+    const zoom = Math.max(
+      MIN_VIEW_ZOOM,
+      Math.min(MAX_FIT_VIEW_ZOOM, Math.min((rect.width - 80) / mapWidth, (rect.height - 80) / mapHeight)),
+    );
     // 预留边距后做适配缩放，避免贴边显示。
     this.view.zoom = zoom;
     this.view.offsetX = (rect.width - mapWidth * zoom) / 2;
@@ -195,6 +203,22 @@ export class GridRenderer {
     this.viewportSize.width = rect.width;
     this.viewportSize.height = rect.height;
     this.applyView();
+  }
+
+  setViewChangeListener(listener: ((zoom: number) => void) | null) {
+    this.onViewChange = listener;
+    listener?.(this.view.zoom);
+  }
+
+  getZoom() {
+    return this.view.zoom;
+  }
+
+  zoomBy(ratio: number) {
+    const rect = this.host.getBoundingClientRect();
+    const centerX = rect.width > 0 ? rect.width / 2 : this.viewportSize.width / 2;
+    const centerY = rect.height > 0 ? rect.height / 2 : this.viewportSize.height / 2;
+    this.zoomAt(centerX, centerY, ratio);
   }
 
   rebuildAllChunks() {
@@ -454,7 +478,7 @@ export class GridRenderer {
 
   zoomAt(screenX: number, screenY: number, ratio: number) {
     const prev = this.view.zoom;
-    const next = Math.max(0.3, Math.min(4.5, prev * ratio));
+    const next = Math.max(MIN_VIEW_ZOOM, Math.min(MAX_INTERACTIVE_ZOOM, prev * ratio));
     if (Math.abs(next - prev) < 0.0001) {
       return;
     }
@@ -546,6 +570,7 @@ export class GridRenderer {
     this.overlayContainer.position.set(this.view.offsetX, this.view.offsetY);
     this.baseContainer.scale.set(this.view.zoom);
     this.overlayContainer.scale.set(this.view.zoom);
+    this.onViewChange?.(this.view.zoom);
     this.redrawGrid();
   }
 
